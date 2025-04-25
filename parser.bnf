@@ -1,0 +1,83 @@
+// ========== LEXER ==========
+
+// Keywords
+programToken : "program" ;
+varToken     : "var" ;
+mainToken    : "main" ;
+endToken     : "end" ;
+ifToken      : "if" ;
+elseToken    : "else" ;
+whileToken   : "while" ;
+doToken      : "do" ;
+printToken   : "print" ;
+intToken     : "int" ;
+floatToken   : "float" ;
+voidToken    : "void" ;
+
+// Identifiers and literals
+_lowcase     : 'a'-'z' ;
+_upcase      : 'A'-'Z' ;
+_digit       : '0'-'9' ;
+id           : _lowcase { (_lowcase | _upcase | _digit) } ;
+intlit       : _digit { _digit } ;
+floatlit     : _digit { _digit } '.' _digit { _digit } ;
+
+// Operators
+plus         : '+' ;
+minus        : '-' ;
+times        : '*' ;
+divide       : '/' ;
+
+// Relational operators
+gt           : '>' ;
+lt           : '<' ;
+neq          : '!=' ;
+
+// Symbols
+assign       : '=' ;
+semicolon    : ';' ;
+colon        : ':' ;
+comma        : ',' ;
+lparen       : '(' ;
+rparen       : ')' ;
+lbrace       : '{' ;
+rbrace       : '}' ;
+lbracket     : '[' ;
+rbracket     : ']' ;
+
+// Ignored tokens
+!whitespace  : ' ' | '\t' | '\n' | '\r' ;
+
+
+// ========== PARSER ==========
+
+Program
+    : programToken id semicolon varOptional {funcDeclaration} mainToken Body endToken
+    ;
+
+// Handles optional variable declarations
+varOptional
+    : varSection
+    | /* empty */
+    ;
+
+// Handles all variable declarations
+varSection
+    : varToken varDeclarationList
+    ;
+
+// Handles multiple variable declarations (one or more)
+varDeclarationList
+    : varDeclaration
+    | varDeclarationList varDeclaration
+    ;
+
+// Handles one variable declaration
+varDeclaration
+    : idList colon Type semicolon
+    ;
+
+// Handles multiple id declarations
+idList
+    : id {comma id}
+    ;

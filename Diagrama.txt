@@ -1,0 +1,78 @@
+<PROGRAMA>
+-> program -> id -> ; -> VARS -> FUNCS -> main -> BODY -> end
+de ; se puede saltar a FUNCS
+de FUNCS se puede regresar a FUNCS
+de VARS se puede saltar a main
+
+<BODY>
+-> { -> STATEMENT -> } ->
+de STATEMENT se puede regresar a STATEMENT
+de { se puede saltar a }
+
+<VARS>
+-> var -> id -> : -> TYPE -> ; -> 
+de id puede agregar , y regresar a id
+de ; puede regresar a id
+
+<TYPE>
+-> int ->
+-> float ->
+
+<STATEMENT>
+-> ASSIGN ->
+-> CONDITION ->
+-> CYCLE ->
+-> F_CALL ->
+-> PRINT ->
+
+<ASSIGN>
+-> id -> = -> EXPRESIÓN -> ; ->
+
+<EXPRESIÓN>
+-> EXP -> > -> EXP ->
+-> EXP -> < -> EXP ->
+-> EXP -> != -> EXP ->
+
+<EXP>
+-> TÉRMINO ->
+de TÉRMINO puede agregar + y regresar a TÉRMINO
+de TÉRMINO puede agregar - y regresar a TÉRMINO
+
+<TÉRMINO>
+-> FACTOR ->
+de FACTOR puede agregar * y regresar a FACTOR
+de FACTOR puede agregar / y regresar a FACTOR
+
+<FACTOR>
+-> ( -> EXPRESIÓN -> ) ->
+-> + -> id ->
+-> - -> id ->
+-> + -> CTE ->
+-> - -> CTE ->
+-> id ->
+-> CTE ->
+
+<CTE>
+-> cte_int ->
+-> cte_float ->
+
+<CONDITION>
+-> if -> ( -> EXPRESIÓN -> ) -> BODY -> ; ->
+de BODY puede agregar -> else y luego BODY -> ; ->
+
+<CYCLE>
+-> while -> ( -> EXPRESIÓN -> ) -> do -> BODY -> ;
+
+<F_CALL>
+-> id -> ( -> EXPRESIÓN -> ) -> ; ->
+de EXPRESIÓN puede agregar , y regresar a EXPRESIÓN
+
+<PRINT>
+-> print -> ( -> EXPRESIÓN -> ) -> ;
+-> print -> ( -> cte_string -> ) -> ;
+de EXPRESIÓN o cte_string puede agregar , y luego regresar a EXPRESIÓN o cte_string
+
+<FUNCS>
+-> void -> id -> ( -> id -> : -> TYPE -> ) -> [ -> VARS -> BODY ] -> ; ->
+despues de TYPE puede agregar , y regresar al inicio del parentesis
+despues de [ puede saltar a BODY
