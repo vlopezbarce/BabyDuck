@@ -1,19 +1,5 @@
 // ========== LEXER ==========
 
-// Keywords
-programToken : "program" ;
-varToken     : "var" ;
-mainToken    : "main" ;
-endToken     : "end" ;
-ifToken      : "if" ;
-elseToken    : "else" ;
-whileToken   : "while" ;
-doToken      : "do" ;
-printToken   : "print" ;
-intToken     : "int" ;
-floatToken   : "float" ;
-voidToken    : "void" ;
-
 // Identifiers and literals
 _lowcase     : 'a'-'z' ;
 _upcase      : 'A'-'Z' ;
@@ -31,7 +17,6 @@ divide       : '/' ;
 // Relational operators
 gt           : '>' ;
 lt           : '<' ;
-neq          : '!=' ;
 
 // Symbols
 assign       : '=' ;
@@ -52,32 +37,46 @@ rbracket     : ']' ;
 // ========== PARSER ==========
 
 Program
-    : programToken id semicolon varOptional {funcDeclaration} mainToken Body endToken
+    : "program" id semicolon VarOptional "main" Body "end"
     ;
 
 // Handles optional variable declarations
-varOptional
-    : varSection
-    | /* empty */
+VarOptional
+    : VarSection
+    | "empty"
     ;
 
 // Handles all variable declarations
-varSection
-    : varToken varDeclarationList
+VarSection
+    : "var" VarDeclarationList
     ;
 
 // Handles multiple variable declarations (one or more)
-varDeclarationList
-    : varDeclaration
-    | varDeclarationList varDeclaration
+VarDeclarationList
+    : VarDeclaration
+    | VarDeclarationList VarDeclaration
     ;
 
 // Handles one variable declaration
-varDeclaration
-    : idList colon Type semicolon
+VarDeclaration
+    : IdList colon Type semicolon
+    ;
+
+// Handles an id declaration (one or more)
+IdList
+    : id IdListTail
     ;
 
 // Handles multiple id declarations
-idList
-    : id {comma id}
+IdListTail
+    : comma id IdListTail
+    | "empty"
+    ;
+
+Body
+    : "empty"
+    ;
+
+Type
+    : "empty"
     ;
