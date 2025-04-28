@@ -1,24 +1,43 @@
 // ========== LEXER ==========
+// Definición de tokens
 
-// Identifiers and literals
+// Palabras reservadas
+program      : 'p''r''o''g''r''a''m' ;
+var          : 'v''a''r' ;
+main         : 'm''a''i''n' ;
+end          : 'e''n''d' ;
+if           : 'i''f' ;
+else         : 'e''l''s''e' ;
+while        : 'w''h''i''l''e' ;
+do           : 'd''o' ;
+print        : 'p''r''i''n''t' ;
+int          : 'i''n''t' ;
+float        : 'f''l''o''a''t' ;
+void         : 'v''o''i''d' ;
+
+// Identificadores y constantes
 _lowcase     : 'a'-'z' ;
 _upcase      : 'A'-'Z' ;
 _digit       : '0'-'9' ;
-id           : _lowcase { (_lowcase | _upcase | _digit) } ;
-intlit       : _digit { _digit } ;
-floatlit     : _digit { _digit } '.' _digit { _digit } ;
+_chars       : '\u0000'-'\u0009' | '\u000B'-'\u000C' | '\u000E'-'\uFFFF' ; // Caracteres excepto comillas dobles y newline
 
-// Operators
+id           : _lowcase { (_lowcase | _upcase | _digit) } ;
+cte_int      : _digit { _digit } ;
+cte_float    : _digit { _digit } '.' _digit { _digit } ;
+cte_string   : '"' { _chars } '"' ;
+
+// Operadores aritméticos
 plus         : '+' ;
 minus        : '-' ;
 times        : '*' ;
 divide       : '/' ;
 
-// Relational operators
+// Comparadores
 gt           : '>' ;
 lt           : '<' ;
+neq          : '!''=' ;
 
-// Symbols
+// Delimitadores
 assign       : '=' ;
 semicolon    : ';' ;
 colon        : ':' ;
@@ -30,53 +49,247 @@ rbrace       : '}' ;
 lbracket     : '[' ;
 rbracket     : ']' ;
 
-// Ignored tokens
+// Tokens ignorados
 !whitespace  : ' ' | '\t' | '\n' | '\r' ;
 
 
 // ========== PARSER ==========
+// Definición de Producciones (Reglas de la Gramática)
 
 Program
-    : "program" id semicolon VarOptional "main" Body "end"
+    : program id semicolon VarOptional FuncSection main Body end
     ;
 
-// Handles optional variable declarations
+// Declaración opcional de variables (0 o 1)
 VarOptional
     : VarSection
     | "empty"
     ;
 
-// Handles all variable declarations
+// Declaración de variables
 VarSection
-    : "var" VarDeclarationList
+    : var VarList
     ;
 
-// Handles multiple variable declarations (one or more)
-VarDeclarationList
-    : VarDeclaration
-    | VarDeclarationList VarDeclaration
+// Secuencia de declaraciones de variables (1 o más)
+VarList
+    : VarDeclaration VarDeclarationTail
     ;
 
-// Handles one variable declaration
+// Secuencia opcional de declaraciones de variables (0 o más)
+VarDeclarationTail
+    : VarDeclaration VarDeclarationTail
+    | "empty"
+    ;
+
+// Declaración de una variable
 VarDeclaration
     : IdList colon Type semicolon
     ;
 
-// Handles an id declaration (one or more)
+// Lista de identificadores (1 o más)
 IdList
     : id IdListTail
     ;
 
-// Handles multiple id declarations
+// Secuencia de identificadores adicionales (0 o más)
 IdListTail
     : comma id IdListTail
     | "empty"
     ;
 
-Body
-    : "empty"
+// Tipo de la variable
+Type
+    : int
+    | float
     ;
 
-Type
-    : "empty"
+// Sección de funciones (0 o más)
+FuncSection
+    : FuncDeclaration FuncSection
+    | "empty"
+    ;
+
+// Declaración de una función
+FuncDeclaration
+    : void id lparen FuncVarOptional rparen lbracket VarOptional Body rbracket semicolon
+    ;
+
+// Declaración opcional de variables de función (0 o 1)
+FuncVarOptional
+    : FuncVarList
+    | "empty"
+    ;
+
+// Declaración de variables de función (1 o más)
+FuncVarList
+    : FuncVarDeclaration FuncVarDeclarationTail
+    ;
+
+// Secuencia de declaraciones de variables de función (0 o más)
+FuncVarDeclarationTail
+    : comma FuncVarDeclaration FuncVarDeclarationTail
+    | "empty"
+    ;
+
+// Declaración de una variable de función
+FuncVarDeclaration
+    : id colon Type
+    ;
+
+// Cuerpo de una función o bloque
+Body
+    : lbrace StatementOptional rbrace
+    ;
+
+// Declaración opcional de sentencias (0 o más)
+StatementOptional
+    : Statement StatementOptional
+    | "empty"
+    ;
+
+// Declaración de una sentencia
+Statement
+    : Assign
+    | Condition
+    | Cycle
+    | F_Call
+    | Print
+    ;
+
+// Asignación de un valor
+Assign
+    : id assign Expression semicolon
+    ;
+
+// Expresión
+Expression
+    : Exp ExpressionOptional
+    ;
+
+// Secuencia opcional al final de una expresión (0 o 1)
+ExpressionOptional
+    : ExpressionTail
+    | "empty"
+    ;
+
+// Operadores relacionales
+ExpressionTail
+    : gt Exp
+    | lt Exp
+    | neq Exp
+    ;
+
+// Expresión aritmética
+Exp
+    : Term ExpOptional
+    ;
+
+// Secuencia opcional de términos (0 o más)
+ExpOptional
+    : ExpTail ExpOptional
+    | "empty"
+    ;
+
+// Operadores de suma o resta
+ExpTail
+    : plus Term
+    | minus Term
+    ;
+
+// Término en la expresión
+Term
+    : Factor TermOptional
+    ;
+
+// Secuencia opcional de factores (0 o más)
+TermOptional
+    : TermTail TermOptional
+    | "empty"
+    ;
+
+// Operadores de multiplicación o división
+TermTail
+    : times Factor
+    | divide Factor
+    ;
+
+// Factor de la expresión
+Factor
+    : lparen Expression rparen
+    | FactorOptional Cte
+    | FactorOptional id
+    ;
+
+// Signo opcional en el factor (0 o 1)
+FactorOptional
+    : plus
+    | minus
+    | "empty"
+    ;
+
+// Constante
+Cte
+    : cte_int
+    | cte_float
+    ;
+
+// Condición if-else
+Condition
+    : if lparen Expression rparen Body ElseOptional semicolon
+    ;
+
+// Bloque else opcional (0 o 1)
+ElseOptional
+    : else Body
+    | "empty"
+    ;
+
+// Ciclo while-do
+Cycle
+    : while lparen Expression rparen do Body semicolon
+    ;
+
+// Llamada a función
+F_Call
+    : id lparen F_CallOptional rparen semicolon
+    ;
+
+// Secuencia opcional de expresiones en una llamada a función (0 o 1)
+F_CallOptional
+    : F_CallList
+    | "empty"
+    ;
+
+// Lista de expresiones en una llamada (1 o más)
+F_CallList
+    : Expression F_CallListTail
+    ;
+
+// Secuencia opcional de expresiones adicionales (0 o más)
+F_CallListTail
+    : comma Expression F_CallListTail
+    | "empty"
+    ;
+
+// Instrucción de impresión
+Print
+    : print lparen PrintVarList rparen semicolon
+    ;
+
+// Lista de variables a imprimir (1 o más)
+PrintVarList
+    : PrintVar PrintVarListTail
+    ;
+
+// Secuencia opcional de variables a imprimir (0 o más)
+PrintVarListTail
+    : comma PrintVar PrintVarListTail
+    | "empty"
+    ;
+
+// Variable a imprimir
+PrintVar
+    : Expression
+    | cte_string
     ;
