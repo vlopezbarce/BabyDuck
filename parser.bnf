@@ -19,7 +19,10 @@ void         : 'v''o''i''d' ;
 _lowcase     : 'a'-'z' ;
 _upcase      : 'A'-'Z' ;
 _digit       : '0'-'9' ;
-_chars       : '\u0000'-'\u0009' | '\u000B'-'\u000C' | '\u000E'-'\uFFFF' ; // Caracteres excepto comillas dobles y newline
+_symbol      : ' ' | '!' | '#' | '$' | '%' | '&' | '\'' | '(' | ')' | '*' | '+' | ',' | '-' | '.' | '/' |
+            ':' | ';' | '<' | '=' | '>' | '?' | '@' |
+            '[' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~' ;
+_chars       : _lowcase | _upcase | _digit | _symbol ;
 
 id           : _lowcase { (_lowcase | _upcase | _digit) } ;
 cte_int      : _digit { _digit } ;
