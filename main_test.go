@@ -15,6 +15,20 @@ type TI struct {
 // testData contiene casos de prueba para el analizador de BabyDuck
 // Cada caso tiene un código fuente y una expectativa de éxito o fracaso
 var testData = []*TI{
+	// Test 0: Palabras reservadas en una función
+	{
+		src: `program reservedWords;
+			void mainA() [{
+				print("Hello World");
+			}];
+			main {
+				mainA();
+			}
+			end
+		`,
+		expect: true,
+	},
+
 	// Test 1: Programa básico sin errores
 	{
 		src: `program sumTest;
