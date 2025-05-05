@@ -406,21 +406,48 @@ F_CallListTail
 // Instrucción de impresión
 Print
     : print lparen PrintVarList rparen semicolon
+    <<
+        func() (Attrib, error) {
+            err := ast.PrintInstruction($2.([]ast.Attrib))
+            if err != nil {
+                return nil, err
+            }
+
+            return nil, nil
+        }()
+    >>
     ;
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar PrintVarListTail
+    <<
+        func() (Attrib, error) {
+            printVars := []ast.Attrib{$0}
+            printVars = append(printVars, $1.([]ast.Attrib)...)
+            return printVars, nil
+        }()
+    >>
     ;
 
 // Secuencia opcional de variables a imprimir (0 o más)
 PrintVarListTail
     : comma PrintVar PrintVarListTail
+    <<
+        func() (Attrib, error) {
+            printVars := []ast.Attrib{$1}
+            printVars = append(printVars, $2.([]ast.Attrib)...)
+            return printVars, nil
+        }()
+    >>
     | "empty"
+    << []ast.Attrib{}, nil >>
     ;
 
 // Variable a imprimir
 PrintVar
     : Expression
+    << $0, nil >>
     | cte_string
+    << $0, nil >>
     ;

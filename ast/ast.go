@@ -113,6 +113,70 @@ func NewParameter(id, typ Attrib) (*ParamNode, error) {
 	}, nil
 }
 
+// Comparar dos expresiones utilizando el operador relacional.
+func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
+	operatorTok := op.(*token.Token)
+	operator := string(operatorTok.Lit)
+
+	// Verificar la compatibilidad de tipos utilizando el semanticCube
+	resultType, err := CheckSemantic(operator, left.Type, right.Type)
+	if err != nil {
+		return nil, err
+	}
+
+	var result bool
+
+	// Verificar que ambos valores sean del tipo correcto para la comparación
+	switch operator {
+	case ">":
+		if left.Type == "int" {
+			result = left.Value.(int) > right.Value.(int)
+		} else if left.Type == "float" {
+			result = left.Value.(float64) > right.Value.(float64)
+		}
+	case "<":
+		if left.Type == "int" {
+			result = left.Value.(int) < right.Value.(int)
+		} else if left.Type == "float" {
+			result = left.Value.(float64) < right.Value.(float64)
+		}
+	case "!=":
+		if left.Type == "int" {
+			result = left.Value.(int) != right.Value.(int)
+		} else if left.Type == "float" {
+			result = left.Value.(float64) != right.Value.(float64)
+		}
+	default:
+		return nil, fmt.Errorf("operador '%s' no soportado para comparación", operator)
+	}
+
+	// El tipo del resultado siempre será "bool" para las comparaciones
+	return &ExpNode{
+		Type:  resultType,
+		Value: result,
+	}, nil
+}
+
+// Función para procesar la instrucción Print
+func PrintInstruction(printVarList []Attrib) error {
+	for _, exp := range printVarList {
+		// Si es un nodo de expresión
+		if node, ok := exp.(*ExpNode); ok {
+			fmt.Print(node.Value)
+		} else {
+			// Si es una constante literal
+			fmt.Print(string(exp.(*token.Token).Lit))
+		}
+
+		// Agregar un espacio entre las impresiones
+		fmt.Print(" ")
+	}
+
+	// Salto de línea al final
+	fmt.Println()
+	return nil
+}
+
 // Imprime todas las variables en el ámbito actual
 func PrintVariables() {
 	fmt.Println("Variables en el ámbito actual:")
