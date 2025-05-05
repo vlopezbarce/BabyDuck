@@ -220,73 +220,123 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `FuncDeclaration : void id lparen FuncVarOptional rparen lbracket VarOptional Body rbracket semicolon	<<  >>`,
+		String: `FuncDeclaration : void id lparen FuncVarOptional rparen lbracket VarOptional Body rbracket semicolon	<< func() (Attrib, error) {
+            idTok := X[1].(*token.Token)
+            params := X[3].([]*ast.ParamNode)
+
+            // Crear y registrar la función
+            funcNode, err := ast.NewFunction(idTok, params, nil) // Aún no se define Body
+            if err != nil {
+                return nil, err
+            }
+
+            return funcNode, nil
+        }() >>`,
 		Id:         "FuncDeclaration",
 		NTType:     11,
 		Index:      16,
 		NumSymbols: 10,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            idTok := X[1].(*token.Token)
+            params := X[3].([]*ast.ParamNode)
+
+            // Crear y registrar la función
+            funcNode, err := ast.NewFunction(idTok, params, nil) // Aún no se define Body
+            if err != nil {
+                return nil, err
+            }
+
+            return funcNode, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `FuncVarOptional : FuncVarList	<<  >>`,
+		String: `FuncVarOptional : FuncVarList	<< X[0].([]*ast.ParamNode), nil >>`,
 		Id:         "FuncVarOptional",
 		NTType:     12,
 		Index:      17,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return X[0].([]*ast.ParamNode), nil
 		},
 	},
 	ProdTabEntry{
-		String: `FuncVarOptional : "empty"	<<  >>`,
+		String: `FuncVarOptional : "empty"	<< []*ast.ParamNode{}, nil >>`,
 		Id:         "FuncVarOptional",
 		NTType:     12,
 		Index:      18,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []*ast.ParamNode{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `FuncVarList : FuncVarDeclaration FuncVarDeclarationTail	<<  >>`,
+		String: `FuncVarList : FuncVarDeclaration FuncVarDeclarationTail	<< func() (Attrib, error) {
+            head := X[0].(*ast.ParamNode)
+            tail := X[1].([]*ast.ParamNode)
+            return append([]*ast.ParamNode{head}, tail...), nil
+        }() >>`,
 		Id:         "FuncVarList",
 		NTType:     13,
 		Index:      19,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            head := X[0].(*ast.ParamNode)
+            tail := X[1].([]*ast.ParamNode)
+            return append([]*ast.ParamNode{head}, tail...), nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `FuncVarDeclarationTail : comma FuncVarDeclaration FuncVarDeclarationTail	<<  >>`,
+		String: `FuncVarDeclarationTail : comma FuncVarDeclaration FuncVarDeclarationTail	<< func() (Attrib, error) {
+            head := X[1].(*ast.ParamNode)
+            tail := X[2].([]*ast.ParamNode)
+            return append([]*ast.ParamNode{head}, tail...), nil
+        }() >>`,
 		Id:         "FuncVarDeclarationTail",
 		NTType:     14,
 		Index:      20,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            head := X[1].(*ast.ParamNode)
+            tail := X[2].([]*ast.ParamNode)
+            return append([]*ast.ParamNode{head}, tail...), nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `FuncVarDeclarationTail : "empty"	<<  >>`,
+		String: `FuncVarDeclarationTail : "empty"	<< []*ast.ParamNode{}, nil >>`,
 		Id:         "FuncVarDeclarationTail",
 		NTType:     14,
 		Index:      21,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []*ast.ParamNode{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `FuncVarDeclaration : id colon Type	<<  >>`,
+		String: `FuncVarDeclaration : id colon Type	<< func() (Attrib, error) {
+            paramNode, err := ast.NewParameter(X[0], X[2])
+            if err != nil {
+                return nil, err
+            }
+            return paramNode, nil
+        }() >>`,
 		Id:         "FuncVarDeclaration",
 		NTType:     15,
 		Index:      22,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            paramNode, err := ast.NewParameter(X[0], X[2])
+            if err != nil {
+                return nil, err
+            }
+            return paramNode, nil
+        }()
 		},
 	},
 	ProdTabEntry{

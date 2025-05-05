@@ -74,7 +74,7 @@ func NewAssign(id, exp Attrib) (*AssignNode, error) {
 }
 
 // Función constructora para FuncNode
-func NewFunction(id Attrib, params []*ParamNode, body []*AssignNode) (*FuncNode, error) {
+func NewFunction(id Attrib, params []*ParamNode, body Attrib) (*FuncNode, error) {
 	idTok := id.(*token.Token)
 
 	// Guardar la función en la tabla de funciones
@@ -85,12 +85,18 @@ func NewFunction(id Attrib, params []*ParamNode, body []*AssignNode) (*FuncNode,
 		Body:       body,
 	}
 
+	// Entrar al nuevo ámbito
+	EnterScope(string(idTok.Lit))
+
 	// Guardar parámetros en la tabla de símbolos
 	for _, param := range params {
 		if err := NewVariable(param.Id, param.Type); err != nil {
 			return nil, err
 		}
 	}
+
+	// Salir del ámbito
+	ExitScope()
 
 	return &FuncNode{
 		Id:         funcId,
@@ -101,12 +107,9 @@ func NewFunction(id Attrib, params []*ParamNode, body []*AssignNode) (*FuncNode,
 
 // Crear un parámetro para una función
 func NewParameter(id, typ Attrib) (*ParamNode, error) {
-	idTok := id.(*token.Token)
-	typeTok := typ.(*token.Token)
-
 	return &ParamNode{
-		Id:   string(idTok.Lit),
-		Type: string(typeTok.Lit),
+		Id:   id,
+		Type: typ,
 	}, nil
 }
 

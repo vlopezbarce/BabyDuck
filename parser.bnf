@@ -135,9 +135,7 @@ IdListTail
     }()
     >>
     | "empty"
-    <<
-        []*token.Token{}, nil
-    >>
+    << []*token.Token{}, nil >>
     ;
 
 // Tipo de la variable
@@ -155,28 +153,68 @@ FuncSection
 // Declaración de una función
 FuncDeclaration
     : void id lparen FuncVarOptional rparen lbracket VarOptional Body rbracket semicolon
+    <<
+        func() (Attrib, error) {
+            idTok := $1.(*token.Token)
+            params := $3.([]*ast.ParamNode)
+
+            // Crear y registrar la función
+            funcNode, err := ast.NewFunction(idTok, params, nil) // Aún no se define Body
+            if err != nil {
+                return nil, err
+            }
+
+            return funcNode, nil
+        }()
+    >>
     ;
 
 // Declaración opcional de variables de función (0 o 1)
 FuncVarOptional
     : FuncVarList
+    << $0.([]*ast.ParamNode), nil >>
     | "empty"
+    << []*ast.ParamNode{}, nil >>
     ;
 
 // Declaración de variables de función (1 o más)
 FuncVarList
     : FuncVarDeclaration FuncVarDeclarationTail
+    <<
+        func() (Attrib, error) {
+            head := $0.(*ast.ParamNode)
+            tail := $1.([]*ast.ParamNode)
+            return append([]*ast.ParamNode{head}, tail...), nil
+        }()
+    >>
     ;
 
 // Secuencia de declaraciones de variables de función (0 o más)
 FuncVarDeclarationTail
     : comma FuncVarDeclaration FuncVarDeclarationTail
+    <<
+        func() (Attrib, error) {
+            head := $1.(*ast.ParamNode)
+            tail := $2.([]*ast.ParamNode)
+            return append([]*ast.ParamNode{head}, tail...), nil
+        }()
+    >>
     | "empty"
+    << []*ast.ParamNode{}, nil >>
     ;
 
 // Declaración de una variable de función
 FuncVarDeclaration
     : id colon Type
+    <<
+        func() (Attrib, error) {
+            paramNode, err := ast.NewParameter($0, $2)
+            if err != nil {
+                return nil, err
+            }
+            return paramNode, nil
+        }()
+    >>
     ;
 
 // Cuerpo de una función o bloque

@@ -13,10 +13,10 @@ type AssignNode struct {
 type FuncNode struct {
 	Id         string
 	Parameters []*ParamNode
-	Body       []*AssignNode
+	Body       Attrib
 }
 
 type ParamNode struct {
-	Id   string
-	Type string
+	Id   Attrib
+	Type Attrib
 }
