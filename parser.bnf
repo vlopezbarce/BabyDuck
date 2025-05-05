@@ -246,7 +246,7 @@ Assign
             idTok := $0.(*token.Token)
 
             // Expresión a la que se le asigna el valor
-            exp, _ := $2.(*ast.ExpNode)
+            exp := $2.(*ast.ExpNode)
 
             // Crear el nodo de asignación
             assignNode, err := ast.NewAssign(idTok, exp)
@@ -262,20 +262,76 @@ Assign
 // Expresión
 Expression
     : Exp ExpressionOptional
-    << $0, nil >>
+    <<
+        func() (Attrib, error) {
+            left := $0.(*ast.ExpNode)
+            
+            if $1 == nil {
+                return left, nil
+            }
+
+            // Extraer operador y operando derecho
+            tail := $1.(struct {
+                Operator *token.Token
+                Right    *ast.ExpNode
+            })
+
+            result, err := ast.CompareExpressions(tail.Operator, left, tail.Right)
+            if err != nil {
+                return nil, err
+            }
+
+            return result, nil
+        }()
+    >>
     ;
 
 // Secuencia opcional al final de una expresión (0 o 1)
 ExpressionOptional
     : ExpressionTail
+    << $0, nil >>
     | "empty"
+    << nil, nil >>
     ;
 
 // Operadores relacionales
 ExpressionTail
     : gt Exp
+    << 
+        func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: $0.(*token.Token),
+                Right:    $1.(*ast.ExpNode),
+            }, nil
+        }()
+    >>
     | lt Exp
+    <<
+        func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: $0.(*token.Token),
+                Right:    $1.(*ast.ExpNode),
+            }, nil
+        }()
+    >>
     | neq Exp
+    <<
+        func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: $0.(*token.Token),
+                Right:    $1.(*ast.ExpNode),
+            }, nil
+        }()
+    >>
     ;
 
 // Expresión aritmética
@@ -320,6 +376,7 @@ Factor
     | FactorOptional Cte
     << $1, nil >>
     | FactorOptional id
+    << $1, nil >>
     ;
 
 // Signo opcional en el factor (0 o 1)

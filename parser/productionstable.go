@@ -425,7 +425,7 @@ var productionsTable = ProdTab{
             idTok := X[0].(*token.Token)
 
             // Expresión a la que se le asigna el valor
-            exp, _ := X[2].(*ast.ExpNode)
+            exp := X[2].(*ast.ExpNode)
 
             // Crear el nodo de asignación
             assignNode, err := ast.NewAssign(idTok, exp)
@@ -445,7 +445,7 @@ var productionsTable = ProdTab{
             idTok := X[0].(*token.Token)
 
             // Expresión a la que se le asigna el valor
-            exp, _ := X[2].(*ast.ExpNode)
+            exp := X[2].(*ast.ExpNode)
 
             // Crear el nodo de asignación
             assignNode, err := ast.NewAssign(idTok, exp)
@@ -458,17 +458,55 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expression : Exp ExpressionOptional	<< X[0], nil >>`,
+		String: `Expression : Exp ExpressionOptional	<< func() (Attrib, error) {
+            left := X[0].(*ast.ExpNode)
+            
+            if X[1] == nil {
+                return left, nil
+            }
+
+            // Extraer operador y operando derecho
+            tail := X[1].(struct {
+                Operator *token.Token
+                Right    *ast.ExpNode
+            })
+
+            result, err := ast.CompareExpressions(tail.Operator, left, tail.Right)
+            if err != nil {
+                return nil, err
+            }
+
+            return result, nil
+        }() >>`,
 		Id:         "Expression",
 		NTType:     20,
 		Index:      32,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            left := X[0].(*ast.ExpNode)
+            
+            if X[1] == nil {
+                return left, nil
+            }
+
+            // Extraer operador y operando derecho
+            tail := X[1].(struct {
+                Operator *token.Token
+                Right    *ast.ExpNode
+            })
+
+            result, err := ast.CompareExpressions(tail.Operator, left, tail.Right)
+            if err != nil {
+                return nil, err
+            }
+
+            return result, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `ExpressionOptional : ExpressionTail	<<  >>`,
+		String: `ExpressionOptional : ExpressionTail	<< X[0], nil >>`,
 		Id:         "ExpressionOptional",
 		NTType:     21,
 		Index:      33,
@@ -478,7 +516,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `ExpressionOptional : "empty"	<<  >>`,
+		String: `ExpressionOptional : "empty"	<< nil, nil >>`,
 		Id:         "ExpressionOptional",
 		NTType:     21,
 		Index:      34,
@@ -488,33 +526,81 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `ExpressionTail : gt Exp	<<  >>`,
+		String: `ExpressionTail : gt Exp	<< func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: X[0].(*token.Token),
+                Right:    X[1].(*ast.ExpNode),
+            }, nil
+        }() >>`,
 		Id:         "ExpressionTail",
 		NTType:     22,
 		Index:      35,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: X[0].(*token.Token),
+                Right:    X[1].(*ast.ExpNode),
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `ExpressionTail : lt Exp	<<  >>`,
+		String: `ExpressionTail : lt Exp	<< func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: X[0].(*token.Token),
+                Right:    X[1].(*ast.ExpNode),
+            }, nil
+        }() >>`,
 		Id:         "ExpressionTail",
 		NTType:     22,
 		Index:      36,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: X[0].(*token.Token),
+                Right:    X[1].(*ast.ExpNode),
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `ExpressionTail : neq Exp	<<  >>`,
+		String: `ExpressionTail : neq Exp	<< func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: X[0].(*token.Token),
+                Right:    X[1].(*ast.ExpNode),
+            }, nil
+        }() >>`,
 		Id:         "ExpressionTail",
 		NTType:     22,
 		Index:      37,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            return struct {
+                Operator *token.Token // Token del operador relacional
+                Right    *ast.ExpNode // Valor de la derecha
+            }{
+                Operator: X[0].(*token.Token),
+                Right:    X[1].(*ast.ExpNode),
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{
@@ -638,13 +724,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : FactorOptional id	<<  >>`,
+		String: `Factor : FactorOptional id	<< X[1], nil >>`,
 		Id:         "Factor",
 		NTType:     29,
 		Index:      50,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return X[1], nil
 		},
 	},
 	ProdTabEntry{
