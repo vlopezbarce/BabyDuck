@@ -5,6 +5,7 @@ package parser
 import(
     "BabyDuck_A00833578/ast"
     "BabyDuck_A00833578/token"
+    "strconv"
 )
 
 type (
@@ -369,17 +370,45 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Assign : id assign Expression semicolon	<<  >>`,
+		String: `Assign : id assign Expression semicolon	<< func() (Attrib, error) {
+            // Token de la variable a la que se le asigna algo
+            idTok := X[0].(*token.Token)
+
+            // Expresión a la que se le asigna el valor
+            exp, _ := X[2].(*ast.ExpNode)
+
+            // Crear el nodo de asignación
+            assignNode, err := ast.NewAssign(idTok, exp)
+            if err != nil {
+                return nil, err
+            }
+
+            return assignNode, nil
+        }() >>`,
 		Id:         "Assign",
 		NTType:     19,
 		Index:      31,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            // Token de la variable a la que se le asigna algo
+            idTok := X[0].(*token.Token)
+
+            // Expresión a la que se le asigna el valor
+            exp, _ := X[2].(*ast.ExpNode)
+
+            // Crear el nodo de asignación
+            assignNode, err := ast.NewAssign(idTok, exp)
+            if err != nil {
+                return nil, err
+            }
+
+            return assignNode, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `Expression : Exp ExpressionOptional	<<  >>`,
+		String: `Expression : Exp ExpressionOptional	<< X[0], nil >>`,
 		Id:         "Expression",
 		NTType:     20,
 		Index:      32,
@@ -439,7 +468,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Exp : Term ExpOptional	<<  >>`,
+		String: `Exp : Term ExpOptional	<< X[0], nil >>`,
 		Id:         "Exp",
 		NTType:     23,
 		Index:      38,
@@ -489,7 +518,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Factor TermOptional	<<  >>`,
+		String: `Term : Factor TermOptional	<< X[0], nil >>`,
 		Id:         "Term",
 		NTType:     26,
 		Index:      43,
@@ -549,13 +578,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : FactorOptional Cte	<<  >>`,
+		String: `Factor : FactorOptional Cte	<< X[1], nil >>`,
 		Id:         "Factor",
 		NTType:     29,
 		Index:      49,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return X[1], nil
 		},
 	},
 	ProdTabEntry{
@@ -599,23 +628,71 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Cte : cte_int	<<  >>`,
+		String: `Cte : cte_int	<< func() (Attrib, error) {
+            // Obtener el token constante
+            cteTok := X[0].(*token.Token)
+
+            // Convertir la cadena de ASCIIs a un entero
+            intVal, _ := strconv.Atoi(string(cteTok.Lit))
+            
+            // Crear un nodo de expresión
+            return &ast.ExpNode{
+                Type:  "int",
+                Value: intVal,
+            }, nil
+        }() >>`,
 		Id:         "Cte",
 		NTType:     31,
 		Index:      54,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            // Obtener el token constante
+            cteTok := X[0].(*token.Token)
+
+            // Convertir la cadena de ASCIIs a un entero
+            intVal, _ := strconv.Atoi(string(cteTok.Lit))
+            
+            // Crear un nodo de expresión
+            return &ast.ExpNode{
+                Type:  "int",
+                Value: intVal,
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `Cte : cte_float	<<  >>`,
+		String: `Cte : cte_float	<< func() (Attrib, error) {
+            // Obtener el token constante
+            cteTok := X[0].(*token.Token)
+
+            // Convertir la cadena de ASCIIs a un float
+            floatVal, _ := strconv.ParseFloat(string(cteTok.Lit), 64)
+            
+            // Crear un nodo de expresión
+            return &ast.ExpNode{
+                Type:  "float",
+                Value: floatVal,
+            }, nil
+        }() >>`,
 		Id:         "Cte",
 		NTType:     31,
 		Index:      55,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            // Obtener el token constante
+            cteTok := X[0].(*token.Token)
+
+            // Convertir la cadena de ASCIIs a un float
+            floatVal, _ := strconv.ParseFloat(string(cteTok.Lit), 64)
+            
+            // Crear un nodo de expresión
+            return &ast.ExpNode{
+                Type:  "float",
+                Value: floatVal,
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{

@@ -63,6 +63,7 @@ rbracket     : ']' ;
 import(
     "BabyDuck_A00833578/ast"
     "BabyDuck_A00833578/token"
+    "strconv"
 )
 >>
 
@@ -201,11 +202,29 @@ Statement
 // Asignación de un valor
 Assign
     : id assign Expression semicolon
+    <<
+        func() (Attrib, error) {
+            // Token de la variable a la que se le asigna algo
+            idTok := $0.(*token.Token)
+
+            // Expresión a la que se le asigna el valor
+            exp, _ := $2.(*ast.ExpNode)
+
+            // Crear el nodo de asignación
+            assignNode, err := ast.NewAssign(idTok, exp)
+            if err != nil {
+                return nil, err
+            }
+
+            return assignNode, nil
+        }()
+    >>
     ;
 
 // Expresión
 Expression
     : Exp ExpressionOptional
+    << $0, nil >>
     ;
 
 // Secuencia opcional al final de una expresión (0 o 1)
@@ -224,6 +243,7 @@ ExpressionTail
 // Expresión aritmética
 Exp
     : Term ExpOptional
+    << $0, nil >>
     ;
 
 // Secuencia opcional de términos (0 o más)
@@ -241,6 +261,7 @@ ExpTail
 // Término en la expresión
 Term
     : Factor TermOptional
+    << $0, nil >>
     ;
 
 // Secuencia opcional de factores (0 o más)
@@ -259,6 +280,7 @@ TermTail
 Factor
     : lparen Expression rparen
     | FactorOptional Cte
+    << $1, nil >>
     | FactorOptional id
     ;
 
@@ -272,7 +294,37 @@ FactorOptional
 // Constante
 Cte
     : cte_int
+    <<
+        func() (Attrib, error) {
+            // Obtener el token constante
+            cteTok := $0.(*token.Token)
+
+            // Convertir la cadena de ASCIIs a un entero
+            intVal, _ := strconv.Atoi(string(cteTok.Lit))
+            
+            // Crear un nodo de expresión
+            return &ast.ExpNode{
+                Type:  "int",
+                Value: intVal,
+            }, nil
+        }()
+    >>
     | cte_float
+    <<
+        func() (Attrib, error) {
+            // Obtener el token constante
+            cteTok := $0.(*token.Token)
+
+            // Convertir la cadena de ASCIIs a un float
+            floatVal, _ := strconv.ParseFloat(string(cteTok.Lit), 64)
+            
+            // Crear un nodo de expresión
+            return &ast.ExpNode{
+                Type:  "float",
+                Value: floatVal,
+            }, nil
+        }()
+    >>
     ;
 
 // Condición if-else
