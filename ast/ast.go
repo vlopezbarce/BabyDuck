@@ -118,6 +118,20 @@ func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
 	operatorTok := op.(*token.Token)
 	operator := string(operatorTok.Lit)
 
+	// Si el lado izquierdo es un id, obtener el valor y su tipo de la symbolTable
+	if left.Type == "id" {
+		symInfo, _ := LookupVariable(left.Value.(string))
+		left.Value = symInfo.Value
+		left.Type = symInfo.Type
+	}
+
+	// Si el lado derecho es un id, obtener el valor y su tipo de la symbolTable
+	if right.Type == "id" {
+		symInfo, _ := LookupVariable(right.Value.(string))
+		right.Value = symInfo.Value
+		right.Type = symInfo.Type
+	}
+
 	// Verificar la compatibilidad de tipos utilizando el semanticCube
 	resultType, err := CheckSemantic(operator, left.Type, right.Type)
 	if err != nil {
@@ -161,11 +175,36 @@ func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
 func PrintInstruction(printVarList []Attrib) error {
 	for _, exp := range printVarList {
 		// Si es un nodo de expresión
-		if node, ok := exp.(*ExpNode); ok {
-			fmt.Print(node.Value)
-		} else {
-			// Si es una constante literal
-			fmt.Print(string(exp.(*token.Token).Lit))
+		switch v := exp.(type) {
+		case *ExpNode:
+			// Si el nodo representa un id, buscar en la tabla de símbolos
+			if v.Type == "id" {
+				idName := v.Value.(string)
+				symInfo, found := LookupVariable(idName)
+				if !found {
+					return fmt.Errorf("variable no declarada: %s", idName)
+				}
+				if symInfo.Value == nil {
+					return fmt.Errorf("variable '%s' no inicializada", idName)
+				}
+				fmt.Print(symInfo.Value)
+			} else {
+				// Si es otra expresión evaluada (int, float, bool, etc.)
+				fmt.Print(v.Value)
+			}
+
+		case *token.Token:
+			// Esto sería solo para cte_string directamente en el print
+			str := string(v.Lit)
+			if len(str) >= 2 && str[0] == '"' && str[len(str)-1] == '"' {
+				// Quitar comillas si están presentes
+				fmt.Print(str[1 : len(str)-1])
+			} else {
+				fmt.Print(str)
+			}
+
+		default:
+			return fmt.Errorf("tipo no soportado para impresión: %T", exp)
 		}
 
 		// Agregar un espacio entre las impresiones

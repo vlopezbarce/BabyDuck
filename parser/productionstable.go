@@ -724,13 +724,29 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : FactorOptional id	<< X[1], nil >>`,
+		String: `Factor : FactorOptional id	<< func() (Attrib, error) {
+            tok := X[1].(*token.Token)
+
+            // Regresa un nodo de expresión de tipo id con su nombre
+            return &ast.ExpNode{
+                Type:  "id",
+                Value: string(tok.Lit),
+            }, nil
+        }() >>`,
 		Id:         "Factor",
 		NTType:     29,
 		Index:      50,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[1], nil
+			return func() (Attrib, error) {
+            tok := X[1].(*token.Token)
+
+            // Regresa un nodo de expresión de tipo id con su nombre
+            return &ast.ExpNode{
+                Type:  "id",
+                Value: string(tok.Lit),
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{

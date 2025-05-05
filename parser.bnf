@@ -376,7 +376,17 @@ Factor
     | FactorOptional Cte
     << $1, nil >>
     | FactorOptional id
-    << $1, nil >>
+    <<
+        func() (Attrib, error) {
+            tok := $1.(*token.Token)
+
+            // Regresa un nodo de expresión de tipo id con su nombre
+            return &ast.ExpNode{
+                Type:  "id",
+                Value: string(tok.Lit),
+            }, nil
+        }()
+    >>
     ;
 
 // Signo opcional en el factor (0 o 1)
