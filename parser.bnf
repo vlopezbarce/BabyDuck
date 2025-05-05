@@ -59,6 +59,13 @@ rbracket     : ']' ;
 // ========== PARSER ==========
 // Definición de Producciones (Reglas de la Gramática)
 
+<<
+import(
+    "BabyDuck_A00833578/ast"
+    "BabyDuck_A00833578/token"
+)
+>>
+
 Program
     : program id semicolon VarOptional FuncSection main Body end
     ;
@@ -88,23 +95,54 @@ VarDeclarationTail
 // Declaración de una variable
 VarDeclaration
     : IdList colon Type semicolon
+    <<
+    func() (Attrib, error) {
+        ids := $0.([]*token.Token)
+        typ := $2.(*token.Token)
+        for _, id := range ids {
+            err := ast.NewVariable(id, typ)
+            if err != nil {
+                return nil, err
+            }
+        }
+        return nil, nil
+    }()
+    >>
     ;
+
 
 // Lista de identificadores (1 o más)
 IdList
     : id IdListTail
+    <<
+    func() (Attrib, error) {
+        ids := []*token.Token{$0.(*token.Token)}
+        ids = append(ids, $1.([]*token.Token)...)
+        return ids, nil
+    }()
+    >>
     ;
 
 // Secuencia de identificadores adicionales (0 o más)
 IdListTail
     : comma id IdListTail
+    <<
+    func() (Attrib, error) {
+        ids := []*token.Token{$1.(*token.Token)}
+        ids = append(ids, $2.([]*token.Token)...)
+        return ids, nil
+    }()
+    >>
     | "empty"
+    <<
+        []*token.Token{}, nil
+    >>
     ;
 
 // Tipo de la variable
 Type
-    : int
-    | float
+    : int   << $0, nil >>
+    | float << $0, nil >>
     ;
 
 // Sección de funciones (0 o más)

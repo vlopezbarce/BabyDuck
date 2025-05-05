@@ -2,6 +2,11 @@
 
 package parser
 
+import(
+    "BabyDuck_A00833578/ast"
+    "BabyDuck_A00833578/token"
+)
+
 type (
 	ProdTab      [numProductions]ProdTabEntry
 	ProdTabEntry struct {
@@ -98,47 +103,83 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `VarDeclaration : IdList colon Type semicolon	<<  >>`,
+		String: `VarDeclaration : IdList colon Type semicolon	<< func() (Attrib, error) {
+        ids := X[0].([]*token.Token)
+        typ := X[2].(*token.Token)
+        for _, id := range ids {
+            err := ast.NewVariable(id, typ)
+            if err != nil {
+                return nil, err
+            }
+        }
+        return nil, nil
+    }() >>`,
 		Id:         "VarDeclaration",
 		NTType:     6,
 		Index:      8,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+        ids := X[0].([]*token.Token)
+        typ := X[2].(*token.Token)
+        for _, id := range ids {
+            err := ast.NewVariable(id, typ)
+            if err != nil {
+                return nil, err
+            }
+        }
+        return nil, nil
+    }()
 		},
 	},
 	ProdTabEntry{
-		String: `IdList : id IdListTail	<<  >>`,
+		String: `IdList : id IdListTail	<< func() (Attrib, error) {
+        ids := []*token.Token{X[0].(*token.Token)}
+        ids = append(ids, X[1].([]*token.Token)...)
+        return ids, nil
+    }() >>`,
 		Id:         "IdList",
 		NTType:     7,
 		Index:      9,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+        ids := []*token.Token{X[0].(*token.Token)}
+        ids = append(ids, X[1].([]*token.Token)...)
+        return ids, nil
+    }()
 		},
 	},
 	ProdTabEntry{
-		String: `IdListTail : comma id IdListTail	<<  >>`,
+		String: `IdListTail : comma id IdListTail	<< func() (Attrib, error) {
+        ids := []*token.Token{X[1].(*token.Token)}
+        ids = append(ids, X[2].([]*token.Token)...)
+        return ids, nil
+    }() >>`,
 		Id:         "IdListTail",
 		NTType:     8,
 		Index:      10,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+        ids := []*token.Token{X[1].(*token.Token)}
+        ids = append(ids, X[2].([]*token.Token)...)
+        return ids, nil
+    }()
 		},
 	},
 	ProdTabEntry{
-		String: `IdListTail : "empty"	<<  >>`,
+		String: `IdListTail : "empty"	<< []*token.Token{}, nil >>`,
 		Id:         "IdListTail",
 		NTType:     8,
 		Index:      11,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []*token.Token{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Type : int	<<  >>`,
+		String: `Type : int	<< X[0], nil >>`,
 		Id:         "Type",
 		NTType:     9,
 		Index:      12,
@@ -148,7 +189,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Type : float	<<  >>`,
+		String: `Type : float	<< X[0], nil >>`,
 		Id:         "Type",
 		NTType:     9,
 		Index:      13,
