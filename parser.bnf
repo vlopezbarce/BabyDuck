@@ -134,7 +134,10 @@ VarDeclaration
             
             params := []*ast.ParamNode{}
             for _, id := range ids {
-                paramNode, _ := ast.NewParameter(id, typ)
+                paramNode := &ast.ParamNode{
+                    Id:   id,
+                    Type: typ,
+                }
                 params = append(params, paramNode)
             }
             return params, nil
@@ -235,12 +238,7 @@ FuncVarDeclarationTail
 // Declaración de una variable de función
 FuncVarDeclaration
     : id colon Type
-    <<
-        func() (Attrib, error) {
-            paramNode, _ := ast.NewParameter($0, $2)
-            return paramNode, nil
-        }()
-    >>
+    << &ast.ParamNode{Id: $0, Type: $2}, nil >>
     ;
 
 // Cuerpo de una función o bloque
@@ -287,12 +285,13 @@ Assign
             idTok := $0.(*token.Token)
 
             // Expresión a la que se le asigna el valor
-            exp := $2.(*ast.ExpNode)
+            exp := $2.(ast.Evaluable)
 
             // Crear el nodo de asignación
-            assignNode, _ := ast.NewAssign(idTok, exp)
-
-            return assignNode, nil
+            return &ast.AssignNode{
+                Id:  idTok,
+                Exp: exp,
+            }, nil
         }()
     >>
     ;
@@ -302,7 +301,7 @@ Expression
     : Exp ExpressionOptional
     <<
         func() (Attrib, error) {
-            left := $0.(*ast.ExpNode)
+            left := $0.(ast.Evaluable)
             
             if $1 == nil {
                 return left, nil
@@ -310,13 +309,16 @@ Expression
 
             // Extraer operador y operando derecho
             tail := $1.(struct {
-                Operator *token.Token
-                Right    *ast.ExpNode
+                Operator ast.Attrib
+                Right    ast.Evaluable
             })
 
-            result, _ := ast.CompareExpressions(tail.Operator, left, tail.Right)
-
-            return result, nil
+            // Crear un nodo de expresión
+            return &ast.ExpressionNode{
+                Operator: tail.Operator,
+                Left:     left,
+                Right:    tail.Right,
+            }, nil
         }()
     >>
     ;
@@ -335,11 +337,11 @@ ExpressionTail
     << 
         func() (Attrib, error) {
             return struct {
-                Operator *token.Token // Token del operador relacional
-                Right    *ast.ExpNode // Valor de la derecha
+                Operator  ast.Attrib // Token del operador relacional
+                Right     ast.Evaluable // Valor de la derecha
             }{
-                Operator: $0.(*token.Token),
-                Right:    $1.(*ast.ExpNode),
+                Operator: $0.(ast.Attrib),
+                Right:    $1.(ast.Evaluable),
             }, nil
         }()
     >>
@@ -347,11 +349,11 @@ ExpressionTail
     <<
         func() (Attrib, error) {
             return struct {
-                Operator *token.Token // Token del operador relacional
-                Right    *ast.ExpNode // Valor de la derecha
+                Operator  ast.Attrib // Token del operador relacional
+                Right     ast.Evaluable // Valor de la derecha
             }{
-                Operator: $0.(*token.Token),
-                Right:    $1.(*ast.ExpNode),
+                Operator: $0.(ast.Attrib),
+                Right:    $1.(ast.Evaluable),
             }, nil
         }()
     >>
@@ -359,11 +361,11 @@ ExpressionTail
     <<
         func() (Attrib, error) {
             return struct {
-                Operator *token.Token // Token del operador relacional
-                Right    *ast.ExpNode // Valor de la derecha
+                Operator  ast.Attrib // Token del operador relacional
+                Right     ast.Evaluable // Valor de la derecha
             }{
-                Operator: $0.(*token.Token),
-                Right:    $1.(*ast.ExpNode),
+                Operator: $0.(ast.Attrib),
+                Right:    $1.(ast.Evaluable),
             }, nil
         }()
     >>
@@ -408,6 +410,7 @@ TermTail
 // Factor de la expresión
 Factor
     : lparen Expression rparen
+    << $1, nil >>
     | FactorOptional Cte
     << $1, nil >>
     | FactorOptional id
@@ -510,12 +513,12 @@ Print
     : print lparen PrintVarList rparen semicolon
     <<
         func() (Attrib, error) {
-            printList := $2.([]ast.Attrib)
+            printList := $2.([]ast.Evaluable)
 
             // Crear el nodo de impresión
-            printNode, _ := ast.NewPrint(printList)
-            
-            return printNode, nil
+            return &ast.PrintNode{
+		        PrintList: printList,
+	        }, nil
         }()
     >>
     ;
@@ -525,8 +528,8 @@ PrintVarList
     : PrintVar PrintVarListTail
     <<
         func() (Attrib, error) {
-            printVars := []ast.Attrib{$0}
-            printVars = append(printVars, $1.([]ast.Attrib)...)
+            printVars := []ast.Evaluable{$0.(ast.Evaluable)}
+            printVars = append(printVars, $1.([]ast.Evaluable)...)
             return printVars, nil
         }()
     >>
@@ -537,13 +540,13 @@ PrintVarListTail
     : comma PrintVar PrintVarListTail
     <<
         func() (Attrib, error) {
-            printVars := []ast.Attrib{$1}
-            printVars = append(printVars, $2.([]ast.Attrib)...)
+            printVars := []ast.Evaluable{$1.(ast.Evaluable)}
+            printVars = append(printVars, $2.([]ast.Evaluable)...)
             return printVars, nil
         }()
     >>
     | "empty"
-    << []ast.Attrib{}, nil >>
+    << []ast.Evaluable{}, nil >>
     ;
 
 // Variable a imprimir
@@ -551,5 +554,18 @@ PrintVar
     : Expression
     << $0, nil >>
     | cte_string
-    << $0, nil >>
+    <<
+        func() (Attrib, error) {
+            tok := $0.(*token.Token)
+            raw := string(tok.Lit)
+
+            // Quitar las comillas dobles del literal de cadena
+            trimmed := raw[1 : len(raw)-1]
+
+            return &ast.ExpNode{
+                Type:  "string",
+                Value: trimmed,
+            }, nil
+        }()
+    >>
     ;

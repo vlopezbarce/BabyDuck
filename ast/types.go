@@ -26,10 +26,9 @@ type ParamNode struct {
 	Type Attrib
 }
 
-// Nodo de asignación
-type AssignNode struct {
-	Id  Attrib
-	Exp Attrib
+// Interfaz para nodos que pueden ser evaluados
+type Evaluable interface {
+	Eval() (*ExpNode, error)
 }
 
 // Nodo de expresión
@@ -38,7 +37,20 @@ type ExpNode struct {
 	Value Attrib
 }
 
+// Nodo de expresión binaria
+type ExpressionNode struct {
+	Operator Attrib
+	Left     Evaluable
+	Right    Evaluable
+}
+
+// Nodo de asignación
+type AssignNode struct {
+	Id  Attrib
+	Exp Evaluable
+}
+
 // Nodo de impresión
 type PrintNode struct {
-	PrintList []Attrib
+	PrintList []Evaluable
 }

@@ -117,26 +117,10 @@ func ExecuteStatement(stmt Attrib) error {
 	}
 }
 
-// Crear un parámetro para una función
-func NewParameter(id, typ Attrib) (*ParamNode, error) {
-	return &ParamNode{
-		Id:   id,
-		Type: typ,
-	}, nil
-}
-
-// Crear un nodo de asignación
-func NewAssign(id, exp Attrib) (*AssignNode, error) {
-	return &AssignNode{
-		Id:  id,
-		Exp: exp,
-	}, nil
-}
-
 // Ejecutar una asignación
 func ExecuteAssign(assignNode *AssignNode) error {
 	idTok := assignNode.Id.(*token.Token)
-	expNode := assignNode.Exp.(*ExpNode)
+	expNode, _ := assignNode.Exp.Eval()
 
 	varId := string(idTok.Lit)
 
@@ -150,7 +134,7 @@ func ExecuteAssign(assignNode *AssignNode) error {
 
 	// Verificar compatibilidad de tipos
 	if info.Type != expNode.Type {
-		return fmt.Errorf("tipo incompatible en asignación a '%s'", string(idTok.Lit))
+		return fmt.Errorf("tipo incompatible en asignación a '%s'", varId)
 	}
 
 	// Asignar el valor a la variable
@@ -160,81 +144,58 @@ func ExecuteAssign(assignNode *AssignNode) error {
 	return nil
 }
 
-// Crear un nodo de impresión
-func NewPrint(printList []Attrib) (*PrintNode, error) {
-	return &PrintNode{
-		PrintList: printList,
-	}, nil
-}
-
 // Función para procesar la instrucción Print
 func ExecutePrint(printNode *PrintNode) error {
-	fmt.Print("Print: ", printNode.PrintList)
-	for i, exp := range printNode.PrintList {
-		if exp == nil {
-			return fmt.Errorf("printList[%d] es nil", i)
+	for _, exp := range printNode.PrintList {
+		// Imprime el valor de la expresión
+		evaluated, err := exp.Eval()
+		if err != nil {
+			return nil
 		}
 
-		switch v := exp.(type) {
-		case *ExpNode:
-			if v == nil {
-				return fmt.Errorf("printList[%d] es *ExpNode nil", i)
-			}
-			if v.Type == "id" {
-				varId := v.Value.(string)
-				info, found := LookupVariable(varId)
-				if !found {
-					return fmt.Errorf("variable no declarada: %s", varId)
-				}
-				if info.Value == nil {
-					return fmt.Errorf("variable '%s' no inicializada", varId)
-				}
-				fmt.Print(info.Value)
-			} else {
-				// Si es otra expresión evaluada (int, float, bool, etc.)
-				fmt.Print(v.Value)
-			}
-		case *token.Token:
-			if v == nil {
-				return fmt.Errorf("printList[%d] es *token.Token nil", i)
-			}
-			// Esto sería solo para cte_string directamente en el print
-			str := string(v.Lit)
-			if len(str) >= 2 && str[0] == '"' && str[len(str)-1] == '"' {
-				// Quitar comillas si están presentes
-				fmt.Print(str[1 : len(str)-1])
-			} else {
-				fmt.Print(str)
-			}
-		default:
-			return fmt.Errorf("tipo no soportado en printList[%d]: %T", i, exp)
-		}
-		// Agregar un espacio entre las impresiones
-		fmt.Print(" ")
+		fmt.Print(evaluated.Value, " ")
 	}
 	// Salto de línea al final
 	fmt.Println()
 	return nil
 }
 
-// Comparar dos expresiones utilizando el operador relacional.
+// Función para evaluar expresiones
+func (e *ExpNode) Eval() (*ExpNode, error) {
+	if e.Type == "id" {
+		info, found := LookupVariable(e.Value.(string))
+		if !found {
+			return nil, fmt.Errorf("variable '%s' no declarada", e.Value.(string))
+		}
+		if info.Value == nil {
+			return nil, fmt.Errorf("variable '%s' no inicializada", e.Value.(string))
+		}
+		return &ExpNode{
+			Type:  info.Type,
+			Value: info.Value,
+		}, nil
+	}
+	// Si ya tiene valor (int, float, bool, string), devolver directamente
+	return e, nil
+}
+
+// Función para evaluar expresiones binarias
+func (e *ExpressionNode) Eval() (*ExpNode, error) {
+	leftEval, err := e.Left.Eval()
+	if err != nil {
+		return nil, err
+	}
+	rightEval, err := e.Right.Eval()
+	if err != nil {
+		return nil, err
+	}
+	return CompareExpressions(e.Operator, leftEval, rightEval)
+}
+
+// Comparar dos expresiones utilizando el operador relacional
 func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
 	operatorTok := op.(*token.Token)
 	operator := string(operatorTok.Lit)
-
-	// Si el lado izquierdo es un id, obtener el valor y su tipo de la symbolTable
-	if left.Type == "id" {
-		symInfo, _ := LookupVariable(left.Value.(string))
-		left.Value = symInfo.Value
-		left.Type = symInfo.Type
-	}
-
-	// Si el lado derecho es un id, obtener el valor y su tipo de la symbolTable
-	if right.Type == "id" {
-		symInfo, _ := LookupVariable(right.Value.(string))
-		right.Value = symInfo.Value
-		right.Type = symInfo.Type
-	}
 
 	// Verificar la compatibilidad de tipos utilizando el semanticCube
 	resultType, err := CheckSemantic(operator, left.Type, right.Type)
@@ -242,33 +203,34 @@ func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
 		return nil, err
 	}
 
-	var result bool
-
 	// Verificar que ambos valores sean del tipo correcto para la comparación
+	var result bool
 	switch operator {
 	case ">":
-		if left.Type == "int" {
+		switch left.Type {
+		case "int":
 			result = left.Value.(int) > right.Value.(int)
-		} else if left.Type == "float" {
+		case "float":
 			result = left.Value.(float64) > right.Value.(float64)
 		}
 	case "<":
-		if left.Type == "int" {
+		switch left.Type {
+		case "int":
 			result = left.Value.(int) < right.Value.(int)
-		} else if left.Type == "float" {
+		case "float":
 			result = left.Value.(float64) < right.Value.(float64)
 		}
 	case "!=":
-		if left.Type == "int" {
+		switch left.Type {
+		case "int":
 			result = left.Value.(int) != right.Value.(int)
-		} else if left.Type == "float" {
+		case "float":
 			result = left.Value.(float64) != right.Value.(float64)
 		}
 	default:
-		return nil, fmt.Errorf("operador '%s' no soportado para comparación", operator)
+		return nil, fmt.Errorf("operador '%s' no soportado", operator)
 	}
 
-	// El tipo del resultado siempre será "bool" para las comparaciones
 	return &ExpNode{
 		Type:  resultType,
 		Value: result,
