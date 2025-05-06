@@ -40,10 +40,13 @@ var productionsTable = ProdTab{
             body := X[6].([]ast.Attrib)
 
             // Inicializar programa como una función
-            programNode, _ := ast.NewFunction(idTok, params, body)
+            programNode, err := ast.NewFunction(idTok, params, body)
+            if err != nil {
+                return nil, err
+            }
 
             // Ejecutar programa
-            return ast.ExecuteFunction(programNode), nil
+            return nil, ast.ExecuteFunction(programNode)
         }() >>`,
 		Id:         "Program",
 		NTType:     1,
@@ -56,10 +59,13 @@ var productionsTable = ProdTab{
             body := X[6].([]ast.Attrib)
 
             // Inicializar programa como una función
-            programNode, _ := ast.NewFunction(idTok, params, body)
+            programNode, err := ast.NewFunction(idTok, params, body)
+            if err != nil {
+                return nil, err
+            }
 
             // Ejecutar programa
-            return ast.ExecuteFunction(programNode), nil
+            return nil, ast.ExecuteFunction(programNode)
         }()
 		},
 	},
@@ -269,7 +275,10 @@ var productionsTable = ProdTab{
             body := X[7].([]ast.Attrib)
 
             // Crear y registrar la función
-            funcNode, _ := ast.NewFunction(idTok, append(params, vars...), body)
+            funcNode, err := ast.NewFunction(idTok, append(params, vars...), body)
+            if err != nil {
+                return nil, err
+            }
 
             return funcNode, nil
         }() >>`,
@@ -285,7 +294,10 @@ var productionsTable = ProdTab{
             body := X[7].([]ast.Attrib)
 
             // Crear y registrar la función
-            funcNode, _ := ast.NewFunction(idTok, append(params, vars...), body)
+            funcNode, err := ast.NewFunction(idTok, append(params, vars...), body)
+            if err != nil {
+                return nil, err
+            }
 
             return funcNode, nil
         }()

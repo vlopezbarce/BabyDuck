@@ -150,7 +150,7 @@ func ExecutePrint(printNode *PrintNode) error {
 		// Imprime el valor de la expresión
 		evaluated, err := exp.Eval()
 		if err != nil {
-			return nil
+			return err
 		}
 
 		fmt.Print(evaluated.Value, " ")
