@@ -189,11 +189,11 @@ func (e *ExpressionNode) Eval() (*ExpNode, error) {
 	if err != nil {
 		return nil, err
 	}
-	return CompareExpressions(e.Operator, leftEval, rightEval)
+	return EvaluateExpression(e.Operator, leftEval, rightEval)
 }
 
-// Comparar dos expresiones utilizando el operador relacional
-func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
+// Función para evaluar expresiones según el operador
+func EvaluateExpression(op Attrib, left, right *ExpNode) (*ExpNode, error) {
 	operatorTok := op.(*token.Token)
 	operator := string(operatorTok.Lit)
 
@@ -226,6 +226,8 @@ func CompareExpressions(op Attrib, left, right *ExpNode) (*ExpNode, error) {
 			result = left.Value.(int) != right.Value.(int)
 		case "float":
 			result = left.Value.(float64) != right.Value.(float64)
+		case "bool":
+			result = left.Value.(bool) != right.Value.(bool)
 		}
 	default:
 		return nil, fmt.Errorf("operador '%s' no soportado", operator)

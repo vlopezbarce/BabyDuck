@@ -23,6 +23,26 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "float",
 		},
 	},
+	"*": {
+		"int": {
+			"int":   "int",
+			"float": "float",
+		},
+		"float": {
+			"int":   "float",
+			"float": "float",
+		},
+	},
+	"/": {
+		"int": {
+			"int":   "int",
+			"float": "float",
+		},
+		"float": {
+			"int":   "float",
+			"float": "float",
+		},
+	},
 	">": {
 		"int": {
 			"int":   "bool",
@@ -31,9 +51,6 @@ var semanticCube = map[string]map[string]map[string]string{
 		"float": {
 			"int":   "bool",
 			"float": "bool",
-		},
-		"bool": {
-			"bool": "bool",
 		},
 	},
 	"<": {
@@ -44,9 +61,6 @@ var semanticCube = map[string]map[string]map[string]string{
 		"float": {
 			"int":   "bool",
 			"float": "bool",
-		},
-		"bool": {
-			"bool": "bool",
 		},
 	},
 	"!=": {
