@@ -5,7 +5,14 @@ import (
 	"fmt"
 )
 
-var currentScope = "" // Ámbito actual
+var globalScope string  // Nombre del programa
+var currentScope string // Ámbito actual
+
+// Inicializa el ámbito global y establece el ámbito actual
+func SetGlobalScope(name string) {
+	globalScope = name
+	currentScope = name
+}
 
 // Declara una variable en el ámbito actual
 func NewVariable(id, typ Attrib) error {
@@ -41,6 +48,13 @@ func LookupVariable(varId string) (VarNode, bool) {
 		return info, true
 	}
 
+	if currentScope != globalScope {
+		// Buscar en el ámbito global
+		if info, exists := functionDirectory[globalScope].SymbolTable[varId]; exists {
+			return info, true
+		}
+	}
+
 	// No se encontró
 	return VarNode{}, false
 }
@@ -64,7 +78,6 @@ func NewFunction(id Attrib, params []*ParamNode, body []Attrib) (*FuncNode, erro
 	}
 
 	// Establecer función actual para contexto de variables
-	previousScope := currentScope
 	currentScope = funcId
 
 	// Registrar la función en el directorio
@@ -79,13 +92,19 @@ func NewFunction(id Attrib, params []*ParamNode, body []Attrib) (*FuncNode, erro
 	}
 
 	// Limpiar el contexto de función actual
-	currentScope = previousScope
+	currentScope = globalScope
 
 	return funcNode, nil
 }
 
 func ExecuteFunction(funcNode *FuncNode) error {
-	previousScope := currentScope
+	// Limpiar variables locales anteriores
+	for name, varNode := range funcNode.SymbolTable {
+		varNode.Value = nil
+		funcNode.SymbolTable[name] = varNode
+	}
+
+	// Establecer el ámbito actual a la función
 	currentScope = funcNode.Id
 
 	// Ejecutar las instrucciones del cuerpo
@@ -96,7 +115,9 @@ func ExecuteFunction(funcNode *FuncNode) error {
 		}
 	}
 
-	currentScope = previousScope
+	// Restablecer el ámbito global
+	currentScope = globalScope
+
 	return nil
 }
 

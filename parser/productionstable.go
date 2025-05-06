@@ -45,6 +45,9 @@ var productionsTable = ProdTab{
                 return nil, err
             }
 
+            // Establecer ámbito global
+            ast.SetGlobalScope(programNode.Id)
+
             // Ejecutar programa
             return nil, ast.ExecuteFunction(programNode)
         }() >>`,
@@ -63,6 +66,9 @@ var productionsTable = ProdTab{
             if err != nil {
                 return nil, err
             }
+
+            // Establecer ámbito global
+            ast.SetGlobalScope(programNode.Id)
 
             // Ejecutar programa
             return nil, ast.ExecuteFunction(programNode)

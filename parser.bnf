@@ -81,6 +81,9 @@ Program
                 return nil, err
             }
 
+            // Establecer ámbito global
+            ast.SetGlobalScope(programNode.Id)
+
             // Ejecutar programa
             return nil, ast.ExecuteFunction(programNode)
         }()
