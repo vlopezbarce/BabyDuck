@@ -69,48 +69,78 @@ import(
 
 Program
     : program id semicolon VarOptional FuncSection main Body end
+    <<
+        func() (Attrib, error) {
+            idTok := $1.(*token.Token)
+            params := $3.([]*ast.ParamNode)
+            body := $6.([]ast.Attrib)
+
+            // Inicializar programa como una función
+            programNode, _ := ast.NewFunction(idTok, params, body)
+
+            // Ejecutar programa
+            return ast.ExecuteFunction(programNode), nil
+        }()
+    >>
     ;
 
 // Declaración opcional de variables (0 o 1)
 VarOptional
     : VarSection
+    << $0, nil >>
     | "empty"
+    << []*ast.ParamNode{}, nil >>
     ;
 
 // Declaración de variables
 VarSection
     : var VarList
+    << $1, nil >>
     ;
 
 // Secuencia de declaraciones de variables (1 o más)
 VarList
     : VarDeclaration VarDeclarationTail
+    <<
+        func() (Attrib, error) {
+            head := $0.([]*ast.ParamNode)
+            tail := $1.([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }()
+    >>
     ;
 
 // Secuencia opcional de declaraciones de variables (0 o más)
 VarDeclarationTail
     : VarDeclaration VarDeclarationTail
+    <<
+        func() (Attrib, error) {
+            head := $0.([]*ast.ParamNode)
+            tail := $1.([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }()
+    >>
     | "empty"
+    << []*ast.ParamNode{}, nil >>
     ;
 
 // Declaración de una variable
 VarDeclaration
     : IdList colon Type semicolon
     <<
-    func() (Attrib, error) {
-        ids := $0.([]*token.Token)
-        typ := $2.(*token.Token)
-        for _, id := range ids {
-            err := ast.NewVariable(id, typ)
-            if err != nil {
-                return nil, err
+        func() (Attrib, error) {
+            ids := $0.([]*token.Token)
+            typ := $2.(*token.Token)
+            
+            params := []*ast.ParamNode{}
+            for _, id := range ids {
+                paramNode, _ := ast.NewParameter(id, typ)
+                params = append(params, paramNode)
             }
-        }
-        return nil, nil
-    }()
+            return params, nil
+        }()
     >>
     ;
-
 
 // Lista de identificadores (1 o más)
 IdList
@@ -157,12 +187,11 @@ FuncDeclaration
         func() (Attrib, error) {
             idTok := $1.(*token.Token)
             params := $3.([]*ast.ParamNode)
+            vars := $6.([]*ast.ParamNode)
+            body := $7.([]ast.Attrib)
 
             // Crear y registrar la función
-            funcNode, err := ast.NewFunction(idTok, params, nil) // Aún no se define Body
-            if err != nil {
-                return nil, err
-            }
+            funcNode, _ := ast.NewFunction(idTok, append(params, vars...), body)
 
             return funcNode, nil
         }()
@@ -208,10 +237,7 @@ FuncVarDeclaration
     : id colon Type
     <<
         func() (Attrib, error) {
-            paramNode, err := ast.NewParameter($0, $2)
-            if err != nil {
-                return nil, err
-            }
+            paramNode, _ := ast.NewParameter($0, $2)
             return paramNode, nil
         }()
     >>
@@ -220,21 +246,36 @@ FuncVarDeclaration
 // Cuerpo de una función o bloque
 Body
     : lbrace StatementOptional rbrace
+    << $1, nil >>
     ;
 
 // Declaración opcional de sentencias (0 o más)
 StatementOptional
     : Statement StatementOptional
+    <<
+        func() (Attrib, error) {
+            stmts := []ast.Attrib{$0}
+
+            // Lista de statements
+            if $1 != nil {
+                stmts = append(stmts, $1.([]ast.Attrib)...)
+            }
+            return stmts, nil
+        }()
+    >>
     | "empty"
+    << []ast.Attrib{}, nil >>
     ;
 
 // Declaración de una sentencia
 Statement
     : Assign
+    << $0, nil >>
     | Condition
     | Cycle
     | F_Call
     | Print
+    << $0, nil >>
     ;
 
 // Asignación de un valor
@@ -249,10 +290,7 @@ Assign
             exp := $2.(*ast.ExpNode)
 
             // Crear el nodo de asignación
-            assignNode, err := ast.NewAssign(idTok, exp)
-            if err != nil {
-                return nil, err
-            }
+            assignNode, _ := ast.NewAssign(idTok, exp)
 
             return assignNode, nil
         }()
@@ -276,10 +314,7 @@ Expression
                 Right    *ast.ExpNode
             })
 
-            result, err := ast.CompareExpressions(tail.Operator, left, tail.Right)
-            if err != nil {
-                return nil, err
-            }
+            result, _ := ast.CompareExpressions(tail.Operator, left, tail.Right)
 
             return result, nil
         }()
@@ -475,12 +510,12 @@ Print
     : print lparen PrintVarList rparen semicolon
     <<
         func() (Attrib, error) {
-            err := ast.PrintInstruction($2.([]ast.Attrib))
-            if err != nil {
-                return nil, err
-            }
+            printList := $2.([]ast.Attrib)
 
-            return nil, nil
+            // Crear el nodo de impresión
+            printNode, _ := ast.NewPrint(printList)
+            
+            return printNode, nil
         }()
     >>
     ;

@@ -34,17 +34,37 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Program : program id semicolon VarOptional FuncSection main Body end	<<  >>`,
+		String: `Program : program id semicolon VarOptional FuncSection main Body end	<< func() (Attrib, error) {
+            idTok := X[1].(*token.Token)
+            params := X[3].([]*ast.ParamNode)
+            body := X[6].([]ast.Attrib)
+
+            // Inicializar programa como una función
+            programNode, _ := ast.NewFunction(idTok, params, body)
+
+            // Ejecutar programa
+            return ast.ExecuteFunction(programNode), nil
+        }() >>`,
 		Id:         "Program",
 		NTType:     1,
 		Index:      1,
 		NumSymbols: 8,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            idTok := X[1].(*token.Token)
+            params := X[3].([]*ast.ParamNode)
+            body := X[6].([]ast.Attrib)
+
+            // Inicializar programa como una función
+            programNode, _ := ast.NewFunction(idTok, params, body)
+
+            // Ejecutar programa
+            return ast.ExecuteFunction(programNode), nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `VarOptional : VarSection	<<  >>`,
+		String: `VarOptional : VarSection	<< X[0], nil >>`,
 		Id:         "VarOptional",
 		NTType:     2,
 		Index:      2,
@@ -54,83 +74,99 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `VarOptional : "empty"	<<  >>`,
+		String: `VarOptional : "empty"	<< []*ast.ParamNode{}, nil >>`,
 		Id:         "VarOptional",
 		NTType:     2,
 		Index:      3,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []*ast.ParamNode{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `VarSection : var VarList	<<  >>`,
+		String: `VarSection : var VarList	<< X[1], nil >>`,
 		Id:         "VarSection",
 		NTType:     3,
 		Index:      4,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return X[1], nil
 		},
 	},
 	ProdTabEntry{
-		String: `VarList : VarDeclaration VarDeclarationTail	<<  >>`,
+		String: `VarList : VarDeclaration VarDeclarationTail	<< func() (Attrib, error) {
+            head := X[0].([]*ast.ParamNode)
+            tail := X[1].([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }() >>`,
 		Id:         "VarList",
 		NTType:     4,
 		Index:      5,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            head := X[0].([]*ast.ParamNode)
+            tail := X[1].([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `VarDeclarationTail : VarDeclaration VarDeclarationTail	<<  >>`,
+		String: `VarDeclarationTail : VarDeclaration VarDeclarationTail	<< func() (Attrib, error) {
+            head := X[0].([]*ast.ParamNode)
+            tail := X[1].([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }() >>`,
 		Id:         "VarDeclarationTail",
 		NTType:     5,
 		Index:      6,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            head := X[0].([]*ast.ParamNode)
+            tail := X[1].([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `VarDeclarationTail : "empty"	<<  >>`,
+		String: `VarDeclarationTail : "empty"	<< []*ast.ParamNode{}, nil >>`,
 		Id:         "VarDeclarationTail",
 		NTType:     5,
 		Index:      7,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []*ast.ParamNode{}, nil
 		},
 	},
 	ProdTabEntry{
 		String: `VarDeclaration : IdList colon Type semicolon	<< func() (Attrib, error) {
-        ids := X[0].([]*token.Token)
-        typ := X[2].(*token.Token)
-        for _, id := range ids {
-            err := ast.NewVariable(id, typ)
-            if err != nil {
-                return nil, err
+            ids := X[0].([]*token.Token)
+            typ := X[2].(*token.Token)
+            
+            params := []*ast.ParamNode{}
+            for _, id := range ids {
+                paramNode, _ := ast.NewParameter(id, typ)
+                params = append(params, paramNode)
             }
-        }
-        return nil, nil
-    }() >>`,
+            return params, nil
+        }() >>`,
 		Id:         "VarDeclaration",
 		NTType:     6,
 		Index:      8,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
-        ids := X[0].([]*token.Token)
-        typ := X[2].(*token.Token)
-        for _, id := range ids {
-            err := ast.NewVariable(id, typ)
-            if err != nil {
-                return nil, err
+            ids := X[0].([]*token.Token)
+            typ := X[2].(*token.Token)
+            
+            params := []*ast.ParamNode{}
+            for _, id := range ids {
+                paramNode, _ := ast.NewParameter(id, typ)
+                params = append(params, paramNode)
             }
-        }
-        return nil, nil
-    }()
+            return params, nil
+        }()
 		},
 	},
 	ProdTabEntry{
@@ -223,12 +259,11 @@ var productionsTable = ProdTab{
 		String: `FuncDeclaration : void id lparen FuncVarOptional rparen lbracket VarOptional Body rbracket semicolon	<< func() (Attrib, error) {
             idTok := X[1].(*token.Token)
             params := X[3].([]*ast.ParamNode)
+            vars := X[6].([]*ast.ParamNode)
+            body := X[7].([]ast.Attrib)
 
             // Crear y registrar la función
-            funcNode, err := ast.NewFunction(idTok, params, nil) // Aún no se define Body
-            if err != nil {
-                return nil, err
-            }
+            funcNode, _ := ast.NewFunction(idTok, append(params, vars...), body)
 
             return funcNode, nil
         }() >>`,
@@ -240,12 +275,11 @@ var productionsTable = ProdTab{
 			return func() (Attrib, error) {
             idTok := X[1].(*token.Token)
             params := X[3].([]*ast.ParamNode)
+            vars := X[6].([]*ast.ParamNode)
+            body := X[7].([]ast.Attrib)
 
             // Crear y registrar la función
-            funcNode, err := ast.NewFunction(idTok, params, nil) // Aún no se define Body
-            if err != nil {
-                return nil, err
-            }
+            funcNode, _ := ast.NewFunction(idTok, append(params, vars...), body)
 
             return funcNode, nil
         }()
@@ -319,10 +353,7 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `FuncVarDeclaration : id colon Type	<< func() (Attrib, error) {
-            paramNode, err := ast.NewParameter(X[0], X[2])
-            if err != nil {
-                return nil, err
-            }
+            paramNode, _ := ast.NewParameter(X[0], X[2])
             return paramNode, nil
         }() >>`,
 		Id:         "FuncVarDeclaration",
@@ -331,46 +362,59 @@ var productionsTable = ProdTab{
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
-            paramNode, err := ast.NewParameter(X[0], X[2])
-            if err != nil {
-                return nil, err
-            }
+            paramNode, _ := ast.NewParameter(X[0], X[2])
             return paramNode, nil
         }()
 		},
 	},
 	ProdTabEntry{
-		String: `Body : lbrace StatementOptional rbrace	<<  >>`,
+		String: `Body : lbrace StatementOptional rbrace	<< X[1], nil >>`,
 		Id:         "Body",
 		NTType:     16,
 		Index:      23,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return X[1], nil
 		},
 	},
 	ProdTabEntry{
-		String: `StatementOptional : Statement StatementOptional	<<  >>`,
+		String: `StatementOptional : Statement StatementOptional	<< func() (Attrib, error) {
+            stmts := []ast.Attrib{X[0]}
+
+            // Lista de statements
+            if X[1] != nil {
+                stmts = append(stmts, X[1].([]ast.Attrib)...)
+            }
+            return stmts, nil
+        }() >>`,
 		Id:         "StatementOptional",
 		NTType:     17,
 		Index:      24,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            stmts := []ast.Attrib{X[0]}
+
+            // Lista de statements
+            if X[1] != nil {
+                stmts = append(stmts, X[1].([]ast.Attrib)...)
+            }
+            return stmts, nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `StatementOptional : "empty"	<<  >>`,
+		String: `StatementOptional : "empty"	<< []ast.Attrib{}, nil >>`,
 		Id:         "StatementOptional",
 		NTType:     17,
 		Index:      25,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []ast.Attrib{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : Assign	<<  >>`,
+		String: `Statement : Assign	<< X[0], nil >>`,
 		Id:         "Statement",
 		NTType:     18,
 		Index:      26,
@@ -410,7 +454,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : Print	<<  >>`,
+		String: `Statement : Print	<< X[0], nil >>`,
 		Id:         "Statement",
 		NTType:     18,
 		Index:      30,
@@ -428,10 +472,7 @@ var productionsTable = ProdTab{
             exp := X[2].(*ast.ExpNode)
 
             // Crear el nodo de asignación
-            assignNode, err := ast.NewAssign(idTok, exp)
-            if err != nil {
-                return nil, err
-            }
+            assignNode, _ := ast.NewAssign(idTok, exp)
 
             return assignNode, nil
         }() >>`,
@@ -448,10 +489,7 @@ var productionsTable = ProdTab{
             exp := X[2].(*ast.ExpNode)
 
             // Crear el nodo de asignación
-            assignNode, err := ast.NewAssign(idTok, exp)
-            if err != nil {
-                return nil, err
-            }
+            assignNode, _ := ast.NewAssign(idTok, exp)
 
             return assignNode, nil
         }()
@@ -471,10 +509,7 @@ var productionsTable = ProdTab{
                 Right    *ast.ExpNode
             })
 
-            result, err := ast.CompareExpressions(tail.Operator, left, tail.Right)
-            if err != nil {
-                return nil, err
-            }
+            result, _ := ast.CompareExpressions(tail.Operator, left, tail.Right)
 
             return result, nil
         }() >>`,
@@ -496,10 +531,7 @@ var productionsTable = ProdTab{
                 Right    *ast.ExpNode
             })
 
-            result, err := ast.CompareExpressions(tail.Operator, left, tail.Right)
-            if err != nil {
-                return nil, err
-            }
+            result, _ := ast.CompareExpressions(tail.Operator, left, tail.Right)
 
             return result, nil
         }()
@@ -949,12 +981,12 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Print : print lparen PrintVarList rparen semicolon	<< func() (Attrib, error) {
-            err := ast.PrintInstruction(X[2].([]ast.Attrib))
-            if err != nil {
-                return nil, err
-            }
+            printList := X[2].([]ast.Attrib)
 
-            return nil, nil
+            // Crear el nodo de impresión
+            printNode, _ := ast.NewPrint(printList)
+            
+            return printNode, nil
         }() >>`,
 		Id:         "Print",
 		NTType:     39,
@@ -962,12 +994,12 @@ var productionsTable = ProdTab{
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
-            err := ast.PrintInstruction(X[2].([]ast.Attrib))
-            if err != nil {
-                return nil, err
-            }
+            printList := X[2].([]ast.Attrib)
 
-            return nil, nil
+            // Crear el nodo de impresión
+            printNode, _ := ast.NewPrint(printList)
+            
+            return printNode, nil
         }()
 		},
 	},
