@@ -1,6 +1,7 @@
 package main
 
 import (
+	"BabyDuck_A00833578/ast"
 	"BabyDuck_A00833578/lexer"
 	"BabyDuck_A00833578/parser"
 	"testing"
@@ -8,12 +9,11 @@ import (
 
 // Estructura que define los casos de prueba
 type TI struct {
-	src    string // Código fuente del programa en BabyDuck
-	expect bool   // Espera si el análisis debe ser exitoso (true) o fallar (false)
+	src    string
+	expect bool
 }
 
-// testData contiene casos de prueba para el analizador de BabyDuck
-// Cada caso tiene un código fuente y una expectativa de éxito o fracaso
+// Casos de prueba con código fuente y una expectativa de éxito o fracaso
 var testData = []*TI{
 	// Test 0: Palabras reservadas en una función
 	{
@@ -300,6 +300,9 @@ func TestParser(t *testing.T) {
 					t.Errorf("Se esperaba un error, pero no se produjo")
 				}
 			}
+
+			ast.PrintVariables()
+
 			if !pass {
 				t.Fail()
 			}

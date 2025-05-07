@@ -141,7 +141,10 @@ func ExecuteStatement(stmt Attrib) error {
 // Ejecutar una asignación
 func ExecuteAssign(assignNode *AssignNode) error {
 	idTok := assignNode.Id.(*token.Token)
-	expNode, _ := assignNode.Exp.Eval()
+	expNode, err := assignNode.Exp.Eval()
+	if err != nil {
+		return fmt.Errorf("error al evaluar expresión en asignación a '%s': %v", idTok.Lit, err)
+	}
 
 	varId := string(idTok.Lit)
 
