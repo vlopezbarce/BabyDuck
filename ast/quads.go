@@ -54,6 +54,10 @@ func (ctx *Context) AddQuad(operator, result string, left, right VarNode) {
 
 // Imprime todos los cuádruplos con sus índices
 func PrintQuads(quads []Quadruple) {
+	fmt.Println()
+	fmt.Println("Cuádruplos generados:")
+	fmt.Println("===================================")
+
 	for i, q := range quads {
 		fmt.Printf("  %2d: (%s, %s, %s, %s)\n", i, q.Operator, q.Left.Value, q.Right.Value, q.Result)
 	}
@@ -129,6 +133,10 @@ func (n *VarNode) Generate(ctx *Context) (string, error) {
 
 // Ejecuta los cuádruplos generados y devuelve el resultado
 func (ctx *Context) Evaluate() VarNode {
+	fmt.Println()
+	fmt.Println("Ejecución de cuádruplos")
+	fmt.Println("===================================")
+
 	// Memoria para resultados intermedios
 	temps := make(map[string]VarNode)
 
@@ -212,7 +220,7 @@ func (ctx *Context) Evaluate() VarNode {
 		}
 
 		// 7) Debug
-		fmt.Printf("Ejecutando cuádruplo: %s %s %s -> %s (%s)\n",
+		fmt.Printf("%s %s %s -> %s (%s)\n",
 			q.Operator,
 			left.Value,
 			right.Value,
@@ -227,7 +235,10 @@ func (ctx *Context) Evaluate() VarNode {
 		}
 	}
 
-	fmt.Println("Memoria de temporales:", temps)
+	fmt.Println()
+	fmt.Println("Memoria de temporales:")
+	fmt.Println("===================================")
+	fmt.Println(temps)
 
 	// 9) Devolver el resultado final
 	return temps[ctx.Quads[len(ctx.Quads)-1].Result]

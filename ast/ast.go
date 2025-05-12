@@ -150,20 +150,29 @@ func ExecuteAssign(assignNode *AssignNode) error {
 	idTok := assignNode.Id.(*token.Token)
 	varId := string(idTok.Lit)
 
-	// Obtener el valor final de la expresión
-	PrintQuads(ctx.Quads)
-	resultNode := ctx.Evaluate()
-
-	// Actualizar la tabla de símbolos con el valor calculado
+	// Verificar si la variable está declarada
 	info, exists := LookupVariable(varId)
 	if !exists {
 		return fmt.Errorf("variable no declarada: %s", varId)
 	}
 
-	// Verificar compatibilidad de tipos
+	var result VarNode
+	// Si hay cuádruplos generados, evaluarlos
+	if len(ctx.Quads) > 0 {
+		PrintQuads(ctx.Quads)
+		result = ctx.Evaluate()
+	} else {
+		// No hay cuádruplos: la pila semántica solo tiene la constante o id
+		result = ctx.Pop()
+	}
 
-	// Asignar el valor a la variable en la tabla de símbolos
-	info.Value = resultNode.Value
+	// Verificar compatibilidad de tipos
+	if info.Type != result.Type {
+		return fmt.Errorf("tipo incompatible: se esperaba %s, se obtuvo %s", info.Type, result.Type)
+	}
+
+	// Actualizar la tabla de símbolos con el valor calculado
+	info.Value = result.Value
 	functionDirectory[currentScope].SymbolTable[varId] = info
 
 	return nil
@@ -171,7 +180,10 @@ func ExecuteAssign(assignNode *AssignNode) error {
 
 // Imprime todas las variables
 func PrintVariables() {
+	fmt.Println()
 	fmt.Println("Variables registradas:")
+	fmt.Println("===================================")
+
 	for name, funcNode := range functionDirectory {
 		for varName, varNode := range funcNode.SymbolTable {
 			fmt.Printf("Función: %s, Variable: %s, Tipo: %s, Valor: %v\n", name, varName, varNode.Type, varNode.Value)
