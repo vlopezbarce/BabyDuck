@@ -520,61 +520,21 @@ F_CallListTail
 // Instrucción de impresión
 Print
     : print lparen PrintVarList rparen semicolon
-    <<
-        func() (Attrib, error) {
-            printList := $2.([]ast.Evaluable)
-
-            // Crear el nodo de impresión
-            return &ast.PrintNode{
-		        PrintList: printList,
-	        }, nil
-        }()
-    >>
     ;
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar PrintVarListTail
-    <<
-        func() (Attrib, error) {
-            printVars := []ast.Evaluable{$0.(ast.Evaluable)}
-            printVars = append(printVars, $1.([]ast.Evaluable)...)
-            return printVars, nil
-        }()
-    >>
     ;
 
 // Secuencia opcional de variables a imprimir (0 o más)
 PrintVarListTail
     : comma PrintVar PrintVarListTail
-    <<
-        func() (Attrib, error) {
-            printVars := []ast.Evaluable{$1.(ast.Evaluable)}
-            printVars = append(printVars, $2.([]ast.Evaluable)...)
-            return printVars, nil
-        }()
-    >>
     | "empty"
-    << []ast.Evaluable{}, nil >>
     ;
 
 // Variable a imprimir
 PrintVar
     : Expression
-    << $0, nil >>
     | cte_string
-    <<
-        func() (Attrib, error) {
-            tok := $0.(*token.Token)
-            raw := string(tok.Lit)
-
-            // Quitar las comillas dobles del literal de cadena
-            trimmed := raw[1 : len(raw)-1]
-
-            return &ast.ExpNode{
-                Type:  "string",
-                Value: trimmed,
-            }, nil
-        }()
-    >>
     ;
