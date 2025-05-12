@@ -138,134 +138,93 @@ func ExecuteStatement(stmt Attrib) error {
 	}
 }
 
-// Ejecutar una asignación
+// Función para ejecutar la asignación
 func ExecuteAssign(assignNode *AssignNode) error {
-	idTok := assignNode.Id.(*token.Token)
-	expNode, err := assignNode.Exp.Eval()
-	if err != nil {
-		return fmt.Errorf("error al evaluar expresión en asignación a '%s': %v", idTok.Lit, err)
+	ctx := &Context{}
+
+	// Genera el código intermedio para la expresión
+	if err := assignNode.Generate(ctx); err != nil {
+		return err
 	}
 
+	idTok := assignNode.Id.(*token.Token)
 	varId := string(idTok.Lit)
 
-	var currentFuncNode = functionDirectory[currentScope]
+	// Verificar si la variable está declarada
+	info, exists := LookupVariable(varId)
+	if !exists {
+		return fmt.Errorf("variable no declarada: %s", varId)
+	}
 
-	// Verificar si la variable ya fue declarada en el ámbito actual
-	info, found := LookupVariable(varId)
-	if !found {
-		return fmt.Errorf("variable '%s' no declarada", varId)
+	// Si hay cuádruplos generados, se evalúan
+	var result VarNode
+	if len(ctx.Quads) > 0 {
+		PrintQuads(ctx.Quads)
+		result = ctx.Evaluate()
+	} else {
+		// No hay cuádruplos: la pila semántica solo tiene la constante o id
+		result = ctx.Pop()
 	}
 
 	// Verificar compatibilidad de tipos
-	if info.Type != expNode.Type {
-		return fmt.Errorf("tipo incompatible en asignación a '%s'", varId)
+	if info.Type != result.Type {
+		return fmt.Errorf("tipo incompatible: se esperaba %s, se obtuvo %s", info.Type, result.Type)
 	}
 
-	// Asignar el valor a la variable
-	info.Value = expNode.Value
-	currentFuncNode.SymbolTable[varId] = info
+	// Actualizar la tabla de símbolos con el valor calculado
+	info.Value = result.Value
+	functionDirectory[currentScope].SymbolTable[varId] = info
 
 	return nil
 }
 
-// Función para procesar la instrucción Print
-func ExecutePrint(printNode *PrintNode) error {
-	for _, exp := range printNode.PrintList {
-		// Imprime el valor de la expresión
-		evaluated, err := exp.Eval()
-		if err != nil {
-			return err
+// Evalúa e imprime cada elemento de una lista
+func ExecutePrint(node *PrintNode) error {
+	for _, item := range node.Items {
+		switch v := item.(type) {
+
+		// Caso 1: es una expresión/constante numérica
+		case Quad:
+			ctx := &Context{}
+
+			// Genera el código intermedio para la expresión
+			if _, err := v.Generate(ctx); err != nil {
+				return err
+			}
+
+			// Si hay cuádruplos generados, se evalúan
+			var result VarNode
+			if len(ctx.Quads) > 0 {
+				result = ctx.Evaluate()
+			} else {
+				// No hay cuádruplos: la pila semántica solo tiene la constante o id
+				result = ctx.Pop()
+			}
+			fmt.Print(result.Value)
+
+		// Caso 2: es un literal de cadena
+		case *token.Token:
+			fmt.Print(string(v.Lit)[1 : len(string(v.Lit))-1])
+
+		default:
+			return fmt.Errorf("elemento de print no soportado: %T", item)
 		}
 
-		fmt.Print(evaluated.Value, " ")
+		// Agregar espacio entre elementos
+		fmt.Print(" ")
 	}
-	// Salto de línea al final
+
+	// Salto de línea final
 	fmt.Println()
 	return nil
 }
 
-// Función para evaluar expresiones
-func (e *ExpNode) Eval() (*ExpNode, error) {
-	if e.Type == "id" {
-		info, found := LookupVariable(e.Value.(string))
-		if !found {
-			return nil, fmt.Errorf("variable '%s' no declarada", e.Value.(string))
-		}
-		if info.Value == nil {
-			return nil, fmt.Errorf("variable '%s' no inicializada", e.Value.(string))
-		}
-		return &ExpNode{
-			Type:  info.Type,
-			Value: info.Value,
-		}, nil
-	}
-	// Si ya tiene valor (int, float, bool, string), devolver directamente
-	return e, nil
-}
-
-// Función para evaluar expresiones binarias
-func (e *ExpressionNode) Eval() (*ExpNode, error) {
-	leftEval, err := e.Left.Eval()
-	if err != nil {
-		return nil, err
-	}
-	rightEval, err := e.Right.Eval()
-	if err != nil {
-		return nil, err
-	}
-	return EvaluateExpression(e.Operator, leftEval, rightEval)
-}
-
-// Función para evaluar expresiones según el operador
-func EvaluateExpression(op Attrib, left, right *ExpNode) (*ExpNode, error) {
-	operatorTok := op.(*token.Token)
-	operator := string(operatorTok.Lit)
-
-	// Verificar la compatibilidad de tipos utilizando el semanticCube
-	resultType, err := CheckSemantic(operator, left.Type, right.Type)
-	if err != nil {
-		return nil, err
-	}
-
-	// Verificar que ambos valores sean del tipo correcto para la comparación
-	var result bool
-	switch operator {
-	case ">":
-		switch left.Type {
-		case "int":
-			result = left.Value.(int) > right.Value.(int)
-		case "float":
-			result = left.Value.(float64) > right.Value.(float64)
-		}
-	case "<":
-		switch left.Type {
-		case "int":
-			result = left.Value.(int) < right.Value.(int)
-		case "float":
-			result = left.Value.(float64) < right.Value.(float64)
-		}
-	case "!=":
-		switch left.Type {
-		case "int":
-			result = left.Value.(int) != right.Value.(int)
-		case "float":
-			result = left.Value.(float64) != right.Value.(float64)
-		case "bool":
-			result = left.Value.(bool) != right.Value.(bool)
-		}
-	default:
-		return nil, fmt.Errorf("operador '%s' no soportado", operator)
-	}
-
-	return &ExpNode{
-		Type:  resultType,
-		Value: result,
-	}, nil
-}
-
 // Imprime todas las variables
 func PrintVariables() {
+	fmt.Println()
 	fmt.Println("Variables registradas:")
+	fmt.Println("===================================")
+
 	for name, funcNode := range functionDirectory {
 		for varName, varNode := range funcNode.SymbolTable {
 			fmt.Printf("Función: %s, Variable: %s, Tipo: %s, Valor: %v\n", name, varName, varNode.Type, varNode.Value)

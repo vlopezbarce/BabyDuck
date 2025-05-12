@@ -26,31 +26,25 @@ type ParamNode struct {
 	Type Attrib
 }
 
-// Interfaz para nodos que pueden ser evaluados
-type Evaluable interface {
-	Eval() (*ExpNode, error)
-}
-
-// Nodo de expresión
-type ExpNode struct {
-	Type  string
-	Value Attrib
-}
-
-// Nodo de expresión binaria
-type ExpressionNode struct {
-	Operator Attrib
-	Left     Evaluable
-	Right    Evaluable
+// Interfaz para nodos que pueden generar cuádruplos
+type Quad interface {
+	Generate(ctx *Context) (string, error)
 }
 
 // Nodo de asignación
 type AssignNode struct {
 	Id  Attrib
-	Exp Evaluable
+	Exp Quad
 }
 
 // Nodo de impresión
 type PrintNode struct {
-	PrintList []Evaluable
+	Items []Attrib
+}
+
+// Nodo de expresión binaria
+type ExpressionNode struct {
+	Op    string
+	Left  Quad
+	Right Quad
 }
