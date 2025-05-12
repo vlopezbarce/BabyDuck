@@ -67,7 +67,7 @@ import(
 >>
 
 Program
-    : program id semicolon VarOptional FuncSection main Body end
+    : program id semicolon VarSection FuncSection main Body end
     <<
         func() (Attrib, error) {
             idTok := $1.(*token.Token)
@@ -89,44 +89,26 @@ Program
     >>
     ;
 
-// Declaración opcional de variables (0 o 1)
-VarOptional
-    : VarSection
-    << $0, nil >>
-    | "empty"
-    << []*ast.ParamNode{}, nil >>
-    ;
-
-// Declaración de variables
+// Declaración opcional de variables
 VarSection
     : var VarList
     << $1, nil >>
-    ;
-
-// Secuencia de declaraciones de variables (1 o más)
-VarList
-    : VarDeclaration VarDeclarationTail
-    <<
-        func() (Attrib, error) {
-            head := $0.([]*ast.ParamNode)
-            tail := $1.([]*ast.ParamNode)
-            return append(head, tail...), nil
-        }()
-    >>
-    ;
-
-// Secuencia opcional de declaraciones de variables (0 o más)
-VarDeclarationTail
-    : VarDeclaration VarDeclarationTail
-    <<
-        func() (Attrib, error) {
-            head := $0.([]*ast.ParamNode)
-            tail := $1.([]*ast.ParamNode)
-            return append(head, tail...), nil
-        }()
-    >>
     | "empty"
     << []*ast.ParamNode{}, nil >>
+    ;
+
+// Lista de declaraciones de variables (1 o más)
+VarList
+    : VarDeclaration VarList
+    <<
+        func() (Attrib, error) {
+            head := $0.([]*ast.ParamNode)
+            tail := $1.([]*ast.ParamNode)
+            return append(head, tail...), nil
+        }()
+    >>
+    | VarDeclaration
+    << $0, nil >>
     ;
 
 // Declaración de una variable
@@ -139,41 +121,23 @@ VarDeclaration
             
             params := []*ast.ParamNode{}
             for _, id := range ids {
-                paramNode := &ast.ParamNode{
-                    Id:   id,
-                    Type: typ,
-                }
-                params = append(params, paramNode)
+                params = append(params, &ast.ParamNode{Id: id, Type: typ})
             }
             return params, nil
         }()
     >>
     ;
 
-// Lista de identificadores (1 o más)
+// Lista de identificadores separados por coma (1 o más)
 IdList
-    : id IdListTail
+    : id comma IdList
     <<
-    func() (Attrib, error) {
-        ids := []*token.Token{$0.(*token.Token)}
-        ids = append(ids, $1.([]*token.Token)...)
-        return ids, nil
-    }()
+        func() (Attrib, error) {
+            return append([]*token.Token{$0.(*token.Token)}, $2.([]*token.Token)...), nil
+        }()
     >>
-    ;
-
-// Secuencia de identificadores adicionales (0 o más)
-IdListTail
-    : comma id IdListTail
-    <<
-    func() (Attrib, error) {
-        ids := []*token.Token{$1.(*token.Token)}
-        ids = append(ids, $2.([]*token.Token)...)
-        return ids, nil
-    }()
-    >>
-    | "empty"
-    << []*token.Token{}, nil >>
+    | id
+    << []*token.Token{$0.(*token.Token)}, nil >>
     ;
 
 // Tipo de la variable
@@ -188,9 +152,9 @@ FuncSection
     | "empty"
     ;
 
-// Declaración de una función
+// Declaración de función
 FuncDeclaration
-    : void id lparen FuncVarOptional rparen lbracket VarOptional Body rbracket semicolon
+    : void id lparen FuncParams rparen lbracket VarSection Body rbracket semicolon
     <<
         func() (Attrib, error) {
             idTok := $1.(*token.Token)
@@ -209,44 +173,32 @@ FuncDeclaration
     >>
     ;
 
-// Declaración opcional de variables de función (0 o 1)
-FuncVarOptional
-    : FuncVarList
-    << $0.([]*ast.ParamNode), nil >>
+// Parámetros de la función (0 o más)
+FuncParams
+    : ParamList
+    << $0, nil >>
     | "empty"
     << []*ast.ParamNode{}, nil >>
     ;
 
-// Declaración de variables de función (1 o más)
-FuncVarList
-    : FuncVarDeclaration FuncVarDeclarationTail
+// Lista de parámetros (1 o más)
+ParamList
+    : Param comma ParamList
     <<
         func() (Attrib, error) {
             head := $0.(*ast.ParamNode)
-            tail := $1.([]*ast.ParamNode)
-            return append([]*ast.ParamNode{head}, tail...), nil
-        }()
-    >>
-    ;
-
-// Secuencia de declaraciones de variables de función (0 o más)
-FuncVarDeclarationTail
-    : comma FuncVarDeclaration FuncVarDeclarationTail
-    <<
-        func() (Attrib, error) {
-            head := $1.(*ast.ParamNode)
             tail := $2.([]*ast.ParamNode)
             return append([]*ast.ParamNode{head}, tail...), nil
         }()
     >>
-    | "empty"
-    << []*ast.ParamNode{}, nil >>
+    | Param
+    << []*ast.ParamNode{ $0.(*ast.ParamNode) }, nil >>
     ;
 
-// Declaración de una variable de función
-FuncVarDeclaration
+// Declaración de un parámetro
+Param
     : id colon Type
-    << &ast.ParamNode{Id: $0, Type: $2}, nil >>
+    << &ast.ParamNode{ Id: $0, Type: $2 }, nil >>
     ;
 
 // Cuerpo de una función o bloque
@@ -297,53 +249,26 @@ Assign
 
 // Expresión
 Expression
-    : Exp ExpressionOptional
-    <<
-        func() (Attrib, error) {
-            left := $0.(ast.Quad)
-
-            if $1 == nil {
-                return left, nil
-            }
-
-            exp := $1.(*ast.ExpressionNode)
-            exp.Left = left
-            return exp, nil
-        }()
-    >>
-    ;
-
-// Secuencia opcional al final de una expresión (0 o 1)
-ExpressionOptional
-    : ExpressionTail
+    : Exp
     << $0, nil >>
-    | "empty"
-    << nil, nil >>
+    | Exp RelOp Exp
+    << 
+        &ast.ExpressionNode{
+            Left:  $0.(ast.Quad),
+            Op:    $1.(string),
+            Right: $2.(ast.Quad),
+        }, nil
+    >>
     ;
 
 // Operadores relacionales
-ExpressionTail
-    : gt Exp
-    <<
-        &ast.ExpressionNode{
-            Op:    ">",
-            Right: $1.(ast.Quad),
-        }, nil
-    >>  
-    | lt Exp
-    <<
-        &ast.ExpressionNode{
-            Op:    "<",
-            Right: $1.(ast.Quad),
-        }, nil
-    >>  
-    | neq Exp
-    <<
-        &ast.ExpressionNode{
-            Op:    "!=",
-            Right: $1.(ast.Quad),
-        }, nil
-    >>
+RelOp
+    : gt
+    << ">", nil >>
+    | lt
+    << "<", nil >>
+    | neq
+    << "!=", nil >>
     ;
 
 // Expresión aritmética
@@ -458,24 +383,19 @@ Cycle
 
 // Llamada a función
 F_Call
-    : id lparen F_CallOptional rparen semicolon
+    : id lparen F_Args rparen semicolon
     ;
 
-// Secuencia opcional de expresiones en una llamada a función (0 o 1)
-F_CallOptional
-    : F_CallList
+// Lista de argumentos (0 o más expresiones)
+F_Args
+    : F_ArgsList
     | "empty"
     ;
 
-// Lista de expresiones en una llamada (1 o más)
-F_CallList
-    : Expression F_CallListTail
-    ;
-
-// Secuencia opcional de expresiones adicionales (0 o más)
-F_CallListTail
-    : comma Expression F_CallListTail
-    | "empty"
+// Lista separada por comas (1 o más expresiones)
+F_ArgsList
+    : Expression comma F_ArgsList
+    | Expression
     ;
 
 // Instrucción de impresión
@@ -485,13 +405,8 @@ Print
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
-    : PrintVar PrintVarListTail
-    ;
-
-// Secuencia opcional de variables a imprimir (0 o más)
-PrintVarListTail
-    : comma PrintVar PrintVarListTail
-    | "empty"
+    : PrintVar
+    | PrintVar comma PrintVarList
     ;
 
 // Variable a imprimir
