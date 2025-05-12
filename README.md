@@ -1,9 +1,13 @@
 # BabyDuck Compiler
 
 **Tecnológico de Monterrey**
+
 **TC3002B: Desarrollo de aplicaciones avanzadas de ciencias computacionales**
+
 **Módulo 3: Compiladores**
+
 **Profra. Elda Quiroga**
+
 **Valeria López Barcelata A00833578**
 
 ---
@@ -48,13 +52,21 @@
 ## Estructura del Proyecto
 
 BabyDuck_A00833578/
+
 ├── ast/
+
 │   ├── ast.go                 # Métodos del AST
+
 │   ├── semanticcube.go        # Implementación del cubo semántico
+
 │   ├── symboltable.go         # Funciones para la tabla de variables
+
 │   ├── types.go               # Definición de nodos del AST
+
 ├── parser.bnf                 # Definición léxica, gramatical y semántica del lenguaje
+
 ├── main_test.go               # Programa principal de prueba
+
 └── README.md                  # Documentación general del proyecto
 
 ---
