@@ -2,7 +2,7 @@
 
 package parser
 
-const numNTSymbols = 43
+const numNTSymbols = 39
 
 type (
 	gotoTable [numStates]gotoRow
@@ -35,13 +35,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -80,13 +76,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -125,13 +117,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -170,13 +158,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -215,13 +199,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -260,13 +240,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -305,13 +281,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -350,13 +322,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -395,13 +363,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -440,13 +404,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -485,13 +445,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -530,13 +486,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -575,13 +527,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -620,13 +568,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -665,13 +609,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -710,13 +650,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -755,13 +691,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -800,13 +732,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -845,13 +773,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -890,13 +814,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -935,13 +855,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -980,13 +896,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1025,13 +937,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1070,13 +978,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1115,13 +1019,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		36, // Condition
 		-1, // ElseOptional
@@ -1160,13 +1060,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1205,13 +1101,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1250,13 +1142,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1295,13 +1183,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1340,13 +1224,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1385,13 +1265,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1430,13 +1306,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1475,13 +1347,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1520,13 +1388,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1565,13 +1429,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		36, // Condition
 		-1, // ElseOptional
@@ -1610,13 +1470,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1655,13 +1511,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1700,13 +1552,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1745,13 +1593,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1790,13 +1634,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1835,13 +1675,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1880,13 +1716,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1925,13 +1757,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -1970,13 +1798,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2015,13 +1839,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2060,13 +1880,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2105,13 +1921,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2150,13 +1962,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2195,13 +2003,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2236,24 +2040,20 @@ var gotoTab = gotoTable{
 		-1, // StatementOptional
 		-1, // Statement
 		-1, // Assign
-		61, // Expression
+		62, // Expression
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
-		62, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		63, // Term
-		-1, // TermOptional
-		-1, // TermTail
+		63, // Exp
+		64, // Term
 		66, // Factor
-		67, // FactorOptional
-		-1, // Cte
+		67, // Atom
+		68, // Cte
 		-1, // Condition
 		-1, // ElseOptional
 		-1, // Cycle
 		-1, // F_Call
-		68, // F_CallOptional
-		69, // F_CallList
+		71, // F_CallOptional
+		72, // F_CallList
 		-1, // F_CallListTail
 		-1, // Print
 		-1, // PrintVarList
@@ -2281,18 +2081,14 @@ var gotoTab = gotoTable{
 		-1, // StatementOptional
 		-1, // Statement
 		-1, // Assign
-		71, // Expression
+		75, // Expression
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
-		72, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		73, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		74, // Factor
-		75, // FactorOptional
-		-1, // Cte
+		76, // Exp
+		77, // Term
+		79, // Factor
+		80, // Atom
+		81, // Cte
 		-1, // Condition
 		-1, // ElseOptional
 		-1, // Cycle
@@ -2330,13 +2126,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2375,13 +2167,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2416,18 +2204,14 @@ var gotoTab = gotoTable{
 		-1, // StatementOptional
 		-1, // Statement
 		-1, // Assign
-		77, // Expression
+		86, // Expression
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
-		78, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		79, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		80, // Factor
-		81, // FactorOptional
-		-1, // Cte
+		87, // Exp
+		88, // Term
+		90, // Factor
+		91, // Atom
+		92, // Cte
 		-1, // Condition
 		-1, // ElseOptional
 		-1, // Cycle
@@ -2461,18 +2245,14 @@ var gotoTab = gotoTable{
 		-1, // StatementOptional
 		-1, // Statement
 		-1, // Assign
-		82, // Expression
+		95, // Expression
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
-		78, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		79, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		80, // Factor
-		81, // FactorOptional
-		-1, // Cte
+		87, // Exp
+		88, // Term
+		90, // Factor
+		91, // Atom
+		92, // Cte
 		-1, // Condition
 		-1, // ElseOptional
 		-1, // Cycle
@@ -2506,18 +2286,14 @@ var gotoTab = gotoTable{
 		-1, // StatementOptional
 		-1, // Statement
 		-1, // Assign
-		83, // Expression
+		96, // Expression
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
-		62, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		63, // Term
-		-1, // TermOptional
-		-1, // TermTail
+		63, // Exp
+		64, // Term
 		66, // Factor
-		67, // FactorOptional
-		-1, // Cte
+		67, // Atom
+		68, // Cte
 		-1, // Condition
 		-1, // ElseOptional
 		-1, // Cycle
@@ -2526,54 +2302,50 @@ var gotoTab = gotoTable{
 		-1, // F_CallList
 		-1, // F_CallListTail
 		-1, // Print
-		84, // PrintVarList
+		97, // PrintVarList
 		-1, // PrintVarListTail
-		85, // PrintVar
+		98, // PrintVar
 	},
 	gotoRow{ // S56
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		87, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		100, // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S57
 		-1, // S'
@@ -2600,13 +2372,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2621,49 +2389,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S58
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		91, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		104, // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S59
 		-1, // S'
@@ -2690,13 +2454,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2731,17 +2491,13 @@ var gotoTab = gotoTable{
 		-1, // StatementOptional
 		-1, // Statement
 		-1, // Assign
-		92, // Expression
+		-1, // Expression
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
-		78, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		79, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		80, // Factor
-		81, // FactorOptional
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2756,96 +2512,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S61
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		94, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		105, // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		87,  // Exp
+		88,  // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S62
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		95, // ExpressionOptional
-		96, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S63
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -2870,13 +2577,50 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		100, // ExpOptional
-		101, // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		107, // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S63
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		108, // ExpressionOptional
+		109, // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -2915,13 +2659,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2936,6 +2676,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S65
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		117, // Atom
+		68,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S66
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -2960,13 +2741,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -2980,95 +2757,46 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S66
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		104, // TermOptional
-		105, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
 	gotoRow{ // S67
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		109, // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S68
 		-1, // S'
@@ -3095,13 +2823,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3140,13 +2864,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3161,49 +2881,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S70
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		113, // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		78,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		79,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S71
 		-1, // S'
@@ -3230,13 +2946,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3251,94 +2963,86 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S72
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		115, // ExpressionOptional
-		116, // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S73
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		120, // ExpOptional
-		121, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S74
 		-1,  // S'
@@ -3361,18 +3065,14 @@ var gotoTab = gotoTable{
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		-1,  // Expression
+		119, // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		124, // TermOptional
-		125, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		87,  // Exp
+		88,  // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -3386,49 +3086,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S75
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		129, // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S76
 		-1,  // S'
@@ -3451,17 +3147,13 @@ var gotoTab = gotoTable{
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		132, // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		78,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		79,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
+		-1,  // Expression
+		121, // ExpressionOptional
+		122, // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -3500,13 +3192,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3542,17 +3230,13 @@ var gotoTab = gotoTable{
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
-		134, // ExpressionOptional
-		135, // ExpressionTail
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		130, // Atom
+		81,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -3566,139 +3250,127 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S79
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		139, // ExpOptional
-		140, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S80
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		143, // TermOptional
-		144, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S81
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		148, // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S82
 		-1, // S'
@@ -3725,13 +3397,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3770,13 +3438,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3815,13 +3479,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3856,18 +3516,14 @@ var gotoTab = gotoTable{
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		-1,  // Expression
+		131, // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		87,  // Exp
+		88,  // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -3877,7 +3533,7 @@ var gotoTab = gotoTable{
 		-1,  // F_CallListTail
 		-1,  // Print
 		-1,  // PrintVarList
-		154, // PrintVarListTail
+		-1,  // PrintVarListTail
 		-1,  // PrintVar
 	},
 	gotoRow{ // S86
@@ -3905,13 +3561,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -3926,49 +3578,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S87
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		133, // ExpressionOptional
+		134, // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S88
 		-1, // S'
@@ -3995,13 +3643,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4016,6 +3660,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S89
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		142, // Atom
+		92,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S90
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -4040,13 +3725,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4060,95 +3741,46 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S90
-		-1,  // S'
-		-1,  // Program
-		155, // VarOptional
-		156, // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
 	gotoRow{ // S91
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		158, // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S92
 		-1, // S'
@@ -4175,13 +3807,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4196,49 +3824,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S93
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		160, // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		62,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		63,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		66,  // Factor
-		67,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S94
 		-1, // S'
@@ -4265,13 +3889,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4310,13 +3930,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4355,13 +3971,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4376,49 +3988,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S97
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		162, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		163, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		164, // Factor
-		165, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S98
 		-1,  // S'
@@ -4444,14 +4052,10 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		166, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		163, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		164, // Factor
-		165, // FactorOptional
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -4462,53 +4066,49 @@ var gotoTab = gotoTable{
 		-1,  // F_CallListTail
 		-1,  // Print
 		-1,  // PrintVarList
-		-1,  // PrintVarListTail
+		146, // PrintVarListTail
 		-1,  // PrintVar
 	},
 	gotoRow{ // S99
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		167, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		163, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		164, // Factor
-		165, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S100
 		-1, // S'
@@ -4535,13 +4135,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4556,141 +4152,6 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S101
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		168, // ExpOptional
-		101, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S102
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		169, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		66,  // Factor
-		67,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S103
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		170, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		66,  // Factor
-		67,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S104
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -4715,13 +4176,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4735,11 +4192,52 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S105
+	gotoRow{ // S102
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
+	},
+	gotoRow{ // S103
 		-1,  // S'
 		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
+		147, // VarOptional
+		148, // VarSection
 		-1,  // VarList
 		-1,  // VarDeclarationTail
 		-1,  // VarDeclaration
@@ -4760,13 +4258,9 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		171, // TermOptional
-		105, // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -4779,6 +4273,88 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarList
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
+	},
+	gotoRow{ // S104
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		150, // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S105
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S106
 		-1,  // S'
@@ -4801,18 +4377,14 @@ var gotoTab = gotoTable{
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		-1,  // Expression
+		152, // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		172, // Factor
-		67,  // FactorOptional
-		-1,  // Cte
+		63,  // Exp
+		64,  // Term
+		66,  // Factor
+		67,  // Atom
+		68,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -4826,49 +4398,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S107
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		173, // Factor
-		67,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S108
 		-1, // S'
@@ -4895,13 +4463,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4940,13 +4504,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -4961,276 +4521,293 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S110
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		155, // Exp
+		156, // Term
+		158, // Factor
+		159, // Atom
+		160, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S111
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		163, // Exp
+		156, // Term
+		158, // Factor
+		159, // Atom
+		160, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S112
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		164, // Exp
+		156, // Term
+		158, // Factor
+		159, // Atom
+		160, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S113
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		165, // Term
+		66,  // Factor
+		67,  // Atom
+		68,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S114
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		166, // Term
+		66,  // Factor
+		67,  // Atom
+		68,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S115
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		167, // Factor
+		67,  // Atom
+		68,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S116
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		168, // Factor
+		67,  // Atom
+		68,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S117
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -5255,13 +4832,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -5275,140 +4848,87 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S117
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		177, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		178, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		179, // Factor
-		180, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
 	gotoRow{ // S118
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		181, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		178, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		179, // Factor
-		180, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S119
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		182, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		178, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		179, // Factor
-		180, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S120
 		-1, // S'
@@ -5435,13 +4955,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -5456,94 +4972,86 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S121
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		183, // ExpOptional
-		121, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S122
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		184, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		74,  // Factor
-		75,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S123
 		-1,  // S'
@@ -5569,15 +5077,11 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		185, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		74,  // Factor
-		75,  // FactorOptional
-		-1,  // Cte
+		173, // Exp
+		174, // Term
+		176, // Factor
+		177, // Atom
+		178, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -5591,49 +5095,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S124
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		181, // Exp
+		174, // Term
+		176, // Factor
+		177, // Atom
+		178, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S125
 		-1,  // S'
@@ -5659,15 +5159,11 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		186, // TermOptional
-		125, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		182, // Exp
+		174, // Term
+		176, // Factor
+		177, // Atom
+		178, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -5705,14 +5201,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		187, // Factor
-		75,  // FactorOptional
-		-1,  // Cte
+		183, // Term
+		79,  // Factor
+		80,  // Atom
+		81,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -5750,14 +5242,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		188, // Factor
-		75,  // FactorOptional
-		-1,  // Cte
+		184, // Term
+		79,  // Factor
+		80,  // Atom
+		81,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -5771,94 +5259,86 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S128
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		185, // Factor
+		80,  // Atom
+		81,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S129
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		186, // Factor
+		80,  // Atom
+		81,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S130
 		-1, // S'
@@ -5885,13 +5365,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -5930,13 +5406,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -5951,6 +5423,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S132
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		188, // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S133
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -5975,13 +5488,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -5994,51 +5503,6 @@ var gotoTab = gotoTable{
 		-1, // PrintVarList
 		-1, // PrintVarListTail
 		-1, // PrintVar
-	},
-	gotoRow{ // S133
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		190, // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
 	},
 	gotoRow{ // S134
 		-1, // S'
@@ -6065,13 +5529,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6086,49 +5546,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S135
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		192, // Exp
+		193, // Term
+		195, // Factor
+		196, // Atom
+		197, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S136
 		-1,  // S'
@@ -6154,15 +5610,11 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		193, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		194, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
+		200, // Exp
+		193, // Term
 		195, // Factor
-		196, // FactorOptional
-		-1,  // Cte
+		196, // Atom
+		197, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -6199,15 +5651,11 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		197, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		194, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
+		201, // Exp
+		193, // Term
 		195, // Factor
-		196, // FactorOptional
-		-1,  // Cte
+		196, // Atom
+		197, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -6244,15 +5692,11 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		198, // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		194, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		195, // Factor
-		196, // FactorOptional
-		-1,  // Cte
+		-1,  // Exp
+		202, // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -6266,49 +5710,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S139
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		203, // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S140
 		-1,  // S'
@@ -6335,14 +5775,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		199, // ExpOptional
-		140, // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		204, // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -6380,14 +5816,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		200, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
-		-1,  // Cte
+		-1,  // Term
+		205, // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -6401,49 +5833,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S142
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		201, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S143
 		-1, // S'
@@ -6470,13 +5898,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6491,141 +5915,6 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S144
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		202, // TermOptional
-		144, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S145
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		203, // Factor
-		81,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S146
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		204, // Factor
-		81,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S147
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -6650,13 +5939,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6669,6 +5954,129 @@ var gotoTab = gotoTable{
 		-1, // PrintVarList
 		-1, // PrintVarListTail
 		-1, // PrintVar
+	},
+	gotoRow{ // S145
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		96,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		63,  // Exp
+		64,  // Term
+		66,  // Factor
+		67,  // Atom
+		68,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		208, // PrintVar
+	},
+	gotoRow{ // S146
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
+	},
+	gotoRow{ // S147
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		209, // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S148
 		-1, // S'
@@ -6695,13 +6103,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6716,49 +6120,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S149
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		211, // VarList
+		-1,  // VarDeclarationTail
+		212, // VarDeclaration
+		213, // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S150
 		-1, // S'
@@ -6785,13 +6185,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6830,13 +6226,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6851,51 +6243,6 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S152
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S153
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -6916,17 +6263,13 @@ var gotoTab = gotoTable{
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		83,  // Expression
+		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		62,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		63,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		66,  // Factor
-		67,  // FactorOptional
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -6934,13 +6277,13 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 		-1,  // F_CallOptional
 		-1,  // F_CallList
-		-1,  // F_CallListTail
+		214, // F_CallListTail
 		-1,  // Print
 		-1,  // PrintVarList
 		-1,  // PrintVarListTail
-		207, // PrintVar
+		-1,  // PrintVar
 	},
-	gotoRow{ // S154
+	gotoRow{ // S153
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -6965,13 +6308,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -6985,7 +6324,7 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S155
+	gotoRow{ // S154
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -7002,22 +6341,18 @@ var gotoTab = gotoTable{
 		-1,  // FuncVarList
 		-1,  // FuncVarDeclarationTail
 		-1,  // FuncVarDeclaration
-		208, // Body
+		-1,  // Body
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		-1,  // Expression
+		215, // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		87,  // Exp
+		88,  // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -7029,6 +6364,47 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarList
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
+	},
+	gotoRow{ // S155
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S156
 		-1, // S'
@@ -7055,13 +6431,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7080,10 +6452,10 @@ var gotoTab = gotoTable{
 		-1,  // Program
 		-1,  // VarOptional
 		-1,  // VarSection
-		210, // VarList
+		-1,  // VarList
 		-1,  // VarDeclarationTail
-		211, // VarDeclaration
-		212, // IdList
+		-1,  // VarDeclaration
+		-1,  // IdList
 		-1,  // IdListTail
 		-1,  // Type
 		-1,  // FuncSection
@@ -7100,14 +6472,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		220, // Atom
+		160, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -7145,13 +6513,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7190,13 +6554,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7211,94 +6571,86 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S160
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		213, // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S161
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		214, // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		78,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		79,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S162
 		-1, // S'
@@ -7325,13 +6677,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7346,139 +6694,127 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S163
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		215, // ExpOptional
-		216, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S164
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		219, // TermOptional
-		220, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S165
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		224, // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S166
 		-1, // S'
@@ -7505,13 +6841,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7550,13 +6882,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7595,13 +6923,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7640,13 +6964,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7685,13 +7005,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7730,13 +7046,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7751,49 +7063,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S172
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		221, // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		87,  // Exp
+		88,  // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S173
 		-1, // S'
@@ -7820,13 +7128,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7865,13 +7169,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7886,6 +7186,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S175
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		226, // Atom
+		178, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S176
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -7910,13 +7251,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -7929,51 +7266,6 @@ var gotoTab = gotoTable{
 		-1, // PrintVarList
 		-1, // PrintVarListTail
 		-1, // PrintVar
-	},
-	gotoRow{ // S176
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		227, // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		78,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		79,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
 	},
 	gotoRow{ // S177
 		-1, // S'
@@ -8000,13 +7292,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8021,139 +7309,127 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S178
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		228, // ExpOptional
-		229, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S179
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		232, // TermOptional
-		233, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S180
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		237, // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S181
 		-1, // S'
@@ -8180,13 +7456,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8225,13 +7497,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8270,13 +7538,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8315,13 +7579,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8360,13 +7620,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8405,13 +7661,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8450,13 +7702,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8471,96 +7719,6 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S188
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S189
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S190
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -8585,16 +7743,12 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
-		240, // ElseOptional
+		227, // ElseOptional
 		-1,  // Cycle
 		-1,  // F_Call
 		-1,  // F_CallOptional
@@ -8604,6 +7758,88 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarList
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
+	},
+	gotoRow{ // S189
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		229, // StatementOptional
+		34,  // Statement
+		35,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		36,  // Condition
+		-1,  // ElseOptional
+		37,  // Cycle
+		38,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		39,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S190
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S191
 		-1,  // S'
@@ -8623,66 +7859,17 @@ var gotoTab = gotoTable{
 		-1,  // FuncVarDeclarationTail
 		-1,  // FuncVarDeclaration
 		-1,  // Body
-		242, // StatementOptional
-		34,  // Statement
-		35,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		36,  // Condition
-		-1,  // ElseOptional
-		37,  // Cycle
-		38,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		39,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
-	gotoRow{ // S192
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
-		243, // Expression
+		230, // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
-		78,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		79,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		80,  // Factor
-		81,  // FactorOptional
-		-1,  // Cte
+		87,  // Exp
+		88,  // Term
+		90,  // Factor
+		91,  // Atom
+		92,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -8694,6 +7881,47 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarList
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
+	},
+	gotoRow{ // S192
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S193
 		-1, // S'
@@ -8720,13 +7948,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8765,14 +7989,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		244, // ExpOptional
-		245, // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		235, // Atom
+		197, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -8786,94 +8006,86 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S195
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		248, // TermOptional
-		249, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S196
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		253, // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S197
 		-1, // S'
@@ -8900,13 +8112,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8945,13 +8153,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -8990,13 +8194,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9035,13 +8235,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9080,13 +8276,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9125,13 +8317,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9170,13 +8358,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9215,13 +8399,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9236,6 +8416,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S205
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
+	},
+	gotoRow{ // S206
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -9252,7 +8473,7 @@ var gotoTab = gotoTable{
 		-1,  // FuncVarList
 		-1,  // FuncVarDeclarationTail
 		-1,  // FuncVarDeclaration
-		256, // Body
+		236, // Body
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
@@ -9260,13 +8481,9 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -9280,7 +8497,7 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
 	},
-	gotoRow{ // S206
+	gotoRow{ // S207
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -9305,13 +8522,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9325,7 +8538,7 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S207
+	gotoRow{ // S208
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -9350,13 +8563,9 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -9367,10 +8576,10 @@ var gotoTab = gotoTable{
 		-1,  // F_CallListTail
 		-1,  // Print
 		-1,  // PrintVarList
-		258, // PrintVarListTail
+		238, // PrintVarListTail
 		-1,  // PrintVar
 	},
-	gotoRow{ // S208
+	gotoRow{ // S209
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -9395,13 +8604,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9415,7 +8620,7 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S209
+	gotoRow{ // S210
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
@@ -9433,20 +8638,16 @@ var gotoTab = gotoTable{
 		-1,  // FuncVarDeclarationTail
 		-1,  // FuncVarDeclaration
 		-1,  // Body
-		260, // StatementOptional
+		240, // StatementOptional
 		34,  // Statement
 		35,  // Assign
 		-1,  // Expression
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		36,  // Condition
 		-1,  // ElseOptional
@@ -9460,7 +8661,7 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
 	},
-	gotoRow{ // S210
+	gotoRow{ // S211
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -9485,13 +8686,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9505,15 +8702,15 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S211
+	gotoRow{ // S212
 		-1,  // S'
 		-1,  // Program
 		-1,  // VarOptional
 		-1,  // VarSection
 		-1,  // VarList
-		262, // VarDeclarationTail
-		261, // VarDeclaration
-		212, // IdList
+		242, // VarDeclarationTail
+		241, // VarDeclaration
+		213, // IdList
 		-1,  // IdListTail
 		-1,  // Type
 		-1,  // FuncSection
@@ -9530,13 +8727,9 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -9549,51 +8742,6 @@ var gotoTab = gotoTable{
 		-1,  // PrintVarList
 		-1,  // PrintVarListTail
 		-1,  // PrintVar
-	},
-	gotoRow{ // S212
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
 	},
 	gotoRow{ // S213
 		-1, // S'
@@ -9620,13 +8768,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9665,13 +8809,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9710,13 +8850,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9755,14 +8891,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		265, // ExpOptional
-		216, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		245, // Term
+		158, // Factor
+		159, // Atom
+		160, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -9800,14 +8932,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		266, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		164, // Factor
-		165, // FactorOptional
-		-1,  // Cte
+		246, // Term
+		158, // Factor
+		159, // Atom
+		160, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -9845,14 +8973,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		267, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		164, // Factor
-		165, // FactorOptional
-		-1,  // Cte
+		-1,  // Term
+		247, // Factor
+		159, // Atom
+		160, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -9866,6 +8990,47 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S219
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		248, // Factor
+		159, // Atom
+		160, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S220
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -9890,13 +9055,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -9910,95 +9071,46 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S220
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		268, // TermOptional
-		220, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
 	gotoRow{ // S221
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		269, // Factor
-		165, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S222
 		-1,  // S'
@@ -10025,14 +9137,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		270, // Factor
-		165, // FactorOptional
-		-1,  // Cte
+		250, // Term
+		176, // Factor
+		177, // Atom
+		178, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -10046,139 +9154,127 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S223
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		251, // Term
+		176, // Factor
+		177, // Atom
+		178, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S224
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		252, // Factor
+		177, // Atom
+		178, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S225
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		253, // Factor
+		177, // Atom
+		178, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S226
 		-1, // S'
@@ -10205,13 +9301,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10250,13 +9342,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10271,6 +9359,47 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S228
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		255, // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
+	},
+	gotoRow{ // S229
 		-1, // S'
 		-1, // Program
 		-1, // VarOptional
@@ -10295,13 +9424,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10315,95 +9440,46 @@ var gotoTab = gotoTable{
 		-1, // PrintVarListTail
 		-1, // PrintVar
 	},
-	gotoRow{ // S229
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		272, // ExpOptional
-		229, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
-	},
 	gotoRow{ // S230
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		273, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		179, // Factor
-		180, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S231
 		-1,  // S'
@@ -10430,14 +9506,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		274, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		179, // Factor
-		180, // FactorOptional
-		-1,  // Cte
+		258, // Term
+		195, // Factor
+		196, // Atom
+		197, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -10451,49 +9523,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S232
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		259, // Term
+		195, // Factor
+		196, // Atom
+		197, // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S233
 		-1,  // S'
@@ -10520,14 +9588,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		275, // TermOptional
-		233, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
+		260, // Factor
+		196, // Atom
+		197, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -10565,14 +9629,10 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		276, // Factor
-		180, // FactorOptional
-		-1,  // Cte
+		261, // Factor
+		196, // Atom
+		197, // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
 		-1,  // Cycle
@@ -10586,49 +9646,45 @@ var gotoTab = gotoTable{
 		-1,  // PrintVar
 	},
 	gotoRow{ // S235
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		277, // Factor
-		180, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S236
 		-1, // S'
@@ -10655,13 +9711,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10676,49 +9728,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S237
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		-1,  // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		263, // StatementOptional
+		34,  // Statement
+		35,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		36,  // Condition
+		-1,  // ElseOptional
+		37,  // Cycle
+		38,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		39,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S238
 		-1, // S'
@@ -10745,13 +9793,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10790,13 +9834,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10835,13 +9875,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10861,9 +9897,9 @@ var gotoTab = gotoTable{
 		-1,  // VarOptional
 		-1,  // VarSection
 		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
+		266, // VarDeclarationTail
+		241, // VarDeclaration
+		213, // IdList
 		-1,  // IdListTail
 		-1,  // Type
 		-1,  // FuncSection
@@ -10872,7 +9908,7 @@ var gotoTab = gotoTable{
 		-1,  // FuncVarList
 		-1,  // FuncVarDeclarationTail
 		-1,  // FuncVarDeclaration
-		279, // Body
+		-1,  // Body
 		-1,  // StatementOptional
 		-1,  // Statement
 		-1,  // Assign
@@ -10880,13 +9916,9 @@ var gotoTab = gotoTable{
 		-1,  // ExpressionOptional
 		-1,  // ExpressionTail
 		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
 		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
 		-1,  // Factor
-		-1,  // FactorOptional
+		-1,  // Atom
 		-1,  // Cte
 		-1,  // Condition
 		-1,  // ElseOptional
@@ -10925,13 +9957,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -10946,49 +9974,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S243
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
+		-1,  // S'
+		-1,  // Program
+		-1,  // VarOptional
+		-1,  // VarSection
+		-1,  // VarList
+		-1,  // VarDeclarationTail
+		-1,  // VarDeclaration
+		-1,  // IdList
+		-1,  // IdListTail
+		267, // Type
+		-1,  // FuncSection
+		-1,  // FuncDeclaration
+		-1,  // FuncVarOptional
+		-1,  // FuncVarList
+		-1,  // FuncVarDeclarationTail
+		-1,  // FuncVarDeclaration
+		-1,  // Body
+		-1,  // StatementOptional
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // ExpressionOptional
+		-1,  // ExpressionTail
+		-1,  // Exp
+		-1,  // Term
+		-1,  // Factor
+		-1,  // Atom
+		-1,  // Cte
+		-1,  // Condition
+		-1,  // ElseOptional
+		-1,  // Cycle
+		-1,  // F_Call
+		-1,  // F_CallOptional
+		-1,  // F_CallList
+		-1,  // F_CallListTail
+		-1,  // Print
+		-1,  // PrintVarList
+		-1,  // PrintVarListTail
+		-1,  // PrintVar
 	},
 	gotoRow{ // S244
 		-1, // S'
@@ -11015,13 +10039,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11036,139 +10056,127 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S245
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		282, // ExpOptional
-		245, // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S246
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		283, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		195, // Factor
-		196, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S247
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		284, // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		195, // Factor
-		196, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S248
 		-1, // S'
@@ -11195,13 +10203,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11216,139 +10220,127 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S249
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		285, // TermOptional
-		249, // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S250
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		286, // Factor
-		196, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S251
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		287, // Factor
-		196, // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S252
 		-1, // S'
@@ -11375,13 +10367,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11420,13 +10408,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11465,13 +10449,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11510,13 +10490,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11555,13 +10531,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11576,49 +10548,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S257
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		289, // StatementOptional
-		34,  // Statement
-		35,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		36,  // Condition
-		-1,  // ElseOptional
-		37,  // Cycle
-		38,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		39,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S258
 		-1, // S'
@@ -11645,13 +10613,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11690,13 +10654,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11735,13 +10695,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11756,49 +10712,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S261
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		292, // VarDeclarationTail
-		261, // VarDeclaration
-		212, // IdList
-		-1,  // IdListTail
-		-1,  // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S262
 		-1, // S'
@@ -11825,13 +10777,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11846,49 +10794,45 @@ var gotoTab = gotoTable{
 		-1, // PrintVar
 	},
 	gotoRow{ // S263
-		-1,  // S'
-		-1,  // Program
-		-1,  // VarOptional
-		-1,  // VarSection
-		-1,  // VarList
-		-1,  // VarDeclarationTail
-		-1,  // VarDeclaration
-		-1,  // IdList
-		-1,  // IdListTail
-		293, // Type
-		-1,  // FuncSection
-		-1,  // FuncDeclaration
-		-1,  // FuncVarOptional
-		-1,  // FuncVarList
-		-1,  // FuncVarDeclarationTail
-		-1,  // FuncVarDeclaration
-		-1,  // Body
-		-1,  // StatementOptional
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // ExpressionOptional
-		-1,  // ExpressionTail
-		-1,  // Exp
-		-1,  // ExpOptional
-		-1,  // ExpTail
-		-1,  // Term
-		-1,  // TermOptional
-		-1,  // TermTail
-		-1,  // Factor
-		-1,  // FactorOptional
-		-1,  // Cte
-		-1,  // Condition
-		-1,  // ElseOptional
-		-1,  // Cycle
-		-1,  // F_Call
-		-1,  // F_CallOptional
-		-1,  // F_CallList
-		-1,  // F_CallListTail
-		-1,  // Print
-		-1,  // PrintVarList
-		-1,  // PrintVarListTail
-		-1,  // PrintVar
+		-1, // S'
+		-1, // Program
+		-1, // VarOptional
+		-1, // VarSection
+		-1, // VarList
+		-1, // VarDeclarationTail
+		-1, // VarDeclaration
+		-1, // IdList
+		-1, // IdListTail
+		-1, // Type
+		-1, // FuncSection
+		-1, // FuncDeclaration
+		-1, // FuncVarOptional
+		-1, // FuncVarList
+		-1, // FuncVarDeclarationTail
+		-1, // FuncVarDeclaration
+		-1, // Body
+		-1, // StatementOptional
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // ExpressionOptional
+		-1, // ExpressionTail
+		-1, // Exp
+		-1, // Term
+		-1, // Factor
+		-1, // Atom
+		-1, // Cte
+		-1, // Condition
+		-1, // ElseOptional
+		-1, // Cycle
+		-1, // F_Call
+		-1, // F_CallOptional
+		-1, // F_CallList
+		-1, // F_CallListTail
+		-1, // Print
+		-1, // PrintVarList
+		-1, // PrintVarListTail
+		-1, // PrintVar
 	},
 	gotoRow{ // S264
 		-1, // S'
@@ -11915,13 +10859,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -11960,13 +10900,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -12005,13 +10941,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -12050,13 +10982,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -12095,13 +11023,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional
@@ -12140,1183 +11064,9 @@ var gotoTab = gotoTable{
 		-1, // ExpressionOptional
 		-1, // ExpressionTail
 		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
 		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
 		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S270
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S271
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S272
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S273
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S274
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S275
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S276
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S277
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S278
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S279
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S280
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S281
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S282
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S283
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S284
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S285
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S286
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S287
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S288
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S289
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S290
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S291
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S292
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S293
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S294
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
-		-1, // Cte
-		-1, // Condition
-		-1, // ElseOptional
-		-1, // Cycle
-		-1, // F_Call
-		-1, // F_CallOptional
-		-1, // F_CallList
-		-1, // F_CallListTail
-		-1, // Print
-		-1, // PrintVarList
-		-1, // PrintVarListTail
-		-1, // PrintVar
-	},
-	gotoRow{ // S295
-		-1, // S'
-		-1, // Program
-		-1, // VarOptional
-		-1, // VarSection
-		-1, // VarList
-		-1, // VarDeclarationTail
-		-1, // VarDeclaration
-		-1, // IdList
-		-1, // IdListTail
-		-1, // Type
-		-1, // FuncSection
-		-1, // FuncDeclaration
-		-1, // FuncVarOptional
-		-1, // FuncVarList
-		-1, // FuncVarDeclarationTail
-		-1, // FuncVarDeclaration
-		-1, // Body
-		-1, // StatementOptional
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // ExpressionOptional
-		-1, // ExpressionTail
-		-1, // Exp
-		-1, // ExpOptional
-		-1, // ExpTail
-		-1, // Term
-		-1, // TermOptional
-		-1, // TermTail
-		-1, // Factor
-		-1, // FactorOptional
+		-1, // Atom
 		-1, // Cte
 		-1, // Condition
 		-1, // ElseOptional

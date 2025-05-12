@@ -63,7 +63,6 @@ rbracket     : ']' ;
 import(
     "BabyDuck_A00833578/ast"
     "BabyDuck_A00833578/token"
-    "strconv"
 )
 >>
 
@@ -289,19 +288,10 @@ Statement
 Assign
     : id assign Expression semicolon
     <<
-        func() (Attrib, error) {
-            // Token de la variable a la que se le asigna algo
-            idTok := $0.(*token.Token)
-
-            // Expresión a la que se le asigna el valor
-            exp := $2.(ast.Evaluable)
-
-            // Crear el nodo de asignación
-            return &ast.AssignNode{
-                Id:  idTok,
-                Exp: exp,
-            }, nil
-        }()
+        &ast.AssignNode{
+            Id: $0.(*token.Token),
+            Exp: $2.(ast.Quad),
+        }, nil
     >>
     ;
 
@@ -310,24 +300,15 @@ Expression
     : Exp ExpressionOptional
     <<
         func() (Attrib, error) {
-            left := $0.(ast.Evaluable)
-            
+            left := $0.(ast.Quad)
+
             if $1 == nil {
                 return left, nil
             }
 
-            // Extraer operador y operando derecho
-            tail := $1.(struct {
-                Operator ast.Attrib
-                Right    ast.Evaluable
-            })
-
-            // Crear un nodo de expresión
-            return &ast.ExpressionNode{
-                Operator: tail.Operator,
-                Left:     left,
-                Right:    tail.Right,
-            }, nil
+            exp := $1.(*ast.ExpressionNode)
+            exp.Left = left
+            return exp, nil
         }()
     >>
     ;
@@ -343,140 +324,108 @@ ExpressionOptional
 // Operadores relacionales
 ExpressionTail
     : gt Exp
-    << 
-        func() (Attrib, error) {
-            return struct {
-                Operator  ast.Attrib // Token del operador relacional
-                Right     ast.Evaluable // Valor de la derecha
-            }{
-                Operator: $0.(ast.Attrib),
-                Right:    $1.(ast.Evaluable),
-            }, nil
-        }()
-    >>
+    <<
+        &ast.ExpressionNode{
+            Op:    ">",
+            Right: $1.(ast.Quad),
+        }, nil
+    >>  
     | lt Exp
     <<
-        func() (Attrib, error) {
-            return struct {
-                Operator  ast.Attrib // Token del operador relacional
-                Right     ast.Evaluable // Valor de la derecha
-            }{
-                Operator: $0.(ast.Attrib),
-                Right:    $1.(ast.Evaluable),
-            }, nil
-        }()
-    >>
+        &ast.ExpressionNode{
+            Op:    "<",
+            Right: $1.(ast.Quad),
+        }, nil
+    >>  
     | neq Exp
     <<
-        func() (Attrib, error) {
-            return struct {
-                Operator  ast.Attrib // Token del operador relacional
-                Right     ast.Evaluable // Valor de la derecha
-            }{
-                Operator: $0.(ast.Attrib),
-                Right:    $1.(ast.Evaluable),
-            }, nil
-        }()
+        &ast.ExpressionNode{
+            Op:    "!=",
+            Right: $1.(ast.Quad),
+        }, nil
     >>
     ;
 
 // Expresión aritmética
 Exp
-    : Term ExpOptional
+    : Exp plus Term
+    <<
+        &ast.ExpressionNode{
+            Op:    "+",
+            Left:  $0.(ast.Quad),
+            Right: $2.(ast.Quad),
+        }, nil
+    >>
+    | Exp minus Term
+    <<
+        &ast.ExpressionNode{
+            Op:    "-",
+            Left:  $0.(ast.Quad),
+            Right: $2.(ast.Quad),
+        }, nil
+    >>
+    | Term
     << $0, nil >>
-    ;
-
-// Secuencia opcional de términos (0 o más)
-ExpOptional
-    : ExpTail ExpOptional
-    | "empty"
-    ;
-
-// Operadores de suma o resta
-ExpTail
-    : plus Term
-    | minus Term
     ;
 
 // Término en la expresión
 Term
-    : Factor TermOptional
+    : Term times Factor
+    <<
+        &ast.ExpressionNode{
+            Op:    "*",
+            Left:  $0.(ast.Quad),
+            Right: $2.(ast.Quad),
+        }, nil
+    >>
+    | Term divide Factor
+    <<
+        &ast.ExpressionNode{
+            Op:    "/",
+            Left:  $0.(ast.Quad),
+            Right: $2.(ast.Quad),
+        }, nil
+    >>
+    | Factor
     << $0, nil >>
-    ;
-
-// Secuencia opcional de factores (0 o más)
-TermOptional
-    : TermTail TermOptional
-    | "empty"
-    ;
-
-// Operadores de multiplicación o división
-TermTail
-    : times Factor
-    | divide Factor
     ;
 
 // Factor de la expresión
 Factor
     : lparen Expression rparen
     << $1, nil >>
-    | FactorOptional Cte
-    << $1, nil >>
-    | FactorOptional id
+    | minus Atom
     <<
         func() (Attrib, error) {
-            tok := $1.(*token.Token)
-
-            // Regresa un nodo de expresión de tipo id con su nombre
-            return &ast.ExpNode{
-                Type:  "id",
-                Value: string(tok.Lit),
-            }, nil
+            right := $1.(ast.Quad)
+            
+            // Agregar signo negativo como expresión
+            node := &ast.ExpressionNode{
+                Op:    "-",
+                Left:  ast.NewLiteralNode(&token.Token{Lit: []byte("0")}),
+                Right: right,
+            }
+            return node, nil
         }()
     >>
+    | Atom
+    << $0, nil >>
     ;
 
-// Signo opcional en el factor (0 o 1)
-FactorOptional
-    : plus
-    | minus
-    | "empty"
+// Átomo
+Atom
+    : Cte
+    << $0, nil >>
+    | id
+    << ast.NewLiteralNode($0.(*token.Token)), nil >>
     ;
 
 // Constante
 Cte
     : cte_int
-    <<
-        func() (Attrib, error) {
-            // Obtener el token constante
-            cteTok := $0.(*token.Token)
-
-            // Convertir la cadena de ASCIIs a un entero
-            intVal, _ := strconv.Atoi(string(cteTok.Lit))
-            
-            // Crear un nodo de expresión
-            return &ast.ExpNode{
-                Type:  "int",
-                Value: intVal,
-            }, nil
-        }()
-    >>
+    << ast.NewLiteralNode($0.(*token.Token)), nil >>
     | cte_float
-    <<
-        func() (Attrib, error) {
-            // Obtener el token constante
-            cteTok := $0.(*token.Token)
-
-            // Convertir la cadena de ASCIIs a un float
-            floatVal, _ := strconv.ParseFloat(string(cteTok.Lit), 64)
-            
-            // Crear un nodo de expresión
-            return &ast.ExpNode{
-                Type:  "float",
-                Value: floatVal,
-            }, nil
-        }()
-    >>
+    << ast.NewLiteralNode($0.(*token.Token)), nil >>
     ;
 
 // Condición if-else

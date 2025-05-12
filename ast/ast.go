@@ -125,8 +125,8 @@ func ExecuteStatement(stmt Attrib) error {
 	switch node := stmt.(type) {
 	case *AssignNode:
 		return ExecuteAssign(node)
-	case *PrintNode:
-		return ExecutePrint(node)
+	//case *PrintNode:
+	//	return ExecutePrint(node)
 	//case *IfNode:
 	//	return executeCondition(node)
 	//case *WhileNode:
@@ -138,49 +138,33 @@ func ExecuteStatement(stmt Attrib) error {
 	}
 }
 
-// Ejecutar una asignación
+// Función para ejecutar la asignación
 func ExecuteAssign(assignNode *AssignNode) error {
-	idTok := assignNode.Id.(*token.Token)
-	expNode, err := assignNode.Exp.Eval()
-	if err != nil {
-		return fmt.Errorf("error al evaluar expresión en asignación a '%s': %v", idTok.Lit, err)
+	//idTok := assignNode.Id.(*token.Token)
+	ctx := &Context{}
+
+	if err := assignNode.Generate(ctx); err != nil {
+		return err
 	}
 
-	varId := string(idTok.Lit)
+	//varId := string(idTok.Lit)
 
-	var currentFuncNode = functionDirectory[currentScope]
+	// Obtener el valor final de la expresión
+	//finalValue := ctx.Pop()
 
-	// Verificar si la variable ya fue declarada en el ámbito actual
-	info, found := LookupVariable(varId)
-	if !found {
-		return fmt.Errorf("variable '%s' no declarada", varId)
-	}
-
+	// Actualizar la tabla de símbolos con el valor calculado
+	//info, exists := LookupVariable(varId)
+	//if !exists {
+	//	return fmt.Errorf("variable no declarada: %s", varId)
+	//}
 	// Verificar compatibilidad de tipos
-	if info.Type != expNode.Type {
-		return fmt.Errorf("tipo incompatible en asignación a '%s'", varId)
-	}
 
-	// Asignar el valor a la variable
-	info.Value = expNode.Value
-	currentFuncNode.SymbolTable[varId] = info
+	// Asignar el valor a la variable en la tabla de símbolos
+	//info.Value = finalValue
+	//functionDirectory[currentScope].SymbolTable[varId] = info
 
-	return nil
-}
+	PrintQuads(ctx.Quads)
 
-// Función para procesar la instrucción Print
-func ExecutePrint(printNode *PrintNode) error {
-	for _, exp := range printNode.PrintList {
-		// Imprime el valor de la expresión
-		evaluated, err := exp.Eval()
-		if err != nil {
-			return err
-		}
-
-		fmt.Print(evaluated.Value, " ")
-	}
-	// Salto de línea al final
-	fmt.Println()
 	return nil
 }
 
