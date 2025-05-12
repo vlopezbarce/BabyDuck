@@ -156,8 +156,8 @@ func ExecuteAssign(assignNode *AssignNode) error {
 		return fmt.Errorf("variable no declarada: %s", varId)
 	}
 
-	var result VarNode
 	// Si hay cuádruplos generados, se evalúan
+	var result VarNode
 	if len(ctx.Quads) > 0 {
 		PrintQuads(ctx.Quads)
 		result = ctx.Evaluate()
