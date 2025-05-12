@@ -401,16 +401,27 @@ F_ArgsList
 // Instrucción de impresión
 Print
     : print lparen PrintVarList rparen semicolon
+    << &ast.PrintNode{Items: $2.([]ast.Attrib)}, nil >>
     ;
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar
+    << []ast.Attrib{$0.(ast.Attrib)}, nil >>
     | PrintVar comma PrintVarList
+    <<
+        func() (Attrib, error) {
+            head := $0.(ast.Attrib)
+            tail := $2.([]ast.Attrib)
+            return append([]ast.Attrib{head}, tail...), nil
+        }()
+    >>
     ;
 
 // Variable a imprimir
 PrintVar
     : Expression
+    << $0, nil >>
     | cte_string
+    << $0, nil >>
     ;

@@ -37,6 +37,11 @@ type AssignNode struct {
 	Exp Quad
 }
 
+// Nodo de impresión
+type PrintNode struct {
+	Items []Attrib
+}
+
 // Nodo de expresión binaria
 type ExpressionNode struct {
 	Op    string

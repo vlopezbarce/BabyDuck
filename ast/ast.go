@@ -125,8 +125,8 @@ func ExecuteStatement(stmt Attrib) error {
 	switch node := stmt.(type) {
 	case *AssignNode:
 		return ExecuteAssign(node)
-	//case *PrintNode:
-	//	return ExecutePrint(node)
+	case *PrintNode:
+		return ExecutePrint(node)
 	//case *IfNode:
 	//	return executeCondition(node)
 	//case *WhileNode:
@@ -157,7 +157,7 @@ func ExecuteAssign(assignNode *AssignNode) error {
 	}
 
 	var result VarNode
-	// Si hay cuádruplos generados, evaluarlos
+	// Si hay cuádruplos generados, se evalúan
 	if len(ctx.Quads) > 0 {
 		PrintQuads(ctx.Quads)
 		result = ctx.Evaluate()
@@ -175,6 +175,47 @@ func ExecuteAssign(assignNode *AssignNode) error {
 	info.Value = result.Value
 	functionDirectory[currentScope].SymbolTable[varId] = info
 
+	return nil
+}
+
+// Evalúa e imprime cada elemento de una lista
+func ExecutePrint(node *PrintNode) error {
+	for _, item := range node.Items {
+		switch v := item.(type) {
+
+		// Caso 1: es una expresión/constante numérica
+		case Quad:
+			ctx := &Context{}
+
+			// Genera el código intermedio para la expresión
+			if _, err := v.Generate(ctx); err != nil {
+				return err
+			}
+
+			// Si hay cuádruplos generados, se evalúan
+			var result VarNode
+			if len(ctx.Quads) > 0 {
+				result = ctx.Evaluate()
+			} else {
+				// No hay cuádruplos: la pila semántica solo tiene la constante o id
+				result = ctx.Pop()
+			}
+			fmt.Print(result.Value)
+
+		// Caso 2: es un literal de cadena
+		case *token.Token:
+			fmt.Print(string(v.Lit)[1 : len(string(v.Lit))-1])
+
+		default:
+			return fmt.Errorf("elemento de print no soportado: %T", item)
+		}
+
+		// Agregar espacio entre elementos
+		fmt.Print(" ")
+	}
+
+	// Salto de línea final
+	fmt.Println()
 	return nil
 }
 

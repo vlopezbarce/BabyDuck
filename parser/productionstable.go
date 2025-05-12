@@ -775,37 +775,45 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Print : print lparen PrintVarList rparen semicolon	<<  >>`,
+		String: `Print : print lparen PrintVarList rparen semicolon	<< &ast.PrintNode{Items: X[2].([]ast.Attrib)}, nil >>`,
 		Id:         "Print",
 		NTType:     29,
 		Index:      55,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return &ast.PrintNode{Items: X[2].([]ast.Attrib)}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVarList : PrintVar	<<  >>`,
+		String: `PrintVarList : PrintVar	<< []ast.Attrib{X[0].(ast.Attrib)}, nil >>`,
 		Id:         "PrintVarList",
 		NTType:     30,
 		Index:      56,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return []ast.Attrib{X[0].(ast.Attrib)}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVarList : PrintVar comma PrintVarList	<<  >>`,
+		String: `PrintVarList : PrintVar comma PrintVarList	<< func() (Attrib, error) {
+            head := X[0].(ast.Attrib)
+            tail := X[2].([]ast.Attrib)
+            return append([]ast.Attrib{head}, tail...), nil
+        }() >>`,
 		Id:         "PrintVarList",
 		NTType:     30,
 		Index:      57,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return func() (Attrib, error) {
+            head := X[0].(ast.Attrib)
+            tail := X[2].([]ast.Attrib)
+            return append([]ast.Attrib{head}, tail...), nil
+        }()
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVar : Expression	<<  >>`,
+		String: `PrintVar : Expression	<< X[0], nil >>`,
 		Id:         "PrintVar",
 		NTType:     31,
 		Index:      58,
@@ -815,7 +823,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVar : cte_string	<<  >>`,
+		String: `PrintVar : cte_string	<< X[0], nil >>`,
 		Id:         "PrintVar",
 		NTType:     31,
 		Index:      59,
