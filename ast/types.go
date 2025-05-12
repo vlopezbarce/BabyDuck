@@ -1,7 +1,5 @@
 package ast
 
-import "BabyDuck_A00833578/token"
-
 // Attrib es la interfaz general para todo tipo en el árbol AST
 type Attrib interface{}
 
@@ -44,14 +42,4 @@ type ExpressionNode struct {
 	Op    string
 	Left  Quad
 	Right Quad
-}
-
-// Nodo de un valor literal
-type LiteralNode struct {
-	Tok *token.Token
-}
-
-// Crea un nuevo nodo literal a partir de un token
-func NewLiteralNode(tok *token.Token) *LiteralNode {
-	return &LiteralNode{Tok: tok}
 }

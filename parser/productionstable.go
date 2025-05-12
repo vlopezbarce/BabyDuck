@@ -703,7 +703,10 @@ var productionsTable = ProdTab{
             // Agregar signo negativo como expresión
             node := &ast.ExpressionNode{
                 Op:    "-",
-                Left:  ast.NewLiteralNode(&token.Token{Lit: []byte("0")}),
+                Left:  &ast.VarNode{
+                    Type: "int",
+                    Value: (&token.Token{Lit: []byte("0")}),
+                },
                 Right: right,
             }
             return node, nil
@@ -719,7 +722,10 @@ var productionsTable = ProdTab{
             // Agregar signo negativo como expresión
             node := &ast.ExpressionNode{
                 Op:    "-",
-                Left:  ast.NewLiteralNode(&token.Token{Lit: []byte("0")}),
+                Left:  &ast.VarNode{
+                    Type: "int",
+                    Value: (&token.Token{Lit: []byte("0")}),
+                },
                 Right: right,
             }
             return node, nil
@@ -747,33 +753,51 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Atom : id	<< ast.NewLiteralNode(X[0].(*token.Token)), nil >>`,
+		String: `Atom : id	<< &ast.VarNode{
+        Type: "id",
+        Value: X[0],
+    }, nil >>`,
 		Id:         "Atom",
 		NTType:     26,
 		Index:      48,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ast.NewLiteralNode(X[0].(*token.Token)), nil
+			return &ast.VarNode{
+        Type: "id",
+        Value: X[0],
+    }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Cte : cte_int	<< ast.NewLiteralNode(X[0].(*token.Token)), nil >>`,
+		String: `Cte : cte_int	<< &ast.VarNode{
+        Type: "int",
+        Value: X[0],
+    }, nil >>`,
 		Id:         "Cte",
 		NTType:     27,
 		Index:      49,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ast.NewLiteralNode(X[0].(*token.Token)), nil
+			return &ast.VarNode{
+        Type: "int",
+        Value: X[0],
+    }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Cte : cte_float	<< ast.NewLiteralNode(X[0].(*token.Token)), nil >>`,
+		String: `Cte : cte_float	<< &ast.VarNode{
+        Type: "float",
+        Value: X[0],
+    }, nil >>`,
 		Id:         "Cte",
 		NTType:     27,
 		Index:      50,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ast.NewLiteralNode(X[0].(*token.Token)), nil
+			return &ast.VarNode{
+        Type: "float",
+        Value: X[0],
+    }, nil
 		},
 	},
 	ProdTabEntry{

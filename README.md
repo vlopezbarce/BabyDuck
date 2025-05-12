@@ -55,11 +55,11 @@ BabyDuck_A00833578/
 
 ├── ast/
 
-│   ├── ast.go                 # Métodos del AST
+│   ├── ast.go                 # Métodos del AST
 
-│   ├── semanticcube.go        # Implementación del cubo semántico
+│   ├── semanticcube.go        # Implementación del cubo semántico
 
-│   ├── symboltable.go         # Funciones para la tabla de variables
+│   ├── symboltable.go         # Funciones para la tabla de variables
 
 │   ├── types.go               # Definición de nodos del AST
 

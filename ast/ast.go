@@ -140,30 +140,31 @@ func ExecuteStatement(stmt Attrib) error {
 
 // Función para ejecutar la asignación
 func ExecuteAssign(assignNode *AssignNode) error {
-	//idTok := assignNode.Id.(*token.Token)
 	ctx := &Context{}
 
+	// Genera el código intermedio para la expresión
 	if err := assignNode.Generate(ctx); err != nil {
 		return err
 	}
 
-	//varId := string(idTok.Lit)
+	idTok := assignNode.Id.(*token.Token)
+	varId := string(idTok.Lit)
 
 	// Obtener el valor final de la expresión
-	//finalValue := ctx.Pop()
+	PrintQuads(ctx.Quads)
+	resultNode := ctx.Evaluate()
 
 	// Actualizar la tabla de símbolos con el valor calculado
-	//info, exists := LookupVariable(varId)
-	//if !exists {
-	//	return fmt.Errorf("variable no declarada: %s", varId)
-	//}
+	info, exists := LookupVariable(varId)
+	if !exists {
+		return fmt.Errorf("variable no declarada: %s", varId)
+	}
+
 	// Verificar compatibilidad de tipos
 
 	// Asignar el valor a la variable en la tabla de símbolos
-	//info.Value = finalValue
-	//functionDirectory[currentScope].SymbolTable[varId] = info
-
-	PrintQuads(ctx.Quads)
+	info.Value = resultNode.Value
+	functionDirectory[currentScope].SymbolTable[varId] = info
 
 	return nil
 }

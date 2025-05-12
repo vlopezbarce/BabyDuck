@@ -402,7 +402,10 @@ Factor
             // Agregar signo negativo como expresión
             node := &ast.ExpressionNode{
                 Op:    "-",
-                Left:  ast.NewLiteralNode(&token.Token{Lit: []byte("0")}),
+                Left:  &ast.VarNode{
+                    Type: "int",
+                    Value: (&token.Token{Lit: []byte("0")}),
+                },
                 Right: right,
             }
             return node, nil
@@ -417,15 +420,24 @@ Atom
     : Cte
     << $0, nil >>
     | id
-    << ast.NewLiteralNode($0.(*token.Token)), nil >>
+    << &ast.VarNode{
+        Type: "id",
+        Value: $0,
+    }, nil >>
     ;
 
 // Constante
 Cte
     : cte_int
-    << ast.NewLiteralNode($0.(*token.Token)), nil >>
+    << &ast.VarNode{
+        Type: "int",
+        Value: $0,
+    }, nil >>
     | cte_float
-    << ast.NewLiteralNode($0.(*token.Token)), nil >>
+    << &ast.VarNode{
+        Type: "float",
+        Value: $0,
+    }, nil >>
     ;
 
 // Condición if-else
