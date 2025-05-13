@@ -1,7 +1,6 @@
 package ast
 
 import (
-	"BabyDuck_A00833578/token"
 	"fmt"
 )
 
@@ -15,42 +14,32 @@ func SetGlobalScope(name string) {
 }
 
 // Declara una variable en el ámbito actual
-func NewVariable(id, typ Attrib) error {
-	idTok := id.(*token.Token)
-	typTok := typ.(*token.Token)
-
-	varId := string(idTok.Lit)
-	varType := string(typTok.Lit)
-
-	var currentFuncNode = functionDirectory[currentScope]
-
+func NewVariable(id, typ string) error {
 	// Verificar si la variable ya existe en el ámbito actual
-	_, found := LookupVariable(varId)
-	if found {
-		return fmt.Errorf("variable '%s' ya declarada en función '%s'", varId, currentScope)
+	if _, found := LookupVariable(id); found {
+		return fmt.Errorf("variable '%s' ya declarada en función '%s'", id, currentScope)
 	}
 
 	// Agregar la variable a la tabla de símbolos del ámbito actual
-	currentFuncNode.SymbolTable[varId] = VarNode{
-		Type:  varType,
-		Value: nil,
+	functionDirectory[currentScope].SymbolTable[id] = VarNode{
+		Id:    id,
+		Type:  typ,
+		Value: "",
 	}
 
 	return nil
 }
 
 // Buscar una variable en el ámbito actual
-func LookupVariable(varId string) (VarNode, bool) {
-	var currentFuncNode = functionDirectory[currentScope]
-
+func LookupVariable(id string) (VarNode, bool) {
 	// Buscar en la tabla de símbolos del ámbito actual
-	if info, exists := currentFuncNode.SymbolTable[varId]; exists {
+	if info, exists := functionDirectory[currentScope].SymbolTable[id]; exists {
 		return info, true
 	}
 
 	if currentScope != globalScope {
 		// Buscar en el ámbito global
-		if info, exists := functionDirectory[globalScope].SymbolTable[varId]; exists {
+		if info, exists := functionDirectory[globalScope].SymbolTable[id]; exists {
 			return info, true
 		}
 	}
@@ -60,33 +49,29 @@ func LookupVariable(varId string) (VarNode, bool) {
 }
 
 // Función constructora para FuncNode
-func NewFunction(id Attrib, params []*ParamNode, body []Attrib) (*FuncNode, error) {
-	idTok := id.(*token.Token)
-	funcId := string(idTok.Lit)
-
+func NewFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, error) {
 	// Verificar si la función ya existe
-	if _, exists := functionDirectory[funcId]; exists {
-		return nil, fmt.Errorf("función '%s' ya declarada", funcId)
+	if _, exists := functionDirectory[id]; exists {
+		return nil, fmt.Errorf("función '%s' ya declarada", id)
 	}
 
-	// Crear nodo de función con su tabla local vacía
+	// Crear el nodo de función
 	funcNode := &FuncNode{
-		Id:          funcId,
-		Parameters:  params,
+		Id:          id,
+		Parameters:  vars,
 		Body:        body,
 		SymbolTable: make(map[string]VarNode),
 	}
 
-	// Establecer función actual para contexto de variables
-	currentScope = funcId
+	// Agregar la función al directorio de funciones
+	functionDirectory[id] = *funcNode
 
-	// Registrar la función en el directorio
-	functionDirectory[funcId] = *funcNode
+	// Establecer el ámbito actual a la nueva función
+	currentScope = id
 
 	// Registrar los parámetros como variables locales
-	for _, param := range params {
-		err := NewVariable(param.Id, param.Type)
-		if err != nil {
+	for _, param := range vars {
+		if err := NewVariable(param.Id, param.Type); err != nil {
 			return nil, err
 		}
 	}
@@ -100,7 +85,7 @@ func NewFunction(id Attrib, params []*ParamNode, body []Attrib) (*FuncNode, erro
 func ExecuteFunction(funcNode *FuncNode) error {
 	// Limpiar variables locales anteriores
 	for name, varNode := range funcNode.SymbolTable {
-		varNode.Value = nil
+		varNode.Value = ""
 		funcNode.SymbolTable[name] = varNode
 	}
 
@@ -109,8 +94,7 @@ func ExecuteFunction(funcNode *FuncNode) error {
 
 	// Ejecutar las instrucciones del cuerpo
 	for _, stmt := range funcNode.Body {
-		err := ExecuteStatement(stmt)
-		if err != nil {
+		if err := ExecuteStatement(stmt); err != nil {
 			return fmt.Errorf("error al ejecutar en función '%s': %v", funcNode.Id, err)
 		}
 	}
@@ -140,20 +124,17 @@ func ExecuteStatement(stmt Attrib) error {
 
 // Función para ejecutar la asignación
 func ExecuteAssign(assignNode *AssignNode) error {
-	ctx := &Context{}
-
-	// Genera el código intermedio para la expresión
-	if err := assignNode.Generate(ctx); err != nil {
-		return err
+	// Verificar si la variable está declarada
+	info, exists := LookupVariable(assignNode.Id)
+	if !exists {
+		return fmt.Errorf("variable no declarada: %s", assignNode.Id)
 	}
 
-	idTok := assignNode.Id.(*token.Token)
-	varId := string(idTok.Lit)
+	// Genera el código intermedio para la expresión
+	ctx := &Context{}
 
-	// Verificar si la variable está declarada
-	info, exists := LookupVariable(varId)
-	if !exists {
-		return fmt.Errorf("variable no declarada: %s", varId)
+	if err := assignNode.Generate(ctx); err != nil {
+		return err
 	}
 
 	// Si hay cuádruplos generados, se evalúan
@@ -173,21 +154,21 @@ func ExecuteAssign(assignNode *AssignNode) error {
 
 	// Actualizar la tabla de símbolos con el valor calculado
 	info.Value = result.Value
-	functionDirectory[currentScope].SymbolTable[varId] = info
+	functionDirectory[currentScope].SymbolTable[assignNode.Id] = info
 
 	return nil
 }
 
 // Evalúa e imprime cada elemento de una lista
-func ExecutePrint(node *PrintNode) error {
-	for _, item := range node.Items {
+func ExecutePrint(printNode *PrintNode) error {
+	for _, item := range printNode.Items {
 		switch v := item.(type) {
 
 		// Caso 1: es una expresión/constante numérica
 		case Quad:
+			// Genera el código intermedio para la expresión
 			ctx := &Context{}
 
-			// Genera el código intermedio para la expresión
 			if _, err := v.Generate(ctx); err != nil {
 				return err
 			}
@@ -203,8 +184,9 @@ func ExecutePrint(node *PrintNode) error {
 			fmt.Print(result.Value)
 
 		// Caso 2: es un literal de cadena
-		case *token.Token:
-			fmt.Print(string(v.Lit)[1 : len(string(v.Lit))-1])
+		case string:
+			// Imprimir la cadena sin comillas
+			fmt.Print(v[1 : len(v)-1])
 
 		default:
 			return fmt.Errorf("elemento de print no soportado: %T", item)

@@ -70,12 +70,12 @@ Program
     : program id semicolon VarSection FuncSection main Body end
     <<
         func() (Attrib, error) {
-            idTok := $1.(*token.Token)
-            params := $3.([]*ast.ParamNode)
+            id := string($1.(*token.Token).Lit)
+            vars := $3.([]*ast.VarNode)
             body := $6.([]ast.Attrib)
 
             // Inicializar programa como una función
-            programNode, err := ast.NewFunction(idTok, params, body)
+            programNode, err := ast.NewFunction(id, vars, body)
             if err != nil {
                 return nil, err
             }
@@ -94,19 +94,13 @@ VarSection
     : var VarList
     << $1, nil >>
     | "empty"
-    << []*ast.ParamNode{}, nil >>
+    << []*ast.VarNode{}, nil >>
     ;
 
 // Lista de declaraciones de variables (1 o más)
 VarList
     : VarDeclaration VarList
-    <<
-        func() (Attrib, error) {
-            head := $0.([]*ast.ParamNode)
-            tail := $1.([]*ast.ParamNode)
-            return append(head, tail...), nil
-        }()
-    >>
+    << append($0.([]*ast.VarNode), $1.([]*ast.VarNode)...), nil >>
     | VarDeclaration
     << $0, nil >>
     ;
@@ -117,13 +111,19 @@ VarDeclaration
     <<
         func() (Attrib, error) {
             ids := $0.([]*token.Token)
-            typ := $2.(*token.Token)
+            typ := string($2.(*token.Token).Lit)
+            vars := []*ast.VarNode{}
             
-            params := []*ast.ParamNode{}
+            // Juntar ids en la lista de variables
             for _, id := range ids {
-                params = append(params, &ast.ParamNode{Id: id, Type: typ})
+                vars = append(vars, &ast.VarNode{
+                    Id: string(id.Lit),
+                    Type: typ,
+                    Value: ""},
+                )
             }
-            return params, nil
+
+            return vars, nil
         }()
     >>
     ;
@@ -131,19 +131,17 @@ VarDeclaration
 // Lista de identificadores separados por coma (1 o más)
 IdList
     : id comma IdList
-    <<
-        func() (Attrib, error) {
-            return append([]*token.Token{$0.(*token.Token)}, $2.([]*token.Token)...), nil
-        }()
-    >>
+    << append([]*token.Token{$0.(*token.Token)}, $2.([]*token.Token)...), nil >>
     | id
     << []*token.Token{$0.(*token.Token)}, nil >>
     ;
 
 // Tipo de la variable
 Type
-    : int   << $0, nil >>
-    | float << $0, nil >>
+    : int
+    << $0, nil >>
+    | float
+    << $0, nil >>
     ;
 
 // Sección de funciones (0 o más)
@@ -157,18 +155,12 @@ FuncDeclaration
     : void id lparen FuncParams rparen lbracket VarSection Body rbracket semicolon
     <<
         func() (Attrib, error) {
-            idTok := $1.(*token.Token)
-            params := $3.([]*ast.ParamNode)
-            vars := $6.([]*ast.ParamNode)
+            id := string($1.(*token.Token).Lit)
+            vars := append($3.([]*ast.VarNode), $6.([]*ast.VarNode)...)
             body := $7.([]ast.Attrib)
 
             // Crear y registrar la función
-            funcNode, err := ast.NewFunction(idTok, append(params, vars...), body)
-            if err != nil {
-                return nil, err
-            }
-
-            return funcNode, nil
+            return ast.NewFunction(id, vars, body)
         }()
     >>
     ;
@@ -178,27 +170,27 @@ FuncParams
     : ParamList
     << $0, nil >>
     | "empty"
-    << []*ast.ParamNode{}, nil >>
+    << []*ast.VarNode{}, nil >>
     ;
 
 // Lista de parámetros (1 o más)
 ParamList
     : Param comma ParamList
-    <<
-        func() (Attrib, error) {
-            head := $0.(*ast.ParamNode)
-            tail := $2.([]*ast.ParamNode)
-            return append([]*ast.ParamNode{head}, tail...), nil
-        }()
-    >>
+    << append([]*ast.VarNode{$0.(*ast.VarNode)}, $2.([]*ast.VarNode)...), nil >>
     | Param
-    << []*ast.ParamNode{ $0.(*ast.ParamNode) }, nil >>
+    << []*ast.VarNode{$0.(*ast.VarNode)}, nil >>
     ;
 
 // Declaración de un parámetro
 Param
     : id colon Type
-    << &ast.ParamNode{ Id: $0, Type: $2 }, nil >>
+    <<
+        &ast.VarNode{
+            Id: string($0.(*token.Token).Lit),
+            Type: string($2.(*token.Token).Lit),
+            Value: "",
+        }, nil
+    >>
     ;
 
 // Cuerpo de una función o bloque
@@ -210,17 +202,7 @@ Body
 // Declaración opcional de sentencias (0 o más)
 StatementOptional
     : Statement StatementOptional
-    <<
-        func() (Attrib, error) {
-            stmts := []ast.Attrib{$0}
-
-            // Lista de statements
-            if $1 != nil {
-                stmts = append(stmts, $1.([]ast.Attrib)...)
-            }
-            return stmts, nil
-        }()
-    >>
+    << append([]ast.Attrib{$0}, $1.([]ast.Attrib)...), nil >>
     | "empty"
     << []ast.Attrib{}, nil >>
     ;
@@ -241,7 +223,7 @@ Assign
     : id assign Expression semicolon
     <<
         &ast.AssignNode{
-            Id: $0.(*token.Token),
+            Id: string($0.(*token.Token).Lit),
             Exp: $2.(ast.Quad),
         }, nil
     >>
@@ -321,20 +303,15 @@ Factor
     << $1, nil >>
     | minus Atom
     <<
-        func() (Attrib, error) {
-            right := $1.(ast.Quad)
-            
-            // Agregar signo negativo como expresión
-            node := &ast.ExpressionNode{
-                Op:    "-",
-                Left:  &ast.VarNode{
-                    Type: "int",
-                    Value: (&token.Token{Lit: []byte("0")}),
-                },
-                Right: right,
-            }
-            return node, nil
-        }()
+        &ast.ExpressionNode{
+            Op:    "-",
+            Left:  &ast.VarNode{
+                Id: "",
+                Type: "int",
+                Value: "0",
+            },
+            Right: $1.(ast.Quad),
+        }, nil
     >>
     | Atom
     << $0, nil >>
@@ -345,24 +322,33 @@ Atom
     : Cte
     << $0, nil >>
     | id
-    << &ast.VarNode{
-        Type: "id",
-        Value: $0,
-    }, nil >>
+    <<
+        &ast.VarNode{
+            Id: string($0.(*token.Token).Lit),
+            Type: "",
+            Value: "",
+        }, nil
+    >>
     ;
 
 // Constante
 Cte
     : cte_int
-    << &ast.VarNode{
-        Type: "int",
-        Value: $0,
-    }, nil >>
+    <<
+        &ast.VarNode{
+            Id: "",
+            Type: "int",
+            Value: string($0.(*token.Token).Lit),
+        }, nil
+    >>
     | cte_float
-    << &ast.VarNode{
-        Type: "float",
-        Value: $0,
-    }, nil >>
+    <<
+        &ast.VarNode{
+            Id: "",
+            Type: "float",
+            Value: string($0.(*token.Token).Lit),
+        }, nil
+    >>
     ;
 
 // Condición if-else
@@ -409,13 +395,7 @@ PrintVarList
     : PrintVar
     << []ast.Attrib{$0.(ast.Attrib)}, nil >>
     | PrintVar comma PrintVarList
-    <<
-        func() (Attrib, error) {
-            head := $0.(ast.Attrib)
-            tail := $2.([]ast.Attrib)
-            return append([]ast.Attrib{head}, tail...), nil
-        }()
-    >>
+    << append([]ast.Attrib{$0.(ast.Attrib)}, $2.([]ast.Attrib)...), nil >>
     ;
 
 // Variable a imprimir
@@ -423,5 +403,5 @@ PrintVar
     : Expression
     << $0, nil >>
     | cte_string
-    << $0, nil >>
+    << string($0.(*token.Token).Lit), nil >>
     ;

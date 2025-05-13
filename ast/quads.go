@@ -1,7 +1,6 @@
 package ast
 
 import (
-	"BabyDuck_A00833578/token"
 	"fmt"
 	"strconv"
 )
@@ -95,6 +94,7 @@ func (n *ExpressionNode) Generate(ctx *Context) (string, error) {
 
 	// Agrega el temporal a la pila
 	ctx.Push(VarNode{
+		Id:    temp,
 		Type:  resultType,
 		Value: temp,
 	})
@@ -104,27 +104,24 @@ func (n *ExpressionNode) Generate(ctx *Context) (string, error) {
 
 // Genera el código intermedio para una variable o constante
 func (n *VarNode) Generate(ctx *Context) (string, error) {
-	varTok := n.Value.(*token.Token)
-	varName := string(varTok.Lit)
+	var val, typ string
 
-	var val string
-	var typ string
-
-	if n.Type == "id" {
+	if n.Id != "" {
 		// Buscar el valor en la tabla de símbolos si es una variable
-		info, found := LookupVariable(varName)
+		info, found := LookupVariable(n.Id)
 		if !found {
-			return "", fmt.Errorf("variable no declarada: %s", varName)
+			return "", fmt.Errorf("variable no declarada: %s", n.Id)
 		}
-		val = info.Value.(string)
+		val = info.Value
 		typ = info.Type
 	} else {
 		// Si es una constante, usar su valor y tipo directamente
-		val = varName
+		val = n.Value
 		typ = n.Type
 	}
 
 	ctx.Push(VarNode{
+		Id:    n.Id,
 		Value: val,
 		Type:  typ,
 	})
@@ -143,13 +140,13 @@ func (ctx *Context) Evaluate() VarNode {
 	for _, q := range ctx.Quads {
 		// 1) Recuperar operando izquierdo desde memoria si es temporal
 		left := q.Left
-		if info, found := temps[left.Value.(string)]; found {
+		if info, found := temps[left.Id]; found {
 			left = info
 		}
 
 		// 2) Recuperar operando derecho desde memoria si es temporal
 		right := q.Right
-		if info, found := temps[right.Value.(string)]; found {
+		if info, found := temps[right.Id]; found {
 			right = info
 		}
 
@@ -157,24 +154,24 @@ func (ctx *Context) Evaluate() VarNode {
 		var leftVal, rightVal Attrib
 		switch left.Type {
 		case "int":
-			intVal, _ := strconv.Atoi(left.Value.(string))
+			intVal, _ := strconv.Atoi(left.Value)
 			leftVal = intVal
 		case "float":
-			floatVal, _ := strconv.ParseFloat(left.Value.(string), 64)
+			floatVal, _ := strconv.ParseFloat(left.Value, 64)
 			leftVal = floatVal
 		case "bool":
-			leftVal = left.Value.(string) == "1"
+			leftVal = left.Value == "1"
 		}
 
 		switch right.Type {
 		case "int":
-			intVal, _ := strconv.Atoi(right.Value.(string))
+			intVal, _ := strconv.Atoi(right.Value)
 			rightVal = intVal
 		case "float":
-			floatVal, _ := strconv.ParseFloat(right.Value.(string), 64)
+			floatVal, _ := strconv.ParseFloat(right.Value, 64)
 			rightVal = floatVal
 		case "bool":
-			rightVal = right.Value.(string) == "1"
+			rightVal = right.Value == "1"
 		}
 
 		// 4) Verificar el tipo de resultado con el cubo semántico
@@ -230,6 +227,7 @@ func (ctx *Context) Evaluate() VarNode {
 
 		// 8) Almacenar resultado en memoria
 		temps[q.Result] = VarNode{
+			Id:    q.Result,
 			Type:  resultType,
 			Value: outValue,
 		}

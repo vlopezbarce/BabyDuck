@@ -8,22 +8,17 @@ var functionDirectory = map[string]FuncNode{}
 
 // Nodo de variable
 type VarNode struct {
+	Id    string
 	Type  string
-	Value Attrib
+	Value string
 }
 
 // Nodo de función
 type FuncNode struct {
 	Id          string
-	Parameters  []*ParamNode
+	Parameters  []*VarNode
 	Body        []Attrib
 	SymbolTable map[string]VarNode // Tabla de símbolos para almacenar información sobre variables
-}
-
-// Nodo de parámetro
-type ParamNode struct {
-	Id   Attrib
-	Type Attrib
 }
 
 // Interfaz para nodos que pueden generar cuádruplos
@@ -33,7 +28,7 @@ type Quad interface {
 
 // Nodo de asignación
 type AssignNode struct {
-	Id  Attrib
+	Id  string
 	Exp Quad
 }
 
