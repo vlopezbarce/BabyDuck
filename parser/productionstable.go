@@ -3,8 +3,8 @@
 package parser
 
 import(
-    "BabyDuck_A00833578/ast"
-    "BabyDuck_A00833578/token"
+    "BabyDuck/ast"
+    "BabyDuck/token"
 )
 
 type (

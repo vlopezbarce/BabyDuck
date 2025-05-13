@@ -1,9 +1,9 @@
 package main
 
 import (
-	"BabyDuck_A00833578/ast"
-	"BabyDuck_A00833578/lexer"
-	"BabyDuck_A00833578/parser"
+	"BabyDuck/ast"
+	"BabyDuck/lexer"
+	"BabyDuck/parser"
 	"testing"
 )
 

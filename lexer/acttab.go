@@ -5,7 +5,7 @@ package lexer
 import (
 	"fmt"
 
-	"BabyDuck_A00833578/token"
+	"BabyDuck/token"
 )
 
 type ActionTable [NumStates]ActionRow

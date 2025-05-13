@@ -1,3 +1,3 @@
-module BabyDuck_A00833578
+module BabyDuck
 
 go 1.24.2

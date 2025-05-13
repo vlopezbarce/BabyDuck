@@ -8,7 +8,7 @@ import (
 	"strings"
 	"unicode"
 
-	"BabyDuck_A00833578/token"
+	"BabyDuck/token"
 )
 
 type ErrorSymbol interface {
