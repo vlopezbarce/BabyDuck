@@ -1,78 +1,103 @@
 # BabyDuck Compiler
 
-**Tecnológico de Monterrey**
+**Instituto Tecnológico y de Estudios Superiores de Monterrey**
 
-**TC3002B: Desarrollo de aplicaciones avanzadas de ciencias computacionales**
-
-**Módulo 3: Compiladores**
-
-**Profra. Elda Quiroga**
+**Desarrollo de aplicaciones avanzadas de ciencias computacionales**
 
 **Valeria López Barcelata A00833578**
 
----
-
-## Descripción general
-
-**BabyDuck** es un compilador en desarrollo como parte de un proyecto académico, implementado en el lenguaje Go. El compilador está diseñado para interpretar un lenguaje estructurado de propósito educativo, y actualmente cubre análisis léxico, sintáctico, semántico y generación de código intermedio (cuádruplos).
+**Profra. Elda Quiroga**
 
 ---
 
-## Entrega 1: Léxico y Sintaxis
+## Descripción
+
+**BabyDuck** es un compilador en desarrollo como parte de un proyecto académico, implementado en el lenguaje Go. Utiliza [Gocc](https://github.com/goccmack/gocc), una herramienta generadora de analizadores léxicos y sintácticos para Go.
+El compilador está diseñado para interpretar un lenguaje estructurado de propósito educativo, y actualmente cubre análisis léxico, sintáctico, semántico y generación de código intermedio (cuádruplos).
+
+---
+
+## 🔹 Entrega 1: Léxico y Sintaxis
 
 - Se investigaron herramientas de generación de compiladores y se seleccionó **Gocc** por su integración con Go y buena documentación.
 - Se definieron expresiones regulares y reglas gramaticales en formato `.bnf`.
 - Se implementaron el **scanner** y el **parser** utilizando Gocc.
 - Se diseñó un **plan de pruebas** para validar expresiones, declaraciones y estructuras básicas del lenguaje BabyDuck.
-- La documentación incluye un resumen de herramientas exploradas, y cómo se definieron las reglas gramaticales.
 
 ---
 
-## Entrega 2: Semántica de Variables
-
-- Se diseñó un **Directorio de Funciones** y una **Tabla de Variables** para manejar información semántica.
-- Se implementaron validaciones como **variables duplicadas** y manejo de **tipos**.
-- Se utilizó un mapa (`map[string]VarNode`) para la tabla de símbolos por función.
-- Se diseñó un **cubo semántico** para definir reglas de compatibilidad entre tipos.
-- Todo el análisis semántico ocurre durante el recorrido del AST tras el parseo.
+## 🔹 Entrega 2: Semántica de Variables
+  
+- Se diseñó un **Directorio de Funciones** (`map[string]FuncNode{}`) que almacena la información semántica de cada función declarada, incluyendo sus parámetros, cuerpo y variables locales.
+- Cada función mantiene su propia **Tabla de Variables Locales**, implementada con un (`map[string]VarNode`).
+- La primera función llamada (`program`) es tratada como la función principal y actúa como el contexto predeterminado del código.
+- Se utilizó una variable de control (`currentScope`) que se actualiza durante el recorrido del AST para reflejar el contexto actual de ejecución.
+- Se implementaron validaciones semánticas como:
+  - Declaración de variables duplicadas.
+  - Referencias a variables no definidas.
+  - Verificación de tipos para asignaciones y expresiones.
+- Se diseñó un **Cubo Semántico** para definir las reglas de compatibilidad entre tipos.
 
 ---
 
-## Entrega 3: Código de Expresiones y Estatutos Lineales
+## 🔹 Entrega 3: Código de Expresiones y Estatutos Lineales
 
-- Se implementó un sistema de generación de **cuádruplos** para representar instrucciones intermedias.
-- Se utilizaron estructuras como:
-  - **Pila semántica**: para operandos.
-  - **Contador de temporales**: para generar nombres de variables intermedias.
-  - **Fila de cuádruplos**: que representa el código generado.
-- Se soportan expresiones aritméticas y relacionales.
+- Se implementó un sistema de generación de **cuádruplos** (`Quadruple`) para representar instrucciones intermedias.
+- La generación de código (`Context`) utiliza:
+  - **Pila semántica:** (`SemStack []VarNode`) para almacenar operandos durante el análisis.
+  - **Fila de cuádruplos:** (`Quads []Quadruple`) que acumula el código intermedio generado.
+  - **Contador de temporales:** (`TempCount int`) para generar identificadores únicos de variables temporales.
+- Se imprimen los cuádruplos generados al final del análisis.
+- Evaluación de cúadruplos:
+  - Se soportan expresiones aritméticas y relacionales.
+  - Se construye una memoria temporal (`temps map[string]VarNode`) para almacenar resultados parciales.
+  - Las instrucciones **Assign** y **Print** evalúan expresiones y constantes.
 
 ---
 
 ## Estructura del Proyecto
 
-BabyDuck_A00833578/
+📁 BabyDuck/
 
-├── ast/
+├── 📁 ast/
 
-│   ├── ast.go                 # Métodos básicos para nodos del AST
+│    ├── 📜 ast.go                 # Métodos básicos para nodos del AST
 
-│   ├── quads.go               # Generación de código intermedio (cuádruplos)
+│    ├── 📜 quads.go               # Generación de código intermedio (cuádruplos)
 
-│   ├── semanticcube.go        # Implementación del cubo semántico
+│    ├── 📜 semanticcube.go        # Implementación del cubo semántico
 
-│   ├── types.go               # Definición de nodos del AST
+│    ├── 📜 types.go               # Definición de nodos del AST
 
-├── parser.bnf                 # Definición léxica, gramatical y semántica del lenguaje
+├── 📜 parser.bnf                 # Definición léxica, gramatical y semántica del lenguaje
 
-├── main_test.go               # Programa principal de prueba
+├── 📜 main_test.go               # Programa principal de prueba
 
-└── README.md                  # Documentación general del proyecto
+└── 📜 README.md                  # Documentación general del proyecto
 
 ---
 
-## Herramientas utilizadas
+## 🛠 Requisitos
 
-- **Go (Golang)** como lenguaje principal de implementación.
-- **Gocc** como generador de parser y lexer.
-- Terminal e IDE: Visual Studio Code.
+1. **Instalar Go:**  
+   Descargar e instalar el lenguaje Go desde [https://golang.org](https://golang.org).
+
+2. **Configurar la variable de entorno `GOPATH`:**  
+   Configurar la variable `GOPATH` correctamente.  
+   Consulta cómo hacerlo aquí: [Configuración de GOPATH](https://golang.org/doc/gopath_code.html)
+
+## Instrucciones de Ejecución  
+
+1️⃣ **Clonar este repositorio:**  
+```
+git clone https://github.com/vlopezbarce/BabyDuck.git
+cd BabyDuck
+```
+2️⃣ **Instalar dependencias:**
+```
+go mod tidy
+```
+3️⃣ **Ejecutar las pruebas:**
+```
+go test -v
+```
