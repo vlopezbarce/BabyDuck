@@ -55,11 +55,11 @@ BabyDuck_A00833578/
 
 ├── ast/
 
-│   ├── ast.go                 # Métodos del AST
+│   ├── ast.go                 # Métodos básicos para nodos del AST
+
+│   ├── quads.go               # Generación de código intermedio (cuádruplos)
 
 │   ├── semanticcube.go        # Implementación del cubo semántico
-
-│   ├── symboltable.go         # Funciones para la tabla de variables
 
 │   ├── types.go               # Definición de nodos del AST
 
