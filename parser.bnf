@@ -15,7 +15,7 @@ int          : 'i''n''t' ;
 float        : 'f''l''o''a''t' ;
 void         : 'v''o''i''d' ;
 
-// Identificadores y constantes
+// Definiciones regulares
 _lowcase     : 'a'-'z' ;
 _upcase      : 'A'-'Z' ;
 _digit       : '0'-'9' ;
@@ -24,6 +24,7 @@ _symbol      : ' ' | '!' | '#' | '$' | '%' | '&' | '\'' | '(' | ')' | '*' | '+' 
             '[' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~' ;
 _chars       : _lowcase | _upcase | _digit | _symbol ;
 
+// Identificadores y constantes
 id           : _lowcase { (_lowcase | _upcase | _digit) } ;
 cte_int      : _digit { _digit } ;
 cte_float    : _digit { _digit } '.' _digit { _digit } ;
@@ -35,12 +36,12 @@ minus        : '-' ;
 times        : '*' ;
 divide       : '/' ;
 
-// Comparadores
+// Operadores relacionales
 gt           : '>' ;
 lt           : '<' ;
 neq          : '!''=' ;
 
-// Delimitadores
+// Delimitadores y símbolos especiales
 assign       : '=' ;
 semicolon    : ';' ;
 colon        : ':' ;
@@ -195,13 +196,13 @@ Param
 
 // Cuerpo de una función o bloque
 Body
-    : lbrace StatementOptional rbrace
+    : lbrace StatementList rbrace
     << $1, nil >>
     ;
 
 // Declaración opcional de sentencias (0 o más)
-StatementOptional
-    : Statement StatementOptional
+StatementList
+    : Statement StatementList
     << append([]ast.Attrib{$0}, $1.([]ast.Attrib)...), nil >>
     | "empty"
     << []ast.Attrib{}, nil >>

@@ -297,7 +297,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Body : lbrace StatementOptional rbrace	<< X[1], nil >>`,
+		String: `Body : lbrace StatementList rbrace	<< X[1], nil >>`,
 		Id:         "Body",
 		NTType:     12,
 		Index:      19,
@@ -307,8 +307,8 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StatementOptional : Statement StatementOptional	<< append([]ast.Attrib{X[0]}, X[1].([]ast.Attrib)...), nil >>`,
-		Id:         "StatementOptional",
+		String: `StatementList : Statement StatementList	<< append([]ast.Attrib{X[0]}, X[1].([]ast.Attrib)...), nil >>`,
+		Id:         "StatementList",
 		NTType:     13,
 		Index:      20,
 		NumSymbols: 2,
@@ -317,8 +317,8 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StatementOptional : "empty"	<< []ast.Attrib{}, nil >>`,
-		Id:         "StatementOptional",
+		String: `StatementList : "empty"	<< []ast.Attrib{}, nil >>`,
+		Id:         "StatementList",
 		NTType:     13,
 		Index:      21,
 		NumSymbols: 0,

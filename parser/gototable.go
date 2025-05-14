@@ -24,7 +24,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -58,7 +58,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -92,7 +92,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -126,7 +126,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -160,7 +160,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -194,7 +194,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -228,7 +228,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -262,7 +262,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -296,7 +296,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -330,7 +330,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -364,7 +364,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -398,7 +398,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -432,7 +432,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -466,7 +466,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -500,7 +500,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		20, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -534,7 +534,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -568,7 +568,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -602,7 +602,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -636,7 +636,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -670,7 +670,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -704,7 +704,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -738,7 +738,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		29, // StatementOptional
+		29, // StatementList
 		30, // Statement
 		31, // Assign
 		-1, // Expression
@@ -772,7 +772,7 @@ var gotoTab = gotoTable{
 		41, // ParamList
 		42, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -806,7 +806,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -840,7 +840,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -874,7 +874,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -908,7 +908,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -942,7 +942,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -976,7 +976,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1010,7 +1010,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1044,7 +1044,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		47, // StatementOptional
+		47, // StatementList
 		30, // Statement
 		31, // Assign
 		-1, // Expression
@@ -1078,7 +1078,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1112,7 +1112,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1146,7 +1146,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1180,7 +1180,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1214,7 +1214,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1248,7 +1248,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1282,7 +1282,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1316,7 +1316,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1350,7 +1350,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1384,7 +1384,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1418,7 +1418,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1452,7 +1452,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1486,7 +1486,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1520,7 +1520,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		56, // Expression
@@ -1554,7 +1554,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		69, // Expression
@@ -1588,7 +1588,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1622,7 +1622,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1656,7 +1656,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		80, // Expression
@@ -1690,7 +1690,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		89, // Expression
@@ -1724,7 +1724,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		90, // Expression
@@ -1758,7 +1758,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1792,7 +1792,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1826,7 +1826,7 @@ var gotoTab = gotoTable{
 		98, // ParamList
 		42, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1860,7 +1860,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1894,7 +1894,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		99, // Expression
@@ -1928,7 +1928,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -1962,7 +1962,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -1996,7 +1996,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2030,7 +2030,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -2064,7 +2064,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2098,7 +2098,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2132,7 +2132,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2166,7 +2166,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2200,7 +2200,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2234,7 +2234,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2268,7 +2268,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2302,7 +2302,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2336,7 +2336,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		111, // Expression
@@ -2370,7 +2370,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2404,7 +2404,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -2438,7 +2438,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2472,7 +2472,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -2506,7 +2506,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2540,7 +2540,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2574,7 +2574,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2608,7 +2608,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2642,7 +2642,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2676,7 +2676,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2710,7 +2710,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		119, // Expression
@@ -2744,7 +2744,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2778,7 +2778,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -2812,7 +2812,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2846,7 +2846,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -2880,7 +2880,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2914,7 +2914,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2948,7 +2948,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -2982,7 +2982,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3016,7 +3016,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3050,7 +3050,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3084,7 +3084,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3118,7 +3118,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3152,7 +3152,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3186,7 +3186,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3220,7 +3220,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3254,7 +3254,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3288,7 +3288,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3322,7 +3322,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3356,7 +3356,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3390,7 +3390,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3424,7 +3424,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		56,  // Expression
@@ -3458,7 +3458,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3492,7 +3492,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3526,7 +3526,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3560,7 +3560,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3594,7 +3594,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3628,7 +3628,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3662,7 +3662,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3696,7 +3696,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3730,7 +3730,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3764,7 +3764,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3798,7 +3798,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3832,7 +3832,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -3866,7 +3866,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3900,7 +3900,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3934,7 +3934,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -3968,7 +3968,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4002,7 +4002,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4036,7 +4036,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4070,7 +4070,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4104,7 +4104,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		165, // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4138,7 +4138,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4172,7 +4172,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4206,7 +4206,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4240,7 +4240,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4274,7 +4274,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4308,7 +4308,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4342,7 +4342,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4376,7 +4376,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4410,7 +4410,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		90,  // Expression
@@ -4444,7 +4444,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		184, // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4478,7 +4478,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4512,7 +4512,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4546,7 +4546,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4580,7 +4580,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4614,7 +4614,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		189, // Expression
@@ -4648,7 +4648,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4682,7 +4682,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4716,7 +4716,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -4750,7 +4750,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4784,7 +4784,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4818,7 +4818,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4852,7 +4852,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4886,7 +4886,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4920,7 +4920,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4954,7 +4954,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -4988,7 +4988,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5022,7 +5022,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5056,7 +5056,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5090,7 +5090,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5124,7 +5124,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5158,7 +5158,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		195, // Expression
@@ -5192,7 +5192,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5226,7 +5226,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5260,7 +5260,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -5294,7 +5294,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5328,7 +5328,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5362,7 +5362,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5396,7 +5396,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5430,7 +5430,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5464,7 +5464,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5498,7 +5498,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5532,7 +5532,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5566,7 +5566,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5600,7 +5600,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5634,7 +5634,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -5668,7 +5668,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		203, // StatementOptional
+		203, // StatementList
 		30,  // Statement
 		31,  // Assign
 		-1,  // Expression
@@ -5702,7 +5702,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5736,7 +5736,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		204, // Expression
@@ -5770,7 +5770,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5804,7 +5804,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5838,7 +5838,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -5872,7 +5872,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5906,7 +5906,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5940,7 +5940,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -5974,7 +5974,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6008,7 +6008,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6042,7 +6042,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6076,7 +6076,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6110,7 +6110,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6144,7 +6144,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6178,7 +6178,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		210, // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6212,7 +6212,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6246,7 +6246,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6280,7 +6280,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6314,7 +6314,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		213, // StatementOptional
+		213, // StatementList
 		30,  // Statement
 		31,  // Assign
 		-1,  // Expression
@@ -6348,7 +6348,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6382,7 +6382,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6416,7 +6416,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6450,7 +6450,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6484,7 +6484,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6518,7 +6518,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6552,7 +6552,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6586,7 +6586,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6620,7 +6620,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6654,7 +6654,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6688,7 +6688,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6722,7 +6722,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6756,7 +6756,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6790,7 +6790,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6824,7 +6824,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6858,7 +6858,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6892,7 +6892,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		227, // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -6926,7 +6926,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6960,7 +6960,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -6994,7 +6994,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -7028,7 +7028,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -7062,7 +7062,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -7096,7 +7096,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -7130,7 +7130,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7164,7 +7164,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7198,7 +7198,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		235, // StatementOptional
+		235, // StatementList
 		30,  // Statement
 		31,  // Assign
 		-1,  // Expression
@@ -7232,7 +7232,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7266,7 +7266,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7300,7 +7300,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7334,7 +7334,7 @@ var gotoTab = gotoTable{
 		-1,  // ParamList
 		-1,  // Param
 		-1,  // Body
-		-1,  // StatementOptional
+		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
@@ -7368,7 +7368,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7402,7 +7402,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7436,7 +7436,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7470,7 +7470,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7504,7 +7504,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7538,7 +7538,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7572,7 +7572,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7606,7 +7606,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7640,7 +7640,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7674,7 +7674,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7708,7 +7708,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7742,7 +7742,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7776,7 +7776,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7810,7 +7810,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7844,7 +7844,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7878,7 +7878,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7912,7 +7912,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7946,7 +7946,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -7980,7 +7980,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -8014,7 +8014,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -8048,7 +8048,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -8082,7 +8082,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -8116,7 +8116,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -8150,7 +8150,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression
@@ -8184,7 +8184,7 @@ var gotoTab = gotoTable{
 		-1, // ParamList
 		-1, // Param
 		-1, // Body
-		-1, // StatementOptional
+		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
 		-1, // Expression

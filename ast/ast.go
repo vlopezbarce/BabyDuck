@@ -58,7 +58,6 @@ func NewFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, error) {
 	// Crear el nodo de función
 	funcNode := &FuncNode{
 		Id:          id,
-		Parameters:  vars,
 		Body:        body,
 		SymbolTable: make(map[string]VarNode),
 	}

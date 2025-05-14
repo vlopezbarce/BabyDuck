@@ -894,7 +894,7 @@ var actionTab = actionTable{
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
-			reduce(21), // rbrace, reduce: StatementOptional
+			reduce(21), // rbrace, reduce: StatementList
 			nil,        // assign
 			nil,        // gt
 			nil,        // lt
@@ -1263,7 +1263,7 @@ var actionTab = actionTable{
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
-			reduce(21), // rbrace, reduce: StatementOptional
+			reduce(21), // rbrace, reduce: StatementList
 			nil,        // assign
 			nil,        // gt
 			nil,        // lt
@@ -1960,7 +1960,7 @@ var actionTab = actionTable{
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
-			reduce(20), // rbrace, reduce: StatementOptional
+			reduce(20), // rbrace, reduce: StatementList
 			nil,        // assign
 			nil,        // gt
 			nil,        // lt
@@ -6839,7 +6839,7 @@ var actionTab = actionTable{
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
-			reduce(21), // rbrace, reduce: StatementOptional
+			reduce(21), // rbrace, reduce: StatementList
 			nil,        // assign
 			nil,        // gt
 			nil,        // lt
@@ -7618,7 +7618,7 @@ var actionTab = actionTable{
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
-			reduce(21), // rbrace, reduce: StatementOptional
+			reduce(21), // rbrace, reduce: StatementList
 			nil,        // assign
 			nil,        // gt
 			nil,        // lt
@@ -8684,7 +8684,7 @@ var actionTab = actionTable{
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
-			reduce(21), // rbrace, reduce: StatementOptional
+			reduce(21), // rbrace, reduce: StatementList
 			nil,        // assign
 			nil,        // gt
 			nil,        // lt

@@ -16,7 +16,6 @@ type VarNode struct {
 // Nodo de función
 type FuncNode struct {
 	Id          string
-	Parameters  []*VarNode
 	Body        []Attrib
 	SymbolTable map[string]VarNode // Tabla de símbolos para almacenar información sobre variables
 }
