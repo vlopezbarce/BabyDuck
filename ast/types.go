@@ -6,18 +6,46 @@ type Attrib interface{}
 // Tabla de funciones registradas
 var functionDirectory = map[string]FuncNode{}
 
+// Memoria de direcciones virtuales
+type Memory struct {
+	Global *SymbolTree
+	Const  *SymbolTree
+	Temp   *SymbolTree
+	Local  *SymbolTree
+}
+
+// Estructura del árbol de símbolos
+type SymbolTree struct {
+	Root *VarNode
+}
+
 // Nodo de variable
 type VarNode struct {
-	Id    string
-	Type  string
-	Value string
+	Address int
+	Id      string
+	Type    string
+	Value   string
+	Left    *VarNode
+	Right   *VarNode
+}
+
+// Rango de memoria para funciones
+type Range struct {
+	Start int
+	End   int
+}
+
+// Rangos para tipos de datos
+type MemoryRanges struct {
+	Int   Range
+	Float Range
 }
 
 // Nodo de función
 type FuncNode struct {
-	Id          string
-	Body        []Attrib
-	SymbolTable map[string]VarNode // Tabla de símbolos para almacenar información sobre variables
+	Id    string
+	Body  []Attrib
+	Range MemoryRanges
 }
 
 // Interfaz para nodos que pueden generar cuádruplos

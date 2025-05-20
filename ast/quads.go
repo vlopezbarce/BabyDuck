@@ -107,11 +107,18 @@ func (n *VarNode) Generate(ctx *Context) (string, error) {
 	var val, typ string
 
 	if n.Id != "" {
-		// Buscar el valor en la tabla de símbolos si es una variable
-		info, found := LookupVariable(n.Id)
+		// Buscar el valor en el árbol de símbolos si es una variable
+		var info *VarNode
+		var found bool
+
+		info, found = memory.Local.FindByName(n.Id, functionDirectory[scope].Range.Int.Start, functionDirectory[scope].Range.Int.End)
 		if !found {
-			return "", fmt.Errorf("variable no declarada: %s", n.Id)
+			info, found = memory.Global.FindByName(n.Id, functionDirectory[global].Range.Int.Start, functionDirectory[global].Range.Int.End)
+			if !found {
+				return "", fmt.Errorf("variable no declarada: %s", n.Id)
+			}
 		}
+
 		val = info.Value
 		typ = info.Type
 	} else {
