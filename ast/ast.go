@@ -13,6 +13,7 @@ func InitProgram(id string) {
 	globalVars = make(map[string]bool)
 	NewMemory()
 	NewAllocator()
+	FillOperatorsTree()
 }
 
 func ValidateVars(vars []*VarNode) error {
@@ -36,9 +37,6 @@ func ValidateVars(vars []*VarNode) error {
 			localVars[v.Id] = true
 		}
 	}
-
-	fmt.Println("Variables locales:", localVars)
-	fmt.Println("Variables globales:", globalVars)
 
 	return nil
 }
@@ -159,56 +157,33 @@ func ExecuteStatement(stmt Attrib) error {
 
 // Función para ejecutar la asignación
 func ExecuteAssign(assignNode *AssignNode) error {
-	// Verificar si la variable está declarada
-	var info *VarNode
-	var found bool
-
-	// Buscar la variable en el ámbito global
-	if scope != global {
-		info, found = memory.Local.FindByName(assignNode.Id)
-	}
-
-	// Si no se encuentra en el ámbito local o el ámbito actual es global, buscar en el global
-	if !found {
-		info, found = memory.Global.FindByName(assignNode.Id)
-	}
-
-	if !found {
-		return fmt.Errorf("variable '%s' no declarada", assignNode.Id)
-	}
-
-	// Genera el código intermedio para la expresión
-	ctx := &Context{}
-
-	if err := assignNode.Generate(ctx); err != nil {
+	// Buscar variable destino y memoria correcta
+	info, tree, err := lookupVar(assignNode.Id)
+	if err != nil {
 		return err
 	}
 
-	// Si hay cuádruplos generados, se evalúan
-	var result VarNode
-
-	if len(ctx.Quads) > 0 {
-		PrintQuads(ctx.Quads)
-		result = ctx.Evaluate()
-	} else {
-		// No hay cuádruplos: la pila semántica solo tiene la constante o id
-		result = ctx.Pop()
+	// Generar cuádruplos, pasando el VarNode destino
+	ctx := &Context{}
+	if err := assignNode.Generate(ctx, *info); err != nil {
+		return err
 	}
 
-	// Verificar compatibilidad de tipos
+	// Ejecutar y evaluar
+	PrintQuads(ctx.Quads)
+	result := ctx.Evaluate()
+
+	// Comprobar tipos
 	if info.Type != result.Type {
-		return fmt.Errorf("tipo incompatible: se esperaba %s, se obtuvo %s", info.Type, result.Type)
+		return fmt.Errorf(
+			"tipo incompatible en '%s': se esperaba %s, se obtuvo %s",
+			assignNode.Id, info.Type, result.Type,
+		)
 	}
 
-	// Actualizar el valor de la variable en la memoria
+	// Actualizar valor y escribir en la memoria correspondiente
 	info.Value = result.Value
-
-	if scope == global {
-		memory.Global.Update(info)
-	} else {
-		memory.Local.Update(info)
-	}
-
+	tree.Update(info)
 	return nil
 }
 
@@ -260,6 +235,10 @@ func ExecutePrint(printNode *PrintNode) error {
 func PrintVariables() {
 	fmt.Println()
 	fmt.Println("Variables registradas:")
+	fmt.Println("===================================")
+
+	fmt.Println("Operadores:")
+	memory.Operators.Print()
 	fmt.Println("===================================")
 
 	fmt.Println("Global:")

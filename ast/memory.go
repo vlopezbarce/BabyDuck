@@ -6,10 +6,25 @@ var memory *Memory
 
 func NewMemory() {
 	memory = &Memory{
-		Global: &SymbolTree{Root: nil},
-		Const:  &SymbolTree{Root: nil},
-		Temp:   &SymbolTree{Root: nil},
-		Local:  &SymbolTree{Root: nil},
+		Operators: &SymbolTree{Root: nil},
+		Global:    &SymbolTree{Root: nil},
+		Local:     &SymbolTree{Root: nil},
+		Const:     &SymbolTree{Root: nil},
+		Temp:      &SymbolTree{Root: nil},
+	}
+}
+
+// Llenar el árbol de operadores con los operadores disponibles
+func FillOperatorsTree() {
+	operators := []string{"+", "-", "*", "/", ">", "<", "!=", "="}
+	for addr, op := range operators {
+		node := &VarNode{
+			Address: addr,
+			Id:      op,
+			Type:    "operator",
+			Value:   op,
+		}
+		memory.Operators.Insert(node)
 	}
 }
 
@@ -49,6 +64,19 @@ func updateNode(currNode, newNode *VarNode) error {
 		return updateNode(currNode.Left, newNode)
 	}
 	return updateNode(currNode.Right, newNode)
+}
+
+// Busca en local primero y luego en global, retorna qué memoria usar
+func lookupVar(name string) (*VarNode, *SymbolTree, error) {
+	if scope != global {
+		if info, found := memory.Local.FindByName(name); found {
+			return info, memory.Local, nil
+		}
+	}
+	if info, found := memory.Global.FindByName(name); found {
+		return info, memory.Global, nil
+	}
+	return nil, nil, fmt.Errorf("variable '%s' no declarada", name)
 }
 
 // Busca una variable por su ID en el árbol de símbolos
