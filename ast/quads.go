@@ -111,12 +111,18 @@ func (n *VarNode) Generate(ctx *Context) (string, error) {
 		var info *VarNode
 		var found bool
 
-		info, found = memory.Local.FindByName(n.Id, functionDirectory[scope].Range.Int.Start, functionDirectory[scope].Range.Int.End)
+		// Buscar la variable en el ámbito global
+		if scope != global {
+			info, found = memory.Local.FindByName(n.Id)
+		}
+
+		// Si no se encuentra en el ámbito local o el ámbito actual es global, buscar en el global
 		if !found {
-			info, found = memory.Global.FindByName(n.Id, functionDirectory[global].Range.Int.Start, functionDirectory[global].Range.Int.End)
-			if !found {
-				return "", fmt.Errorf("variable no declarada: %s", n.Id)
-			}
+			info, found = memory.Global.FindByName(n.Id)
+		}
+
+		if !found {
+			return "", fmt.Errorf("variable '%s' no declarada", n.Id)
 		}
 
 		val = info.Value

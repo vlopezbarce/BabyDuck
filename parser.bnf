@@ -68,15 +68,16 @@ import(
 >>
 
 Program
-    : ProgramHeader VarSection FuncSection main Body end
+    : ProgramHeader FuncSection main Body end
     <<
         func() (Attrib, error) {
-            id := $0.(string)
-            vars := $1.([]*ast.VarNode)
-            body := $4.([]ast.Attrib)
+            header := $0.([]ast.Attrib)
+            id := header[0].(string)
+            vars := header[1].([]*ast.VarNode)
+            body := $3.([]ast.Attrib)
 
             // Inicializar programa como una función
-            programNode, err := ast.NewFunction(id, vars, body)
+            programNode, err := ast.DeclareFunction(id, vars, body)
             if err != nil {
                 return nil, err
             }
@@ -89,8 +90,20 @@ Program
 
 // Inicializa el programa y la memoria
 ProgramHeader
-    : program id semicolon
-    << ast.NewProgram(string($1.(*token.Token).Lit)), nil >>
+    : program id semicolon VarSection
+    <<
+        func() (Attrib, error) {
+            id := string($1.(*token.Token).Lit)
+            vars := $3.([]*ast.VarNode)
+            
+            ast.InitProgram(id)
+            if err := ast.ValidateVars(vars); err != nil {
+                return nil, err
+            }
+
+            return []ast.Attrib{id, vars}, nil
+        }()
+    >>
     ;
 
 // Declaración opcional de variables
@@ -164,7 +177,7 @@ FuncDeclaration
             body := $7.([]ast.Attrib)
 
             // Crear y registrar la función
-            return ast.NewFunction(id, vars, body)
+            return ast.DeclareFunction(id, vars, body)
         }()
     >>
     ;

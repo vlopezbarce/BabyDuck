@@ -2,25 +2,20 @@ package ast
 
 import "fmt"
 
-var allocator *AddressAllocator
+var alloc *Allocator
 
 // Gestiona la asignación de direcciones de memoria para variables
-type AddressAllocator struct {
-	OperatorCode map[string]int // 0000-0099
-	GlobalInt    int            // 1000–1999
-	GlobalFloat  int            // 2000–2999
-	LocalInt     int            // 3000–3999
-	LocalFloat   int            // 4000–4999
-	ConstInt     int            // 5000–5999
-	ConstFloat   int            // 6000–6999
-	TempInt      int            // 7000–7499
-	TempFloat    int            // 7500–7999
-	TempBool     int            // 8000–8499
+type Allocator struct {
+	OperatorCode map[string]int
+	Global       MemoryRanges
+	Local        MemoryRanges
+	Const        MemoryRanges
+	Temp         MemoryRanges
 }
 
 // Inicializa el asignador de direcciones
-func NewAddressAllocator() {
-	allocator = &AddressAllocator{
+func NewAllocator() {
+	alloc = &Allocator{
 		OperatorCode: map[string]int{
 			"+":  0,
 			"-":  1,
@@ -31,99 +26,107 @@ func NewAddressAllocator() {
 			"!=": 6,
 			"=":  7,
 		},
-		GlobalInt:   1000,
-		GlobalFloat: 2000,
-		LocalInt:    3000,
-		LocalFloat:  4000,
-		ConstInt:    5000,
-		ConstFloat:  6000,
-		TempInt:     7000,
-		TempFloat:   7500,
-		TempBool:    8000,
+		Global: MemoryRanges{
+			Int:   Range{Start: 1000, End: 1999, Counter: 1000},
+			Float: Range{Start: 2000, End: 2999, Counter: 2000},
+		},
+		Local: MemoryRanges{
+			Int:   Range{Start: 3000, End: 3999, Counter: 3000},
+			Float: Range{Start: 4000, End: 4999, Counter: 4000},
+		},
+		Const: MemoryRanges{
+			Int:   Range{Start: 5000, End: 5999, Counter: 5000},
+			Float: Range{Start: 6000, End: 6999, Counter: 6000},
+		},
+		Temp: MemoryRanges{
+			Int:   Range{Start: 7000, End: 7499, Counter: 7000},
+			Float: Range{Start: 7500, End: 7999, Counter: 7500},
+			Bool:  Range{Start: 8000, End: 8499, Counter: 8000},
+		},
 	}
 }
 
 // Global
-func (a *AddressAllocator) NextGlobalInt() (int, error) {
-	addr := a.GlobalInt
-	if addr > 1999 {
+func (a *Allocator) NextGlobalInt() (int, error) {
+	addr := a.Global.Int.Counter
+	if addr > a.Global.Int.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables globales de tipo int")
 	}
-	a.GlobalInt++
+	a.Global.Int.Counter++
 	return addr, nil
 }
 
-func (a *AddressAllocator) NextGlobalFloat() (int, error) {
-	addr := a.GlobalFloat
-	if addr > 2999 {
+func (a *Allocator) NextGlobalFloat() (int, error) {
+	addr := a.Global.Float.Counter
+	if a.Global.Float.Counter > 2999 {
 		return -1, fmt.Errorf("espacio insuficiente para variables globales de tipo float")
 	}
-	a.GlobalFloat++
+	a.Global.Float.Counter++
 	return addr, nil
 }
 
 // Local
-func (a *AddressAllocator) NextLocalInt() (int, error) {
-	addr := a.LocalInt
-	if addr > 3999 {
+func (a *Allocator) NextLocalInt() (int, error) {
+	addr := a.Local.Int.Counter
+	if addr > a.Local.Int.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables locales de tipo int")
 	}
-	a.LocalInt++
+	a.Local.Int.Counter++
 	return addr, nil
 }
 
-func (a *AddressAllocator) NextLocalFloat() (int, error) {
-	addr := a.LocalFloat
-	if addr > 4999 {
+func (a *Allocator) NextLocalFloat() (int, error) {
+	addr := a.Local.Float.Counter
+	if addr > a.Local.Float.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables locales de tipo float")
 	}
-	a.LocalFloat++
+	a.Local.Float.Counter++
 	return addr, nil
 }
 
 // Const
-func (a *AddressAllocator) NextConstInt() (int, error) {
-	addr := a.ConstInt
-	if addr > 5999 {
+func (a *Allocator) NextConstInt() (int, error) {
+	addr := a.Const.Int.Counter
+	if addr > a.Const.Int.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo int")
 	}
-	a.ConstInt++
+	a.Const.Int.Counter++
 	return addr, nil
 }
 
-func (a *AddressAllocator) NextConstFloat() (int, error) {
-	addr := a.ConstFloat
-	if addr > 6999 {
+func (a *Allocator) NextConstFloat() (int, error) {
+	addr := a.Const.Float.Counter
+	if addr > a.Const.Float.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo float")
 	}
-	a.ConstFloat++
+	a.Const.Float.Counter++
 	return addr, nil
 }
 
 // Temp
-func (a *AddressAllocator) NextTempInt() (int, error) {
-	addr := a.TempInt
-	if addr > 7499 {
+func (a *Allocator) NextTempInt() (int, error) {
+	addr := a.Temp.Int.Counter
+	if addr > a.Temp.Int.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo int")
 	}
-	a.TempInt++
+	a.Temp.Int.Counter++
 	return addr, nil
 }
 
-func (a *AddressAllocator) NextTempFloat() (int, error) {
-	addr := a.TempFloat
-	if addr > 7999 {
+func (a *Allocator) NextTempFloat() (int, error) {
+	addr := a.Temp.Float.Counter
+	if addr > a.Temp.Float.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo float")
 	}
-	a.TempFloat++
+	a.Temp.Float.Counter++
 	return addr, nil
 }
 
-func (a *AddressAllocator) NextTempBool() (int, error) {
-	addr := a.TempBool
-	if addr > 8499 {
+func (a *Allocator) NextTempBool() (int, error) {
+	addr := a.Temp.Bool.Counter
+	if addr > a.Temp.Bool.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo bool")
 	}
-	a.TempBool++
+	a.Temp.Bool.Counter++
 	return addr, nil
 }

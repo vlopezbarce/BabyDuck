@@ -51,35 +51,27 @@ func updateNode(currNode, newNode *VarNode) error {
 	return updateNode(currNode.Right, newNode)
 }
 
-// Busca una variable por su ID en el árbol de símbolos dentro de un rango
-func (tree *SymbolTree) FindByName(id string, start, end int) (*VarNode, bool) {
-	return findByName(tree.Root, id, start, end)
+// Busca una variable por su ID en el árbol de símbolos
+func (tree *SymbolTree) FindByName(id string) (*VarNode, bool) {
+	return findByName(tree.Root, id)
 }
 
 // Función auxiliar para buscar una variable por su ID
-func findByName(node *VarNode, id string, start, end int) (*VarNode, bool) {
+func findByName(node *VarNode, id string) (*VarNode, bool) {
 	if node == nil {
 		return nil, false
-	}
-
-	// Podar el árbol si la dirección está fuera del rango
-	if node.Address < start {
-		return findByName(node.Right, id, start, end)
-	}
-	if node.Address > end {
-		return findByName(node.Left, id, start, end)
 	}
 	if node.Id == id {
 		return node, true
 	}
 
 	// Revisar subárbol izquierdo
-	if leftNode, found := findByName(node.Left, id, start, end); found {
+	if leftNode, found := findByName(node.Left, id); found {
 		return leftNode, true
 	}
 
 	// Revisar subárbol derecho
-	return findByName(node.Right, id, start, end)
+	return findByName(node.Right, id)
 }
 
 // Busca una variable por su dirección en el árbol de símbolos
@@ -103,20 +95,8 @@ func findByAddress(node *VarNode, address int) (*VarNode, bool) {
 }
 
 // Limpia los valores en un árbol de símbolos dentro de un rango
-func (tree *SymbolTree) Clear(start, end int) {
-	clearValues(tree.Root, start, end)
-}
-
-// Función auxiliar para limpiar los valores
-func clearValues(node *VarNode, start, end int) {
-	if node == nil {
-		return
-	}
-	if node.Address >= start && node.Address <= end {
-		node.Value = ""
-	}
-	clearValues(node.Left, start, end)
-	clearValues(node.Right, start, end)
+func (tree *SymbolTree) Clear() {
+	tree.Root = nil
 }
 
 // Imprime el árbol de símbolos

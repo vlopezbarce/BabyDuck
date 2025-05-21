@@ -1,76 +1,107 @@
 package ast
 
-import (
-	"fmt"
-	"math"
-)
+import "fmt"
 
-var global string // Nombre del programa
-var scope string  // Ámbito actual
+var scope string
+var global string
+var globalVars map[string]bool
 
-// Inicializa el programa principal
-func NewProgram(name string) string {
-	// Establece el ámbito global y actual
-	global = name
-	scope = name
-
-	// Inicializa la memoria
+// Inicializa el ámbito global, la memoria y el asignador
+func InitProgram(id string) {
+	scope = id
+	global = scope
+	globalVars = make(map[string]bool)
 	NewMemory()
-	NewAddressAllocator()
-
-	return name
+	NewAllocator()
 }
 
-// Declara una nueva variable
-func NewVariable(id, typ string, start int) error {
-	// Verificar si ya existe una variable con el mismo nombre
-	if _, found := memory.Local.FindByName(id, start, math.MaxInt); found {
-		return fmt.Errorf("variable '%s' ya declarada", id)
-	}
-	if scope != global {
-		start = functionDirectory[global].Range.Int.Start
-	}
-	if _, found := memory.Global.FindByName(id, start, math.MaxInt); found {
-		return fmt.Errorf("variable '%s' ya declarada", id)
-	}
+func ValidateVars(vars []*VarNode) error {
+	localVars := make(map[string]bool)
 
-	// Asignar dirección de memoria
-	var addr int
-	var err error
-
-	if scope == global {
-		// Ámbito global
-		switch typ {
-		case "int":
-			addr, err = allocator.NextGlobalInt()
-		case "float":
-			addr, err = allocator.NextGlobalFloat()
-		default:
-			return fmt.Errorf("tipo desconocido: %s", typ)
+	for _, v := range vars {
+		// Verificar si la variable ya existe en el ámbito local
+		if _, exists := localVars[v.Id]; exists {
+			return fmt.Errorf("variable '%s' ya declarada en el ámbito local", v.Id)
 		}
-	} else {
-		// Ámbito local
-		switch typ {
-		case "int":
-			addr, err = allocator.NextLocalInt()
-		case "float":
-			addr, err = allocator.NextLocalFloat()
-		default:
-			return fmt.Errorf("tipo desconocido: %s", typ)
+
+		// Verificar si la variable ya existe en el ámbito global
+		if _, exists := globalVars[v.Id]; exists {
+			return fmt.Errorf("variable '%s' ya declarada en el ámbito global", v.Id)
+		}
+
+		// Agregar la variable al mapa temporal para validación
+		if scope == global {
+			globalVars[v.Id] = true
+		} else {
+			localVars[v.Id] = true
 		}
 	}
 
+	fmt.Println("Variables locales:", localVars)
+	fmt.Println("Variables globales:", globalVars)
+
+	return nil
+}
+
+func DeclareFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, error) {
+	// Verificar si la función ya existe
+	if _, exists := funcDir[id]; exists {
+		return nil, fmt.Errorf("función '%s' ya declarada", id)
+	}
+
+	// Crear el nodo de función
+	funcNode := &FuncNode{
+		Id:   id,
+		Vars: vars,
+		Body: body,
+	}
+
+	// Agregar la función al directorio de funciones
+	funcDir[id] = funcNode
+
+	// Si es el programa, ya se hizo la validación
+	if id != global {
+		// Establecer el ámbito actual a la función
+		scope = id
+
+		// Verificar si hay variables duplicadas
+		if err := ValidateVars(vars); err != nil {
+			return nil, err
+		}
+
+		// Reestablecer el ámbito global
+		scope = global
+	}
+
+	return funcNode, nil
+}
+
+func DeclareVariable(id, typ string) error {
+	// Obtiene la dirección de memoria para la variable
+	getAddr := map[bool]map[string]func() (int, error){
+		true: {
+			"int":   alloc.NextGlobalInt,
+			"float": alloc.NextGlobalFloat,
+		},
+		false: {
+			"int":   alloc.NextLocalInt,
+			"float": alloc.NextLocalFloat,
+		},
+	}
+
+	addr, err := getAddr[scope == global][typ]()
 	if err != nil {
 		return fmt.Errorf("error al asignar dirección para variable '%s': %v", id, err)
 	}
 
-	// Insertar en el árbol correspondiente
+	// Crear el nodo de variable
 	node := &VarNode{
 		Address: addr,
 		Id:      id,
 		Type:    typ,
 	}
 
+	// Insertar en el árbol
 	if scope == global {
 		memory.Global.Insert(node)
 	} else {
@@ -80,76 +111,21 @@ func NewVariable(id, typ string, start int) error {
 	return nil
 }
 
-// Función constructora para FuncNode
-func NewFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, error) {
-	// Verificar si la función ya existe
-	if _, exists := functionDirectory[id]; exists {
-		return nil, fmt.Errorf("función '%s' ya declarada", id)
-	}
-
-	// Establecer el ámbito actual a la nueva función
-	scope = id
-
-	// Asignar rangos de memoria para la función
-	var intStart, intEnd, floatStart, floatEnd int
-
-	if scope == global {
-		intStart = allocator.GlobalInt
-		floatStart = allocator.GlobalFloat
-	} else {
-		intStart = allocator.LocalInt
-		floatStart = allocator.LocalFloat
-	}
-
-	// Registrar los parámetros como variables locales
-	for _, param := range vars {
-		var start int
-		if param.Type == "int" {
-			start = intStart
-		}
-		if param.Type == "float" {
-			start = floatStart
-		}
-		if err := NewVariable(param.Id, param.Type, start); err != nil {
-			return nil, err
-		}
-	}
-
-	// Asignar rangos de memoria para la función
-	if scope == global {
-		intEnd = allocator.GlobalInt - 1
-		floatEnd = allocator.GlobalFloat - 1
-	} else {
-		intEnd = allocator.LocalInt - 1
-		floatEnd = allocator.LocalFloat - 1
-	}
-
-	// Crear el nodo de función
-	funcNode := &FuncNode{
-		Id:   id,
-		Body: body,
-		Range: MemoryRanges{
-			Int:   Range{Start: intStart, End: intEnd},
-			Float: Range{Start: floatStart, End: floatEnd},
-		},
-	}
-
-	// Agregar la función al directorio de funciones
-	functionDirectory[id] = *funcNode
-
-	// Limpiar el contexto de función actual
-	scope = global
-
-	return funcNode, nil
-}
-
 func ExecuteFunction(funcNode *FuncNode) error {
-	// Limpiar variables locales anteriores
-	memory.Local.Clear(funcNode.Range.Int.Start, funcNode.Range.Int.End)
-	memory.Local.Clear(funcNode.Range.Float.Start, funcNode.Range.Float.End)
-
 	// Establecer el ámbito actual a la función
 	scope = funcNode.Id
+
+	// Limpiar la memoria local
+	if scope != global {
+		memory.Local.Clear()
+	}
+
+	// Crear variables locales
+	for _, v := range funcNode.Vars {
+		if err := DeclareVariable(v.Id, v.Type); err != nil {
+			return fmt.Errorf("error al declarar variable '%s' en función '%s': %v", v.Id, funcNode.Id, err)
+		}
+	}
 
 	// Ejecutar las instrucciones del cuerpo
 	for _, stmt := range funcNode.Body {
@@ -187,10 +163,14 @@ func ExecuteAssign(assignNode *AssignNode) error {
 	var info *VarNode
 	var found bool
 
-	if scope == global {
-		info, found = memory.Global.FindByName(assignNode.Id, functionDirectory[global].Range.Int.Start, functionDirectory[global].Range.Int.End)
-	} else {
-		info, found = memory.Local.FindByName(assignNode.Id, functionDirectory[scope].Range.Int.Start, functionDirectory[scope].Range.Int.End)
+	// Buscar la variable en el ámbito global
+	if scope != global {
+		info, found = memory.Local.FindByName(assignNode.Id)
+	}
+
+	// Si no se encuentra en el ámbito local o el ámbito actual es global, buscar en el global
+	if !found {
+		info, found = memory.Global.FindByName(assignNode.Id)
 	}
 
 	if !found {
@@ -301,9 +281,7 @@ func PrintVariables() {
 	fmt.Println()
 	fmt.Println("Funciones registradas:")
 	fmt.Println("===================================")
-	for id, funcNode := range functionDirectory {
+	for id := range funcDir {
 		fmt.Printf("Función: %s\n", id)
-		fmt.Printf("Rango de memoria: %d - %d\n", funcNode.Range.Int.Start, funcNode.Range.Int.End)
-		fmt.Println("===================================")
 	}
 }

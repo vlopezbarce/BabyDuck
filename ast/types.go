@@ -4,7 +4,7 @@ package ast
 type Attrib interface{}
 
 // Tabla de funciones registradas
-var functionDirectory = map[string]FuncNode{}
+var funcDir = map[string]*FuncNode{}
 
 // Memoria de direcciones virtuales
 type Memory struct {
@@ -31,21 +31,23 @@ type VarNode struct {
 
 // Rango de memoria para funciones
 type Range struct {
-	Start int
-	End   int
+	Start   int
+	End     int
+	Counter int
 }
 
 // Rangos para tipos de datos
 type MemoryRanges struct {
 	Int   Range
 	Float Range
+	Bool  Range
 }
 
 // Nodo de función
 type FuncNode struct {
-	Id    string
-	Body  []Attrib
-	Range MemoryRanges
+	Id   string
+	Vars []*VarNode
+	Body []Attrib
 }
 
 // Interfaz para nodos que pueden generar cuádruplos
