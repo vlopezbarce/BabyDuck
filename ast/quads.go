@@ -26,18 +26,6 @@ func (ctx *Context) NewTemp() string {
 	return fmt.Sprintf("t%d", ctx.TempCount)
 }
 
-// Genera un identificador único de etiqueta
-func (ctx *Context) NewLabel() int {
-	ctx.LabelCount++
-	return ctx.LabelCount
-}
-
-// Marca el cuádruplo especial de etiqueta
-func (ctx *Context) SetLabel(label int) {
-	opNode, _ := memory.Operators.FindByName("LABEL")
-	ctx.AddQuad(opNode.Address, -1, -1, label)
-}
-
 // Agrega un nuevo cuádruplo a la lista
 func (ctx *Context) AddQuad(operator, left, right, result int) {
 	ctx.Quads = append(ctx.Quads, Quadruple{
@@ -79,9 +67,9 @@ func (ctx *Context) PrintQuads() {
 
 // Ejecuta los cuádruplos generados
 func (ctx *Context) Evaluate() error {
-	/*fmt.Println()
+	fmt.Println()
 	fmt.Println("Ejecución de cuádruplos")
-	fmt.Println("===================================")*/
+	fmt.Println("===================================")
 
 	for _, q := range ctx.Quads {
 		// Ignorar cuádruplos de etiquetas

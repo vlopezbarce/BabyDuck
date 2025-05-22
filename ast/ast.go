@@ -118,7 +118,7 @@ func ExecuteFunction(funcNode *FuncNode) error {
 	ctx.PrintQuads()
 
 	// Ejecutar el cuerpo de la función
-	//ctx.Evaluate()
+	ctx.Evaluate()
 
 	// Limpiar la memoria
 	if scope != global {
@@ -344,30 +344,35 @@ func (n *IfNode) Generate(ctx *Context) error {
 		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
 	}
 
-	// Crear etiquetas para el salto
-	falseLabel := ctx.NewLabel()
-	endLabel := ctx.NewLabel()
-
 	// Obtener el operador de la memoria
 	opGOTOF, _ := memory.Operators.FindByName("GOTOF")
-	ctx.AddQuad(opGOTOF.Address, result, -1, falseLabel)
+	idGOTOF := len(ctx.Quads)
+	ctx.AddQuad(opGOTOF.Address, result, -1, -1)
 
 	// Generar los cuádruplos para el bloque Then
 	for _, stmt := range n.ThenBlock {
-		GenerateStatement(ctx, stmt)
+		if err := GenerateStatement(ctx, stmt); err != nil {
+			return err
+		}
 	}
 
 	// Obtener el operador de la memoria
 	opGOTO, _ := memory.Operators.FindByName("GOTO")
-	ctx.AddQuad(opGOTO.Address, -1, -1, endLabel)
+	idGOTO := len(ctx.Quads)
+	ctx.AddQuad(opGOTO.Address, -1, -1, -1)
+
+	// Marca la etiqueta para el cuádruplo GOTOF
+	ctx.Quads[idGOTOF].Result = len(ctx.Quads)
 
 	// Generar los cuádruplos para el bloque Else
-	ctx.SetLabel(falseLabel)
 	for _, stmt := range n.ElseBlock {
-		GenerateStatement(ctx, stmt)
+		if err := GenerateStatement(ctx, stmt); err != nil {
+			return err
+		}
 	}
 
-	ctx.SetLabel(endLabel)
+	// Marca la etiqueta para el cuádruplo GOTO
+	ctx.Quads[idGOTO].Result = len(ctx.Quads)
 
 	return nil
 }

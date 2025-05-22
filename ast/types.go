@@ -71,10 +71,9 @@ type Quadruple struct {
 
 // Almacena la pila semántica, cuádruplos y contador de temporales
 type Context struct {
-	SemStack   []int
-	Quads      []Quadruple
-	TempCount  int
-	LabelCount int
+	SemStack  []int
+	Quads     []Quadruple
+	TempCount int
 }
 
 // Interfaz para nodos que pueden generar cuádruplos
