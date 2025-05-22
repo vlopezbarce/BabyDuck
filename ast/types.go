@@ -53,7 +53,7 @@ type FuncNode struct {
 
 // Interfaz para nodos que pueden generar cuádruplos
 type Quad interface {
-	Generate(ctx *Context) (string, error)
+	Generate(ctx *Context) (int, error)
 }
 
 // Nodo de asignación
@@ -64,7 +64,7 @@ type AssignNode struct {
 
 // Nodo de impresión
 type PrintNode struct {
-	Items []Attrib
+	Item Attrib
 }
 
 // Nodo de expresión binaria

@@ -142,7 +142,7 @@ func ExecuteStatement(stmt Attrib) error {
 	switch node := stmt.(type) {
 	case *AssignNode:
 		return ExecuteAssign(node)
-	case *PrintNode:
+	case []*PrintNode:
 		return ExecutePrint(node)
 	//case *IfNode:
 	//	return executeCondition(node)
@@ -184,50 +184,47 @@ func ExecuteAssign(assignNode *AssignNode) error {
 	// Actualizar valor y escribir en la memoria correspondiente
 	info.Value = result.Value
 	tree.Update(info)
+
+	// Limpiar la memoria temporal
+	memory.Temp.Clear()
+
 	return nil
 }
 
 // Evalúa e imprime cada elemento de una lista
-func ExecutePrint(printNode *PrintNode) error {
-	for _, item := range printNode.Items {
-		switch v := item.(type) {
-
-		// Caso 1: es una expresión/constante numérica
+func ExecutePrint(printNodes []*PrintNode) error {
+	// Generar todos los cuádruplos de print
+	for _, n := range printNodes {
+		switch n.Item.(type) {
 		case Quad:
-			// Genera el código intermedio para la expresión
+			// Generar cuádruplos para el nodo
 			ctx := &Context{}
-
-			if _, err := v.Generate(ctx); err != nil {
+			if err := n.Generate(ctx); err != nil {
 				return err
 			}
 
-			// Si hay cuádruplos generados, se evalúan
-			var result VarNode
+			// Ejecutar y evaluar
+			PrintQuads(ctx.Quads)
+			ctx.Evaluate()
 
-			if len(ctx.Quads) > 0 {
-				PrintQuads(ctx.Quads)
-				result = ctx.Evaluate()
-			} else {
-				// No hay cuádruplos: la pila semántica solo tiene la constante o id
-				result = ctx.Pop()
-			}
-			fmt.Print(result.Value)
+			// Limpiar la memoria temporal
+			memory.Temp.Clear()
 
-		// Caso 2: es un literal de cadena
 		case string:
-			// Imprimir la cadena sin comillas
-			fmt.Print(v[1 : len(v)-1])
-
-		default:
-			return fmt.Errorf("elemento de print no soportado: %T", item)
+			// Imprimir el string directamente
+			fmt.Print(n.Item.(string))
 		}
 
-		// Agregar espacio entre elementos
+		// Espacio entre elementos
 		fmt.Print(" ")
 	}
 
 	// Salto de línea final
 	fmt.Println()
+
+	// Limpiar temporales
+	memory.Temp.Clear()
+
 	return nil
 }
 

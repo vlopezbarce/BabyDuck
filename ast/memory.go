@@ -16,7 +16,7 @@ func NewMemory() {
 
 // Llenar el árbol de operadores con los operadores disponibles
 func FillOperatorsTree() {
-	operators := []string{"+", "-", "*", "/", ">", "<", "!=", "="}
+	operators := []string{"+", "-", "*", "/", ">", "<", "!=", "=", "print"}
 	for addr, op := range operators {
 		node := &VarNode{
 			Address: addr,
@@ -100,6 +100,77 @@ func findByName(node *VarNode, id string) (*VarNode, bool) {
 
 	// Revisar subárbol derecho
 	return findByName(node.Right, id)
+}
+
+// Busca una constante por tipo y valor en el árbol de constantes
+func (tree *SymbolTree) FindConst(typ string, val string) (*VarNode, bool) {
+	return findConst(tree.Root, typ, val)
+}
+
+// Función auxiliar para buscar una constante
+func findConst(node *VarNode, typ string, val string) (*VarNode, bool) {
+	if node == nil {
+		return nil, false
+	}
+
+	// Compara tipo y valor
+	if node.Type == typ && node.Value == val {
+		return node, true
+	}
+
+	// Revisar subárbol izquierdo
+	if leftNode, found := findConst(node.Left, typ, val); found {
+		return leftNode, true
+	}
+
+	return findConst(node.Right, typ, val)
+}
+
+// Busca un VarNode por su dirección usando los rangos de alloc
+func lookupVarByAddress(a int) (*VarNode, error) {
+	// Temporales
+	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
+		if node, found := memory.Temp.FindByAddress(a); found {
+			return node, nil
+		}
+		return nil, fmt.Errorf("dirección temporal '%d' no encontrada", a)
+	}
+
+	// Constantes
+	if a >= alloc.Const.Int.Start && a <= alloc.Const.Float.End {
+		if node, found := memory.Const.FindByAddress(a); found {
+			return node, nil
+		}
+		return nil, fmt.Errorf("dirección de constante '%d' no encontrada", a)
+	}
+
+	// Locales
+	if a >= alloc.Local.Int.Start && a <= alloc.Local.Float.End {
+		if scope != global {
+			if node, found := memory.Local.FindByAddress(a); found {
+				return node, nil
+			}
+			return nil, fmt.Errorf("dirección local '%d' no encontrada", a)
+		}
+	}
+
+	// Globales
+	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
+		if node, found := memory.Global.FindByAddress(a); found {
+			return node, nil
+		}
+		return nil, fmt.Errorf("dirección global '%d' no encontrada", a)
+	}
+
+	// Operadores
+	if a >= alloc.Operators.Start && a <= alloc.Operators.End {
+		if node, found := memory.Operators.FindByAddress(a); found {
+			return node, nil
+		}
+		return nil, fmt.Errorf("dirección de operador '%d' no encontrada", a)
+	}
+
+	return nil, fmt.Errorf("dirección '%d' fuera de todos los rangos conocidos", a)
 }
 
 // Busca una variable por su dirección en el árbol de símbolos

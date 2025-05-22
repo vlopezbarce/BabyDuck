@@ -6,15 +6,17 @@ var alloc *Allocator
 
 // Gestiona la asignación de direcciones de memoria para variables
 type Allocator struct {
-	Global MemoryRanges
-	Local  MemoryRanges
-	Const  MemoryRanges
-	Temp   MemoryRanges
+	Operators Range
+	Global    MemoryRanges
+	Local     MemoryRanges
+	Const     MemoryRanges
+	Temp      MemoryRanges
 }
 
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
+		Operators: Range{Start: 0, End: 999, Counter: 0},
 		Global: MemoryRanges{
 			Int:   Range{Start: 1000, End: 1999, Counter: 1000},
 			Float: Range{Start: 2000, End: 2999, Counter: 2000},
