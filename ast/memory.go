@@ -197,25 +197,25 @@ func printNode(node *VarNode) {
 
 	var nodeId string
 	if node.Id != "" {
-		nodeId = fmt.Sprintf("Variable: %s, ", node.Id)
+		nodeId = fmt.Sprintf("  ID: %s", node.Id)
 	} else {
 		nodeId = ""
 	}
 
 	var nodeType string
 	if node.Type != "" {
-		nodeType = fmt.Sprintf("Tipo: %s, ", node.Type)
+		nodeType = fmt.Sprintf("  TYPE: %s", node.Type)
 	} else {
 		nodeType = ""
 	}
 
 	var nodeValue string
 	if node.Value != "" {
-		nodeValue = fmt.Sprintf("Valor: %s, ", node.Value)
+		nodeValue = fmt.Sprintf("  VALUE: %s", node.Value)
 	} else {
 		nodeValue = ""
 	}
 
-	fmt.Printf("Dirección: %d, %s%s%s\n", node.Address, nodeId, nodeType, nodeValue)
+	fmt.Printf("ADDR: %d%s%s%s\n", node.Address, nodeId, nodeType, nodeValue)
 	printNode(node.Right)
 }

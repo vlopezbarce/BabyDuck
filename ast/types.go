@@ -6,6 +6,13 @@ type Attrib interface{}
 // Tabla de funciones registradas
 var funcDir = map[string]*FuncNode{}
 
+// Nodo de función
+type FuncNode struct {
+	Id   string
+	Vars []*VarNode
+	Body []Attrib
+}
+
 // Memoria de direcciones virtuales
 type Memory struct {
 	Operators *SymbolTree
@@ -41,9 +48,10 @@ type Allocator struct {
 
 // Rangos para tipos de datos
 type MemoryRanges struct {
-	Int   Range
-	Float Range
-	Bool  Range
+	Int    Range
+	Float  Range
+	Bool   Range
+	String Range
 }
 
 // Rango de memoria para funciones
@@ -51,13 +59,6 @@ type Range struct {
 	Start   int
 	End     int
 	Counter int
-}
-
-// Nodo de función
-type FuncNode struct {
-	Id   string
-	Vars []*VarNode
-	Body []Attrib
 }
 
 // Representa una instrucción de código intermedio (cuádruplo)
@@ -78,7 +79,7 @@ type Context struct {
 
 // Interfaz para nodos que pueden generar cuádruplos
 type Quad interface {
-	Generate(ctx *Context) (int, error)
+	Generate(ctx *Context) error
 }
 
 // Nodo de asignación
@@ -89,7 +90,7 @@ type AssignNode struct {
 
 // Nodo de impresión
 type PrintNode struct {
-	Item Attrib
+	Item Quad
 }
 
 // Nodo de expresión binaria

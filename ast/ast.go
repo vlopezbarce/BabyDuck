@@ -99,11 +99,6 @@ func ExecuteFunction(funcNode *FuncNode) error {
 	// Establecer el ámbito actual a la función
 	scope = funcNode.Id
 
-	// Limpiar la memoria local
-	if scope != global {
-		memory.Local.Clear()
-	}
-
 	// Crear variables locales
 	for _, v := range funcNode.Vars {
 		if err := DeclareVariable(v.Id, v.Type); err != nil {
@@ -111,12 +106,25 @@ func ExecuteFunction(funcNode *FuncNode) error {
 		}
 	}
 
-	// Ejecutar las instrucciones del cuerpo
+	// Generar cuádruplos para el cuerpo de la función
+	ctx := &Context{}
 	for _, stmt := range funcNode.Body {
-		if err := ExecuteStatement(stmt); err != nil {
-			return fmt.Errorf("error al ejecutar en función '%s': %v", funcNode.Id, err)
+		if err := GenerateStatement(ctx, stmt); err != nil {
+			return fmt.Errorf("error al generar cuádruplos para '%s': %v", funcNode.Id, err)
 		}
 	}
+
+	// Imprimir cuádruplos y temporales
+	ctx.PrintQuads()
+
+	// Ejecutar el cuerpo de la función
+	//ctx.Evaluate()
+
+	// Limpiar la memoria
+	if scope != global {
+		memory.Local.Clear()
+	}
+	//memory.Temp.Clear()
 
 	// Restablecer el ámbito global
 	scope = global
@@ -124,118 +132,216 @@ func ExecuteFunction(funcNode *FuncNode) error {
 	return nil
 }
 
-func ExecuteStatement(stmt Attrib) error {
-	switch node := stmt.(type) {
+func GenerateStatement(ctx *Context, stmt Attrib) error {
+	var err error
+	switch stmt := stmt.(type) {
 	case *AssignNode:
-		return ExecuteAssign(node)
-	case []*PrintNode:
-		return ExecutePrint(node)
+		err = stmt.Generate(ctx)
+	case *[]PrintNode:
+		for _, printNode := range *stmt {
+			err = printNode.Generate(ctx)
+		}
 	case *IfNode:
-		return ExecuteCondition(node)
-	//case *WhileNode:
-	//	return executeWhile(node)
-	//case *FuncCallNode:
-	//	return executeFunctionCall(node)
-	default:
-		return fmt.Errorf("tipo de instrucción no soportado: %T", node)
+		err = stmt.Generate(ctx)
 	}
-}
-
-// Ejecuta la asignación de una variable
-func ExecuteAssign(assignNode *AssignNode) error {
-	ctx := &Context{}
-	dest, err := assignNode.Generate(ctx)
 	if err != nil {
 		return err
 	}
-
-	// Imprimir cuádruplos y temporales
-	ctx.PrintQuads()
-	ctx.PrintTemps()
-
-	// Ejecutar y evaluar
-	result := ctx.Evaluate()
-	ctx.PrintTemps()
-
-	// Comprobar tipos
-	if dest.Type != result.Type {
-		return fmt.Errorf(
-			"tipo incompatible en '%s': se esperaba %s, se obtuvo %s",
-			assignNode.Id, dest.Type, result.Type,
-		)
-	}
-
-	// Actualizar valor y escribir en la memoria correspondiente
-	dest.Value = result.Value
-	if scope != global {
-		memory.Local.Update(dest)
-	} else {
-		memory.Global.Update(dest)
-	}
-
-	// Limpiar la memoria temporal
-	memory.Temp.Clear()
-
 	return nil
 }
 
-// Evalúa e imprime cada elemento de una lista
-func ExecutePrint(printNodes []*PrintNode) error {
-	// Generar todos los cuádruplos de print
-	for _, n := range printNodes {
-		switch n.Item.(type) {
-		case Quad:
-			// Generar cuádruplos para el nodo
-			ctx := &Context{}
-			if err := n.Generate(ctx); err != nil {
+func (n *VarNode) Generate(ctx *Context) error {
+	if n.Id != "" {
+		// Buscar en la memoria local o global
+		var varNode *VarNode
+		var found bool
+
+		if scope != global {
+			varNode, found = memory.Local.FindByName(n.Id)
+		}
+		if !found {
+			varNode, found = memory.Global.FindByName(n.Id)
+		}
+		if !found {
+			return fmt.Errorf("variable '%s' no declarada", n.Id)
+		}
+
+		// Agregar la direción a la pila
+		ctx.Push(varNode.Address)
+
+		return nil
+	} else {
+		// Buscar la constante en la memoria
+		varNode, found := memory.Const.FindConst(n.Type, n.Value)
+
+		if !found {
+			// Obtener la dirección de memoria para la constante
+			var addr int
+			var err error
+
+			switch n.Type {
+			case "int":
+				addr, err = alloc.NextConstInt()
+			case "float":
+				addr, err = alloc.NextConstFloat()
+			case "string":
+				addr, err = alloc.NextConstString()
+			}
+			if err != nil {
 				return err
 			}
 
-			// Imprimir cuádruplos y temporales
-			ctx.PrintQuads()
-			ctx.PrintTemps()
+			// Agregar la constante a la memoria
+			constNode := &VarNode{
+				Address: addr,
+				Type:    n.Type,
+				Value:   n.Value,
+			}
 
-			// Ejecutar y evaluar
-			ctx.Evaluate()
-			ctx.PrintTemps()
+			// Agregar la constante a la memoria
+			memory.Const.Insert(constNode)
 
-			// Limpiar la memoria temporal
-			memory.Temp.Clear()
+			// Agregar la dirección a la pila
+			ctx.Push(addr)
 
-		case string:
-			// Imprimir el string directamente
-			fmt.Print(n.Item.(string))
+			return nil
 		}
 
-		// Espacio entre elementos
-		fmt.Print(" ")
+		// Agregar la dirección a la pila
+		ctx.Push(varNode.Address)
+
+		return nil
+	}
+}
+
+func (n *AssignNode) Generate(ctx *Context) error {
+	// Buscar variable destino y memoria correcta
+	var dest *VarNode
+	var found bool
+
+	if scope != global {
+		if dest, found = memory.Local.FindByName(n.Id); !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
+		}
+	} else {
+		if dest, found = memory.Global.FindByName(n.Id); !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
+		}
 	}
 
-	// Salto de línea final
-	fmt.Println()
+	// Obtener el resultado de la expresión
+	if err := n.Exp.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
 
-	// Limpiar temporales
-	memory.Temp.Clear()
+	// Obtener el operador de la memoria
+	opNode, _ := memory.Operators.FindByName("=")
+
+	// Agregar el cuádruplo
+	ctx.AddQuad(opNode.Address, result, -1, dest.Address)
 
 	return nil
 }
 
-// Ejecuta una condición if
-func ExecuteCondition(ifNode *IfNode) error {
-	// Generar código intermedio de la condición
-	ctx := &Context{}
-	condAddr, err := ifNode.Condition.Generate(ctx)
+func (n *PrintNode) Generate(ctx *Context) error {
+	// Obtener el resultado de la expresión
+	if err := n.Item.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
+
+	// Obtener el operador de la memoria
+	opNode, _ := memory.Operators.FindByName("PRINT")
+
+	// Agregar el cuádruplo
+	ctx.AddQuad(opNode.Address, result, -1, -1)
+
+	return nil
+}
+
+func (n *ExpressionNode) Generate(ctx *Context) error {
+	// Generar el código intermedio para los operandos izquierdo y derecho
+	if err := n.Left.Generate(ctx); err != nil {
+		return err
+	}
+	if err := n.Right.Generate(ctx); err != nil {
+		return err
+	}
+
+	// Obtener los operandos izquierdo y derecho
+	right := ctx.Pop()
+	left := ctx.Pop()
+
+	// Obtener los nodos de memoria correspondientes
+	leftNode, err := lookupVarByAddress(left)
+	if err != nil {
+		return err
+	}
+	rightNode, err := lookupVarByAddress(right)
 	if err != nil {
 		return err
 	}
 
-	// Buscar el tipo del resultado de la condición
-	result, err := lookupVarByAddress(condAddr)
+	// Verificar la compatibilidad de tipos
+	resultType, err := CheckSemantic(n.Op, leftNode.Type, rightNode.Type)
 	if err != nil {
 		return err
 	}
-	if result.Type != "bool" {
-		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", result.Type)
+
+	// Obtener el operador de la memoria
+	opNode, _ := memory.Operators.FindByName(n.Op)
+
+	// Obtener la dirección de memoria para el temporal
+	var addr int
+	switch resultType {
+	case "int":
+		addr, err = alloc.NextTempInt()
+	case "float":
+		addr, err = alloc.NextTempFloat()
+	case "bool":
+		addr, err = alloc.NextTempBool()
+	}
+	if err != nil {
+		return err
+	}
+
+	// Crear un nuevo nodo temporal
+	tempId := ctx.NewTemp()
+
+	tempNode := &VarNode{
+		Address: addr,
+		Id:      tempId,
+		Type:    resultType,
+		Value:   tempId,
+	}
+
+	// Insertar el temporal en la memoria
+	memory.Temp.Insert(tempNode)
+
+	// Agregar el cuádruplo
+	ctx.AddQuad(opNode.Address, left, right, addr)
+
+	// Agregar el temporal a la pila
+	ctx.Push(addr)
+
+	return nil
+}
+
+func (n *IfNode) Generate(ctx *Context) error {
+	// Generar código intermedio de la condición
+	if err := n.Condition.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
+
+	// Buscar el tipo del resultado de la condición
+	resultNode, err := lookupVarByAddress(result)
+	if err != nil {
+		return err
+	}
+	if resultNode.Type != "bool" {
+		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
 	}
 
 	// Crear etiquetas para el salto
@@ -244,20 +350,11 @@ func ExecuteCondition(ifNode *IfNode) error {
 
 	// Obtener el operador de la memoria
 	opGOTOF, _ := memory.Operators.FindByName("GOTOF")
-	ctx.AddQuad(opGOTOF.Address, condAddr, -1, falseLabel)
+	ctx.AddQuad(opGOTOF.Address, result, -1, falseLabel)
 
 	// Generar los cuádruplos para el bloque Then
-	for _, stmt := range ifNode.ThenBlock {
-		var err error
-		switch stmt := stmt.(type) {
-		case *AssignNode:
-			_, err = stmt.Generate(ctx)
-		case *PrintNode:
-			err = stmt.Generate(ctx)
-		}
-		if err != nil {
-			return fmt.Errorf("error al generar bloque Then: %v", err)
-		}
+	for _, stmt := range n.ThenBlock {
+		GenerateStatement(ctx, stmt)
 	}
 
 	// Obtener el operador de la memoria
@@ -266,33 +363,23 @@ func ExecuteCondition(ifNode *IfNode) error {
 
 	// Generar los cuádruplos para el bloque Else
 	ctx.SetLabel(falseLabel)
-	for _, stmt := range ifNode.ElseBlock {
-		var err error
-		switch stmt := stmt.(type) {
-		case *AssignNode:
-			_, err = stmt.Generate(ctx)
-		case *PrintNode:
-			err = stmt.Generate(ctx)
-		}
-		if err != nil {
-			return fmt.Errorf("error al generar bloque Then: %v", err)
-		}
+	for _, stmt := range n.ElseBlock {
+		GenerateStatement(ctx, stmt)
 	}
 
 	ctx.SetLabel(endLabel)
 
-	// Imprimir cuádruplos y temporales
-	ctx.PrintQuads()
-	ctx.PrintTemps()
-
-	// Limpiar la memoria temporal
-	memory.Temp.Clear()
-
 	return nil
 }
 
-// Imprime todas las variables
 func PrintVariables() {
+	fmt.Println()
+	fmt.Println("Funciones registradas:")
+	fmt.Println("===================================")
+	for id := range funcDir {
+		fmt.Println(id)
+	}
+
 	fmt.Println()
 	fmt.Println("Variables registradas:")
 	fmt.Println("===================================")
@@ -313,10 +400,7 @@ func PrintVariables() {
 	memory.Const.Print()
 	fmt.Println("===================================")
 
-	fmt.Println()
-	fmt.Println("Funciones registradas:")
+	fmt.Println("Temporales:")
+	memory.Temp.Print()
 	fmt.Println("===================================")
-	for id := range funcDir {
-		fmt.Printf("Función: %s\n", id)
-	}
 }

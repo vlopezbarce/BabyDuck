@@ -26,15 +26,14 @@ func (ctx *Context) NewTemp() string {
 	return fmt.Sprintf("t%d", ctx.TempCount)
 }
 
-// Genera un identificador único de etiqueta (label)
+// Genera un identificador único de etiqueta
 func (ctx *Context) NewLabel() int {
 	ctx.LabelCount++
 	return ctx.LabelCount
 }
 
-// Marca la posición actual del cuádruplo con la etiqueta dada
+// Marca el cuádruplo especial de etiqueta
 func (ctx *Context) SetLabel(label int) {
-	// Insertar un cuádruplo especial de etiqueta
 	opNode, _ := memory.Operators.FindByName("LABEL")
 	ctx.AddQuad(opNode.Address, -1, -1, label)
 }
@@ -78,225 +77,30 @@ func (ctx *Context) PrintQuads() {
 	}
 }
 
-// Imprime los temporales generados
-func (ctx *Context) PrintTemps() {
-	if ctx.TempCount > 0 {
-		fmt.Println()
-		fmt.Println("Temporales:")
-		fmt.Println("===================================")
-		memory.Temp.Print()
-	}
-}
-
-// Genera el código intermedio para una asignación
-func (n *AssignNode) Generate(ctx *Context) (*VarNode, error) {
-	// Buscar variable destino y memoria correcta
-	var dest *VarNode
-	var found bool
-
-	if scope != global {
-		if dest, found = memory.Local.FindByName(n.Id); !found {
-			return nil, fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
-		}
-	} else {
-		if dest, found = memory.Global.FindByName(n.Id); !found {
-			return nil, fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
-		}
-	}
-
-	// Obtener el resultado de la expresión
-	if _, err := n.Exp.Generate(ctx); err != nil {
-		return nil, err
-	}
-	result := ctx.Pop()
-
-	// Obtener el operador de la memoria
-	opNode, _ := memory.Operators.FindByName("=")
-
-	// Agregar el cuádruplo
-	ctx.AddQuad(opNode.Address, result, -1, dest.Address)
-
-	return dest, nil
-}
-
-// Genera el código intermedio para una impresión
-func (n *PrintNode) Generate(ctx *Context) error {
-	// Obtener el resultado de la expresión
-	if _, err := n.Item.(Quad).Generate(ctx); err != nil {
-		return err
-	}
-	result := ctx.Pop()
-
-	// Obtener el operador de la memoria
-	opNode, _ := memory.Operators.FindByName("PRINT")
-
-	// Agregar el cuádruplo
-	ctx.AddQuad(opNode.Address, result, -1, -1)
-
-	return nil
-}
-
-// Genera el código intermedio para una expresión binaria
-func (n *ExpressionNode) Generate(ctx *Context) (int, error) {
-	// Generar el código intermedio para los operandos izquierdo y derecho
-	if _, err := n.Left.Generate(ctx); err != nil {
-		return -1, err
-	}
-	if _, err := n.Right.Generate(ctx); err != nil {
-		return -1, err
-	}
-
-	// Obtener los operandos izquierdo y derecho
-	right := ctx.Pop()
-	left := ctx.Pop()
-
-	// Obtener los nodos de memoria correspondientes
-	leftNode, err := lookupVarByAddress(left)
-	if err != nil {
-		return -1, err
-	}
-	rightNode, err := lookupVarByAddress(right)
-	if err != nil {
-		return -1, err
-	}
-
-	// Verificar la compatibilidad de tipos
-	resultType, err := CheckSemantic(n.Op, leftNode.Type, rightNode.Type)
-	if err != nil {
-		return -1, err
-	}
-
-	// Obtener el operador de la memoria
-	opNode, _ := memory.Operators.FindByName(n.Op)
-
-	// Obtener la dirección de memoria para el temporal
-	var addr int
-	switch resultType {
-	case "int":
-		addr, err = alloc.NextTempInt()
-	case "float":
-		addr, err = alloc.NextTempFloat()
-	case "bool":
-		addr, err = alloc.NextTempBool()
-	}
-	if err != nil {
-		return -1, err
-	}
-
-	// Crear un nuevo nodo temporal
-	tempId := ctx.NewTemp()
-
-	tempNode := &VarNode{
-		Address: addr,
-		Id:      tempId,
-		Type:    resultType,
-		Value:   tempId,
-	}
-
-	// Insertar el temporal en la memoria
-	memory.Temp.Insert(tempNode)
-
-	// Agregar el cuádruplo
-	ctx.AddQuad(opNode.Address, left, right, addr)
-
-	// Agregar el temporal a la pila
-	ctx.Push(addr)
-
-	return addr, nil
-}
-
-// Genera el código intermedio para una variable o constante
-func (n *VarNode) Generate(ctx *Context) (int, error) {
-	if n.Id != "" {
-		// Buscar en la memoria local o global
-		var varNode *VarNode
-		var found bool
-
-		if scope != global {
-			if varNode, found = memory.Local.FindByName(n.Id); found {
-				if varNode.Value == "" {
-					return -1, fmt.Errorf("variable '%s' no asignada", n.Id)
-				}
-			}
-		}
-		if !found {
-			if varNode, found = memory.Global.FindByName(n.Id); found {
-				if varNode.Value == "" {
-					return -1, fmt.Errorf("variable '%s' no asignada", n.Id)
-				}
-			}
-		}
-		if !found {
-			return -1, fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
-		}
-
-		// Agregar la direción a la pila
-		ctx.Push(varNode.Address)
-
-		return varNode.Address, nil
-	} else {
-		// Buscar la constante en la memoria
-		varNode, found := memory.Const.FindConst(n.Type, n.Value)
-
-		if !found {
-			// Obtener la dirección de memoria para la constante
-			var addr int
-			var err error
-
-			switch n.Type {
-			case "int":
-				addr, err = alloc.NextConstInt()
-			case "float":
-				addr, err = alloc.NextConstFloat()
-			}
-			if err != nil {
-				return -1, err
-			}
-
-			// Agregar la constante a la memoria
-			constNode := &VarNode{
-				Address: addr,
-				Type:    n.Type,
-				Value:   n.Value,
-			}
-
-			// Agregar la constante a la memoria
-			memory.Const.Insert(constNode)
-
-			// Agregar la dirección a la pila
-			ctx.Push(addr)
-
-			return addr, nil
-		}
-
-		// Agregar la dirección a la pila
-		ctx.Push(varNode.Address)
-
-		return varNode.Address, nil
-	}
-}
-
-// Ejecuta los cuádruplos generados y devuelve el resultado
-func (ctx *Context) Evaluate() VarNode {
+// Ejecuta los cuádruplos generados
+func (ctx *Context) Evaluate() error {
 	/*fmt.Println()
 	fmt.Println("Ejecución de cuádruplos")
 	fmt.Println("===================================")*/
-	var finalResult VarNode
 
 	for _, q := range ctx.Quads {
+		// Ignorar cuádruplos de etiquetas
+		if q.Left == -1 {
+			continue
+		}
+
 		// Recuperar operando izquierdo desde memoria
 		leftNode, err := lookupVarByAddress(q.Left)
 		if err != nil {
-			panic(err)
+			return err
 		}
 
 		// Recuperar operando derecho desde memoria si no es parte de un cuádruplo unario
 		var rightNode *VarNode
-
 		if q.Right != -1 {
 			node, err := lookupVarByAddress(q.Right)
 			if err != nil {
-				panic(err)
+				return err
 			}
 			rightNode = node
 		}
@@ -310,6 +114,8 @@ func (ctx *Context) Evaluate() VarNode {
 			leftVal, _ = strconv.ParseFloat(leftNode.Value, 64)
 		case "bool":
 			leftVal = leftNode.Value == "1"
+		case "string":
+			leftVal = leftNode.Value
 		}
 
 		if q.Right != -1 {
@@ -348,21 +154,24 @@ func (ctx *Context) Evaluate() VarNode {
 		case "PRINT":
 			switch leftNode.Type {
 			case "int", "float":
-				fmt.Print(leftNode.Value)
+				fmt.Print(leftVal)
 			case "bool":
-				if leftNode.Value == "1" {
+				if leftVal == "1" {
 					fmt.Print("true")
 				} else {
 					fmt.Print("false")
 				}
+			case "string":
+				fmt.Print(leftVal)
 			}
-			return finalResult
+			fmt.Print(" ")
+			return nil
 		}
 
 		// Obtener los datos de la variable de salida
 		resultNode, err := lookupVarByAddress(q.Result)
 		if err != nil {
-			panic(err)
+			return err
 		}
 
 		// Normalizar a string según el tipo de resultado
@@ -401,10 +210,17 @@ func (ctx *Context) Evaluate() VarNode {
 
 		// Guardar el resultado en memoria
 		memory.Temp.Update(resultNode)
-		finalResult = *resultNode
-	}
 
-	return finalResult
+		if opNode.Id == "=" {
+			// Actualizar el nodo de destino
+			if scope != global {
+				memory.Local.Update(resultNode)
+			} else {
+				memory.Global.Update(resultNode)
+			}
+		}
+	}
+	return nil
 }
 
 // Convierte int, float64 o bool a float64

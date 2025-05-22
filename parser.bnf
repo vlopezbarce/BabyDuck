@@ -400,22 +400,20 @@ Print
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar
-    << []*ast.PrintNode{&ast.PrintNode{Item: $0.(ast.Attrib)}}, nil >>
+    << []*ast.PrintNode{ $0.(*ast.PrintNode) }, nil >>
     | PrintVar comma PrintVarList
-    <<
-        func() (Attrib, error) {
-            head := &ast.PrintNode{Item: $0.(ast.Attrib)}
-            tail := $2.([]*ast.PrintNode)
-
-            return append([]*ast.PrintNode{head}, tail...), nil
-        }()
-    >>
+    << append([]*ast.PrintNode{ $0.(*ast.PrintNode) }, $2.([]*ast.PrintNode)...), nil >>
     ;
 
 // Variable a imprimir
 PrintVar
     : Expression
-    << $0, nil >>
+    << &ast.PrintNode{ Item: $0.(ast.Quad) }, nil >>
     | cte_string
-    << string($0.(*token.Token).Lit), nil >>
+    <<
+        &ast.PrintNode{
+            Item: &ast.VarNode{ Type: "string", Value: string($0.(*token.Token).Lit) },
+        },
+        nil
+    >>
     ;

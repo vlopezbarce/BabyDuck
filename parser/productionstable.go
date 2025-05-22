@@ -753,53 +753,49 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVarList : PrintVar	<< []*ast.PrintNode{&ast.PrintNode{Item: X[0].(ast.Attrib)}}, nil >>`,
+		String: `PrintVarList : PrintVar	<< []*ast.PrintNode{ X[0].(*ast.PrintNode) }, nil >>`,
 		Id:         "PrintVarList",
 		NTType:     31,
 		Index:      57,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return []*ast.PrintNode{&ast.PrintNode{Item: X[0].(ast.Attrib)}}, nil
+			return []*ast.PrintNode{ X[0].(*ast.PrintNode) }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVarList : PrintVar comma PrintVarList	<< func() (Attrib, error) {
-            head := &ast.PrintNode{Item: X[0].(ast.Attrib)}
-            tail := X[2].([]*ast.PrintNode)
-
-            return append([]*ast.PrintNode{head}, tail...), nil
-        }() >>`,
+		String: `PrintVarList : PrintVar comma PrintVarList	<< append([]*ast.PrintNode{ X[0].(*ast.PrintNode) }, X[2].([]*ast.PrintNode)...), nil >>`,
 		Id:         "PrintVarList",
 		NTType:     31,
 		Index:      58,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return func() (Attrib, error) {
-            head := &ast.PrintNode{Item: X[0].(ast.Attrib)}
-            tail := X[2].([]*ast.PrintNode)
-
-            return append([]*ast.PrintNode{head}, tail...), nil
-        }()
+			return append([]*ast.PrintNode{ X[0].(*ast.PrintNode) }, X[2].([]*ast.PrintNode)...), nil
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVar : Expression	<< X[0], nil >>`,
+		String: `PrintVar : Expression	<< &ast.PrintNode{ Item: X[0].(ast.Quad) }, nil >>`,
 		Id:         "PrintVar",
 		NTType:     32,
 		Index:      59,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return &ast.PrintNode{ Item: X[0].(ast.Quad) }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVar : cte_string	<< string(X[0].(*token.Token).Lit), nil >>`,
+		String: `PrintVar : cte_string	<< &ast.PrintNode{
+            Item: &ast.VarNode{ Type: "string", Value: string(X[0].(*token.Token).Lit) },
+        },
+        nil >>`,
 		Id:         "PrintVar",
 		NTType:     32,
 		Index:      60,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return string(X[0].(*token.Token).Lit), nil
+			return &ast.PrintNode{
+            Item: &ast.VarNode{ Type: "string", Value: string(X[0].(*token.Token).Lit) },
+        },
+        nil
 		},
 	},
 }
