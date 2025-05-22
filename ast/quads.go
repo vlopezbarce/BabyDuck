@@ -57,24 +57,29 @@ func PrintQuads(quads []Quadruple) {
 	fmt.Println("Cuádruplos generados:")
 	fmt.Println("===================================")
 
+	var right string
 	for i, q := range quads {
-		fmt.Printf("%d: %d %d %d %d\n", i, q.Operator, q.Left, q.Right, q.Result)
+		if q.Right == -1 {
+			right = "_"
+		} else {
+			right = fmt.Sprintf("%d", q.Right)
+		}
+		fmt.Printf("%d: %d %d %s -> %d\n", i, q.Operator, q.Left, right, q.Result)
 	}
 }
 
 // Genera el código intermedio para una asignación
 func (n *AssignNode) Generate(ctx *Context, dest VarNode) error {
 	// Obtiene el resultado de la expresión
-	result, err := n.Exp.Generate(ctx)
-	if err != nil {
+	if err := n.Exp.Generate(ctx); err != nil {
 		return err
 	}
 
+	// Obtiene el resultado de la expresión
+	result := ctx.Pop()
+
 	// Obtiene el operador de la memoria
-	opNode, found := memory.Operators.FindByName("=")
-	if !found {
-		return fmt.Errorf("operador '=' no encontrado")
-	}
+	opNode, _ := memory.Operators.FindByName("=")
 
 	// Agregar el cuádruplo
 	ctx.AddQuad(opNode.Address, result, -1, dest.Address)
@@ -85,16 +90,15 @@ func (n *AssignNode) Generate(ctx *Context, dest VarNode) error {
 // Genera el código intermedio para una impresión
 func (n *PrintNode) Generate(ctx *Context) error {
 	// Obtiene el resultado de la expresión
-	result, err := n.Item.(Quad).Generate(ctx)
-	if err != nil {
+	if err := n.Item.(Quad).Generate(ctx); err != nil {
 		return err
 	}
 
+	// Obtiene el resultado de la expresión
+	result := ctx.Pop()
+
 	// Obtener el operador “print” de la memoria
-	opNode, found := memory.Operators.FindByName("print")
-	if !found {
-		return fmt.Errorf("operador 'print' no encontrado")
-	}
+	opNode, _ := memory.Operators.FindByName("print")
 
 	// Agregar el cuádruplo
 	ctx.AddQuad(opNode.Address, result, -1, -1)
@@ -103,39 +107,37 @@ func (n *PrintNode) Generate(ctx *Context) error {
 }
 
 // Genera el código intermedio para una expresión binaria
-func (n *ExpressionNode) Generate(ctx *Context) (int, error) {
+func (n *ExpressionNode) Generate(ctx *Context) error {
 	// Genera el código intermedio para los operandos izquierdo y derecho
-	lAddr, err := n.Left.Generate(ctx)
-	if err != nil {
-		return -1, err
+	if err := n.Left.Generate(ctx); err != nil {
+		return err
+	}
+	if err := n.Right.Generate(ctx); err != nil {
+		return err
 	}
 
-	rAddr, err := n.Right.Generate(ctx)
-	if err != nil {
-		return -1, err
-	}
+	// Obtiene los operandos izquierdo y derecho
+	right := ctx.Pop()
+	left := ctx.Pop()
 
 	// Obtiene los nodos de memoria correspondientes
-	leftNode, err := lookupVarByAddress(lAddr)
+	leftNode, err := lookupVarByAddress(left)
 	if err != nil {
-		return -1, err
+		return err
 	}
-	rightNode, err := lookupVarByAddress(rAddr)
+	rightNode, err := lookupVarByAddress(right)
 	if err != nil {
-		return -1, err
+		return err
 	}
 
 	// Verifica la compatibilidad de tipos
 	resultType, err := CheckSemantic(n.Op, leftNode.Type, rightNode.Type)
 	if err != nil {
-		return -1, err
+		return err
 	}
 
 	// Obtiene el operador de la memoria
-	opNode, found := memory.Operators.FindByName(n.Op)
-	if !found {
-		return -1, fmt.Errorf("operador '%s' no encontrado", n.Op)
-	}
+	opNode, _ := memory.Operators.FindByName(n.Op)
 
 	// Obtiene la dirección de memoria para el temporal
 	var addr int
@@ -148,7 +150,7 @@ func (n *ExpressionNode) Generate(ctx *Context) (int, error) {
 		addr, err = alloc.NextTempBool()
 	}
 	if err != nil {
-		return -1, err
+		return err
 	}
 
 	// Crea un nuevo nodo temporal
@@ -165,24 +167,27 @@ func (n *ExpressionNode) Generate(ctx *Context) (int, error) {
 	memory.Temp.Insert(tempNode)
 
 	// Agrega el cuádruplo
-	ctx.AddQuad(opNode.Address, lAddr, rAddr, addr)
+	ctx.AddQuad(opNode.Address, left, right, addr)
 
 	// Agrega el temporal a la pila
 	ctx.Push(addr)
 
-	return addr, nil
+	return nil
 }
 
 // Genera el código intermedio para una variable o constante
-func (n *VarNode) Generate(ctx *Context) (int, error) {
+func (n *VarNode) Generate(ctx *Context) error {
 	if n.Id != "" {
 		// Buscar en la memoria local o global
 		varNode, _, err := lookupVar(n.Id)
 		if err != nil {
-			return -1, err
+			return err
 		}
 
-		return varNode.Address, nil
+		// Agregar la direción a la pila
+		ctx.Push(varNode.Address)
+
+		return nil
 	} else {
 		// Buscar la constante en la memoria
 		varNode, found := memory.Const.FindConst(n.Type, n.Value)
@@ -198,9 +203,8 @@ func (n *VarNode) Generate(ctx *Context) (int, error) {
 			case "float":
 				addr, err = alloc.NextConstFloat()
 			}
-
 			if err != nil {
-				return -1, err
+				return err
 			}
 
 			// Agregar la constante a la memoria
@@ -210,11 +214,17 @@ func (n *VarNode) Generate(ctx *Context) (int, error) {
 				Value:   n.Value,
 			}
 
+			// Agregar la constante a la memoria
 			memory.Const.Insert(constNode)
-			return addr, nil
+
+			// Agregar la dirección a la pila
+			ctx.Push(addr)
+			return nil
 		}
 
-		return varNode.Address, nil
+		// Agregar la dirección a la pila
+		ctx.Push(varNode.Address)
+		return nil
 	}
 }
 
@@ -349,10 +359,13 @@ func (ctx *Context) Evaluate() VarNode {
 		finalResult = *resultNode
 	}
 
-	fmt.Println()
-	fmt.Println("Memoria de temporales:")
-	fmt.Println("===================================")
-	memory.Temp.Print()
+	if ctx.TempCount > 0 {
+		fmt.Println()
+		fmt.Println("Memoria de temporales:")
+		fmt.Println("===================================")
+		memory.Temp.Print()
+	}
+
 	return finalResult
 }
 

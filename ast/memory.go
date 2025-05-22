@@ -21,8 +21,6 @@ func FillOperatorsTree() {
 		node := &VarNode{
 			Address: addr,
 			Id:      op,
-			Type:    "operator",
-			Value:   op,
 		}
 		memory.Operators.Insert(node)
 	}

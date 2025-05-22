@@ -53,7 +53,7 @@ type FuncNode struct {
 
 // Interfaz para nodos que pueden generar cuádruplos
 type Quad interface {
-	Generate(ctx *Context) (int, error)
+	Generate(ctx *Context) error
 }
 
 // Nodo de asignación
