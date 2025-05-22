@@ -33,11 +33,10 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Program : ProgramHeader FuncSection main Body end	<< func() (Attrib, error) {
-            header := X[0].([]ast.Attrib)
-            id := header[0].(string)
-            vars := header[1].([]*ast.VarNode)
-            body := X[3].([]ast.Attrib)
+		String: `Program : ProgramHeader VarSection FuncSection main Body end	<< func() (Attrib, error) {
+            id := X[0].(string)
+            vars := X[1].([]*ast.VarNode)
+            body := X[4].([]ast.Attrib)
 
             // Inicializar programa como una función
             programNode, err := ast.DeclareFunction(id, vars, body)
@@ -51,13 +50,12 @@ var productionsTable = ProdTab{
 		Id:         "Program",
 		NTType:     1,
 		Index:      1,
-		NumSymbols: 5,
+		NumSymbols: 6,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
-            header := X[0].([]ast.Attrib)
-            id := header[0].(string)
-            vars := header[1].([]*ast.VarNode)
-            body := X[3].([]ast.Attrib)
+            id := X[0].(string)
+            vars := X[1].([]*ast.VarNode)
+            body := X[4].([]ast.Attrib)
 
             // Inicializar programa como una función
             programNode, err := ast.DeclareFunction(id, vars, body)
@@ -71,33 +69,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `ProgramHeader : program id semicolon VarSection	<< func() (Attrib, error) {
-            id := string(X[1].(*token.Token).Lit)
-            vars := X[3].([]*ast.VarNode)
-            
-            ast.InitProgram(id)
-            if err := ast.ValidateVars(vars); err != nil {
-                return nil, err
-            }
-
-            return []ast.Attrib{id, vars}, nil
-        }() >>`,
+		String: `ProgramHeader : program id semicolon	<< ast.InitProgram(string(X[1].(*token.Token).Lit)), nil >>`,
 		Id:         "ProgramHeader",
 		NTType:     2,
 		Index:      2,
-		NumSymbols: 4,
+		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return func() (Attrib, error) {
-            id := string(X[1].(*token.Token).Lit)
-            vars := X[3].([]*ast.VarNode)
-            
-            ast.InitProgram(id)
-            if err := ast.ValidateVars(vars); err != nil {
-                return nil, err
-            }
-
-            return []ast.Attrib{id, vars}, nil
-        }()
+			return ast.InitProgram(string(X[1].(*token.Token).Lit)), nil
 		},
 	},
 	ProdTabEntry{
@@ -667,27 +645,35 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Condition : if lparen Expression rparen Body ElseOptional semicolon	<<  >>`,
+		String: `Condition : if lparen Expression rparen Body ElseOptional semicolon	<< &ast.IfNode{
+            Condition: X[2].(ast.Quad),
+            ThenBlock: X[4].([]ast.Attrib),
+            ElseBlock: X[5].([]ast.Attrib),
+        }, nil >>`,
 		Id:         "Condition",
 		NTType:     24,
 		Index:      47,
 		NumSymbols: 7,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return &ast.IfNode{
+            Condition: X[2].(ast.Quad),
+            ThenBlock: X[4].([]ast.Attrib),
+            ElseBlock: X[5].([]ast.Attrib),
+        }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `ElseOptional : else Body	<<  >>`,
+		String: `ElseOptional : else Body	<< X[1], nil >>`,
 		Id:         "ElseOptional",
 		NTType:     25,
 		Index:      48,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return X[1], nil
 		},
 	},
 	ProdTabEntry{
-		String: `ElseOptional : "empty"	<<  >>`,
+		String: `ElseOptional : "empty"	<< nil, nil >>`,
 		Id:         "ElseOptional",
 		NTType:     25,
 		Index:      49,

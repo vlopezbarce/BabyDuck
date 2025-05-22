@@ -130,8 +130,8 @@ func ExecuteStatement(stmt Attrib) error {
 		return ExecuteAssign(node)
 	case []*PrintNode:
 		return ExecutePrint(node)
-	//case *IfNode:
-	//	return executeCondition(node)
+	case *IfNode:
+		return ExecuteCondition(node)
 	//case *WhileNode:
 	//	return executeWhile(node)
 	//case *FuncCallNode:
@@ -141,46 +141,36 @@ func ExecuteStatement(stmt Attrib) error {
 	}
 }
 
-// Función para ejecutar la asignación
+// Ejecuta la asignación de una variable
 func ExecuteAssign(assignNode *AssignNode) error {
-	// Buscar variable destino y memoria correcta
-	var info *VarNode
-	var found bool
-
-	if scope != global {
-		if info, found = memory.Local.FindByName(assignNode.Id); !found {
-			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", assignNode.Id)
-		}
-	} else {
-		if info, found = memory.Global.FindByName(assignNode.Id); !found {
-			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", assignNode.Id)
-		}
-	}
-
-	// Generar cuádruplos, pasando el VarNode destino
 	ctx := &Context{}
-	if err := assignNode.Generate(ctx, *info); err != nil {
+	dest, err := assignNode.Generate(ctx)
+	if err != nil {
 		return err
 	}
 
+	// Imprimir cuádruplos y temporales
+	ctx.PrintQuads()
+	ctx.PrintTemps()
+
 	// Ejecutar y evaluar
-	PrintQuads(ctx.Quads)
 	result := ctx.Evaluate()
+	ctx.PrintTemps()
 
 	// Comprobar tipos
-	if info.Type != result.Type {
+	if dest.Type != result.Type {
 		return fmt.Errorf(
 			"tipo incompatible en '%s': se esperaba %s, se obtuvo %s",
-			assignNode.Id, info.Type, result.Type,
+			assignNode.Id, dest.Type, result.Type,
 		)
 	}
 
 	// Actualizar valor y escribir en la memoria correspondiente
-	info.Value = result.Value
+	dest.Value = result.Value
 	if scope != global {
-		memory.Local.Update(info)
+		memory.Local.Update(dest)
 	} else {
-		memory.Global.Update(info)
+		memory.Global.Update(dest)
 	}
 
 	// Limpiar la memoria temporal
@@ -201,9 +191,13 @@ func ExecutePrint(printNodes []*PrintNode) error {
 				return err
 			}
 
+			// Imprimir cuádruplos y temporales
+			ctx.PrintQuads()
+			ctx.PrintTemps()
+
 			// Ejecutar y evaluar
-			PrintQuads(ctx.Quads)
 			ctx.Evaluate()
+			ctx.PrintTemps()
 
 			// Limpiar la memoria temporal
 			memory.Temp.Clear()
@@ -226,10 +220,85 @@ func ExecutePrint(printNodes []*PrintNode) error {
 	return nil
 }
 
+// Ejecuta una condición if
+func ExecuteCondition(ifNode *IfNode) error {
+	// Generar código intermedio de la condición
+	ctx := &Context{}
+	condAddr, err := ifNode.Condition.Generate(ctx)
+	if err != nil {
+		return err
+	}
+
+	// Buscar el tipo del resultado de la condición
+	result, err := lookupVarByAddress(condAddr)
+	if err != nil {
+		return err
+	}
+	if result.Type != "bool" {
+		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", result.Type)
+	}
+
+	// Crear etiquetas para el salto
+	falseLabel := ctx.NewLabel()
+	endLabel := ctx.NewLabel()
+
+	// Obtener el operador de la memoria
+	opGOTOF, _ := memory.Operators.FindByName("GOTOF")
+	ctx.AddQuad(opGOTOF.Address, condAddr, -1, falseLabel)
+
+	// Generar los cuádruplos para el bloque Then
+	for _, stmt := range ifNode.ThenBlock {
+		var err error
+		switch stmt := stmt.(type) {
+		case *AssignNode:
+			_, err = stmt.Generate(ctx)
+		case *PrintNode:
+			err = stmt.Generate(ctx)
+		}
+		if err != nil {
+			return fmt.Errorf("error al generar bloque Then: %v", err)
+		}
+	}
+
+	// Obtener el operador de la memoria
+	opGOTO, _ := memory.Operators.FindByName("GOTO")
+	ctx.AddQuad(opGOTO.Address, -1, -1, endLabel)
+
+	// Generar los cuádruplos para el bloque Else
+	ctx.SetLabel(falseLabel)
+	for _, stmt := range ifNode.ElseBlock {
+		var err error
+		switch stmt := stmt.(type) {
+		case *AssignNode:
+			_, err = stmt.Generate(ctx)
+		case *PrintNode:
+			err = stmt.Generate(ctx)
+		}
+		if err != nil {
+			return fmt.Errorf("error al generar bloque Then: %v", err)
+		}
+	}
+
+	ctx.SetLabel(endLabel)
+
+	// Imprimir cuádruplos y temporales
+	ctx.PrintQuads()
+	ctx.PrintTemps()
+
+	// Limpiar la memoria temporal
+	memory.Temp.Clear()
+
+	return nil
+}
+
 // Imprime todas las variables
 func PrintVariables() {
 	fmt.Println()
 	fmt.Println("Variables registradas:")
+	fmt.Println("===================================")
+
+	fmt.Println("Operators:")
+	memory.Operators.Print()
 	fmt.Println("===================================")
 
 	fmt.Println("Global:")

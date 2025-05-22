@@ -4,15 +4,6 @@ import "fmt"
 
 var alloc *Allocator
 
-// Gestiona la asignación de direcciones de memoria para variables
-type Allocator struct {
-	Operators Range
-	Global    MemoryRanges
-	Local     MemoryRanges
-	Const     MemoryRanges
-	Temp      MemoryRanges
-}
-
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{

@@ -30,11 +30,13 @@ type VarNode struct {
 	Right   *VarNode
 }
 
-// Rango de memoria para funciones
-type Range struct {
-	Start   int
-	End     int
-	Counter int
+// Gestiona la asignación de direcciones de memoria
+type Allocator struct {
+	Operators Range
+	Global    MemoryRanges
+	Local     MemoryRanges
+	Const     MemoryRanges
+	Temp      MemoryRanges
 }
 
 // Rangos para tipos de datos
@@ -44,6 +46,13 @@ type MemoryRanges struct {
 	Bool  Range
 }
 
+// Rango de memoria para funciones
+type Range struct {
+	Start   int
+	End     int
+	Counter int
+}
+
 // Nodo de función
 type FuncNode struct {
 	Id   string
@@ -51,9 +60,25 @@ type FuncNode struct {
 	Body []Attrib
 }
 
+// Representa una instrucción de código intermedio (cuádruplo)
+type Quadruple struct {
+	Operator int
+	Left     int
+	Right    int
+	Result   int
+}
+
+// Almacena la pila semántica, cuádruplos y contador de temporales
+type Context struct {
+	SemStack   []int
+	Quads      []Quadruple
+	TempCount  int
+	LabelCount int
+}
+
 // Interfaz para nodos que pueden generar cuádruplos
 type Quad interface {
-	Generate(ctx *Context) error
+	Generate(ctx *Context) (int, error)
 }
 
 // Nodo de asignación
@@ -72,4 +97,17 @@ type ExpressionNode struct {
 	Op    string
 	Left  Quad
 	Right Quad
+}
+
+// Nodo de condición
+type IfNode struct {
+	Condition Quad
+	ThenBlock []Attrib
+	ElseBlock []Attrib
+}
+
+// Nodo de ciclo while
+type WhileNode struct {
+	Condition Quad
+	Body      []Attrib
 }

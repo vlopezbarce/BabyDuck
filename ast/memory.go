@@ -16,7 +16,7 @@ func NewMemory() {
 
 // Llenar el árbol de operadores con los operadores disponibles
 func FillOperatorsTree() {
-	operators := []string{"+", "-", "*", "/", ">", "<", "!=", "=", "print"}
+	operators := []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "GOTO", "GOTOF", "LABEL"}
 	for addr, op := range operators {
 		node := &VarNode{
 			Address: addr,
@@ -194,6 +194,28 @@ func printNode(node *VarNode) {
 		return
 	}
 	printNode(node.Left)
-	fmt.Printf("Dirección: %d, Variable: %s, Tipo: %s, Valor: %s\n", node.Address, node.Id, node.Type, node.Value)
+
+	var nodeId string
+	if node.Id != "" {
+		nodeId = fmt.Sprintf("Variable: %s, ", node.Id)
+	} else {
+		nodeId = ""
+	}
+
+	var nodeType string
+	if node.Type != "" {
+		nodeType = fmt.Sprintf("Tipo: %s, ", node.Type)
+	} else {
+		nodeType = ""
+	}
+
+	var nodeValue string
+	if node.Value != "" {
+		nodeValue = fmt.Sprintf("Valor: %s, ", node.Value)
+	} else {
+		nodeValue = ""
+	}
+
+	fmt.Printf("Dirección: %d, %s%s%s\n", node.Address, nodeId, nodeType, nodeValue)
 	printNode(node.Right)
 }

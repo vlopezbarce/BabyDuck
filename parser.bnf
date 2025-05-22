@@ -73,7 +73,7 @@ Program
         func() (Attrib, error) {
             id := $0.(string)
             vars := $1.([]*ast.VarNode)
-            body := $3.([]ast.Attrib)
+            body := $4.([]ast.Attrib)
 
             // Inicializar programa como una función
             programNode, err := ast.DeclareFunction(id, vars, body)
@@ -352,12 +352,21 @@ Cte
 // Condición if-else
 Condition
     : if lparen Expression rparen Body ElseOptional semicolon
+    <<
+        &ast.IfNode{
+            Condition: $2.(ast.Quad),
+            ThenBlock: $4.([]ast.Attrib),
+            ElseBlock: $5.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Bloque else opcional (0 o 1)
 ElseOptional
     : else Body
+    << $1, nil >>
     | "empty"
+    << nil, nil >>
     ;
 
 // Ciclo while-do
