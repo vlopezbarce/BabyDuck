@@ -64,19 +64,6 @@ func updateNode(currNode, newNode *VarNode) error {
 	return updateNode(currNode.Right, newNode)
 }
 
-// Busca en local primero y luego en global, retorna qué memoria usar
-func lookupVar(name string) (*VarNode, *SymbolTree, error) {
-	if scope != global {
-		if info, found := memory.Local.FindByName(name); found {
-			return info, memory.Local, nil
-		}
-	}
-	if info, found := memory.Global.FindByName(name); found {
-		return info, memory.Global, nil
-	}
-	return nil, nil, fmt.Errorf("variable '%s' no declarada", name)
-}
-
 // Busca una variable por su ID en el árbol de símbolos
 func (tree *SymbolTree) FindByName(id string) (*VarNode, bool) {
 	return findByName(tree.Root, id)

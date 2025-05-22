@@ -4,38 +4,27 @@ import "fmt"
 
 var scope string
 var global string
-var globalVars map[string]bool
 
 // Inicializa el ámbito global, la memoria y el asignador
-func InitProgram(id string) {
+func InitProgram(id string) string {
 	scope = id
 	global = scope
-	globalVars = make(map[string]bool)
 	NewMemory()
 	NewAllocator()
 	FillOperatorsTree()
+	return id
 }
 
 func ValidateVars(vars []*VarNode) error {
-	localVars := make(map[string]bool)
+	tempVars := make(map[string]bool)
 
 	for _, v := range vars {
-		// Verificar si la variable ya existe en el ámbito local
-		if _, exists := localVars[v.Id]; exists {
-			return fmt.Errorf("variable '%s' ya declarada en el ámbito local", v.Id)
+		// Verificar si la variable ya existe en el ámbito actual
+		if _, exists := tempVars[v.Id]; exists {
+			return fmt.Errorf("variable '%s' ya declarada en el ámbito actual", v.Id)
 		}
-
-		// Verificar si la variable ya existe en el ámbito global
-		if _, exists := globalVars[v.Id]; exists {
-			return fmt.Errorf("variable '%s' ya declarada en el ámbito global", v.Id)
-		}
-
 		// Agregar la variable al mapa temporal para validación
-		if scope == global {
-			globalVars[v.Id] = true
-		} else {
-			localVars[v.Id] = true
-		}
+		tempVars[v.Id] = true
 	}
 
 	return nil
@@ -57,19 +46,16 @@ func DeclareFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, erro
 	// Agregar la función al directorio de funciones
 	funcDir[id] = funcNode
 
-	// Si es el programa, ya se hizo la validación
-	if id != global {
-		// Establecer el ámbito actual a la función
-		scope = id
+	// Establecer el ámbito actual a la función
+	scope = id
 
-		// Verificar si hay variables duplicadas
-		if err := ValidateVars(vars); err != nil {
-			return nil, err
-		}
-
-		// Reestablecer el ámbito global
-		scope = global
+	// Verificar si hay variables duplicadas
+	if err := ValidateVars(vars); err != nil {
+		return nil, err
 	}
+
+	// Reestablecer el ámbito global
+	scope = global
 
 	return funcNode, nil
 }
@@ -158,9 +144,17 @@ func ExecuteStatement(stmt Attrib) error {
 // Función para ejecutar la asignación
 func ExecuteAssign(assignNode *AssignNode) error {
 	// Buscar variable destino y memoria correcta
-	info, tree, err := lookupVar(assignNode.Id)
-	if err != nil {
-		return err
+	var info *VarNode
+	var found bool
+
+	if scope != global {
+		if info, found = memory.Local.FindByName(assignNode.Id); !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", assignNode.Id)
+		}
+	} else {
+		if info, found = memory.Global.FindByName(assignNode.Id); !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", assignNode.Id)
+		}
 	}
 
 	// Generar cuádruplos, pasando el VarNode destino
@@ -183,7 +177,11 @@ func ExecuteAssign(assignNode *AssignNode) error {
 
 	// Actualizar valor y escribir en la memoria correspondiente
 	info.Value = result.Value
-	tree.Update(info)
+	if scope != global {
+		memory.Local.Update(info)
+	} else {
+		memory.Global.Update(info)
+	}
 
 	// Limpiar la memoria temporal
 	memory.Temp.Clear()
@@ -234,10 +232,6 @@ func PrintVariables() {
 	fmt.Println("Variables registradas:")
 	fmt.Println("===================================")
 
-	fmt.Println("Operadores:")
-	memory.Operators.Print()
-	fmt.Println("===================================")
-
 	fmt.Println("Global:")
 	memory.Global.Print()
 	fmt.Println("===================================")
@@ -248,10 +242,6 @@ func PrintVariables() {
 
 	fmt.Println("Constantes:")
 	memory.Const.Print()
-	fmt.Println("===================================")
-
-	fmt.Println("Temporales:")
-	memory.Temp.Print()
 	fmt.Println("===================================")
 
 	fmt.Println()

@@ -58,13 +58,19 @@ func PrintQuads(quads []Quadruple) {
 	fmt.Println("===================================")
 
 	var right string
+	var result string
 	for i, q := range quads {
 		if q.Right == -1 {
 			right = "_"
 		} else {
 			right = fmt.Sprintf("%d", q.Right)
 		}
-		fmt.Printf("%d: %d %d %s -> %d\n", i, q.Operator, q.Left, right, q.Result)
+		if q.Result == -1 {
+			result = "_"
+		} else {
+			result = fmt.Sprintf("%d", q.Result)
+		}
+		fmt.Printf("%d: (%d, %d, %s, %s)\n", i, q.Operator, q.Left, right, result)
 	}
 }
 
@@ -179,9 +185,25 @@ func (n *ExpressionNode) Generate(ctx *Context) error {
 func (n *VarNode) Generate(ctx *Context) error {
 	if n.Id != "" {
 		// Buscar en la memoria local o global
-		varNode, _, err := lookupVar(n.Id)
-		if err != nil {
-			return err
+		var varNode *VarNode
+		var found bool
+
+		if scope != global {
+			if varNode, found = memory.Local.FindByName(n.Id); found {
+				if varNode.Value == "" {
+					return fmt.Errorf("variable '%s' no asignada", n.Id)
+				}
+			}
+		}
+		if !found {
+			if varNode, found = memory.Global.FindByName(n.Id); found {
+				if varNode.Value == "" {
+					return fmt.Errorf("variable '%s' no asignada", n.Id)
+				}
+			}
+		}
+		if !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
 		}
 
 		// Agregar la direción a la pila
@@ -361,7 +383,7 @@ func (ctx *Context) Evaluate() VarNode {
 
 	if ctx.TempCount > 0 {
 		fmt.Println()
-		fmt.Println("Memoria de temporales:")
+		fmt.Println("Temporales:")
 		fmt.Println("===================================")
 		memory.Temp.Print()
 	}
