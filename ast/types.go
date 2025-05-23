@@ -15,11 +15,10 @@ type FuncNode struct {
 
 // Memoria de direcciones virtuales
 type Memory struct {
-	Operators *SymbolTree
-	Global    *SymbolTree
-	Const     *SymbolTree
-	Temp      *SymbolTree
-	Local     *SymbolTree
+	Global *SymbolTree
+	Const  *SymbolTree
+	Temp   *SymbolTree
+	Local  *SymbolTree
 }
 
 // Estructura del árbol de símbolos
@@ -94,7 +93,7 @@ type PrintNode struct {
 
 // Nodo de expresión binaria
 type ExpressionNode struct {
-	Op    string
+	Op    int
 	Left  Quad
 	Right Quad
 }

@@ -240,7 +240,7 @@ Expression
     << 
         &ast.ExpressionNode{
             Left:  $0.(ast.Quad),
-            Op:    $1.(string),
+            Op:    $1.(int),
             Right: $2.(ast.Quad),
         }, nil
     >>
@@ -249,11 +249,11 @@ Expression
 // Operadores relacionales
 RelOp
     : gt
-    << ">", nil >>
+    << ast.GT, nil >>
     | lt
-    << "<", nil >>
+    << ast.LT, nil >>
     | neq
-    << "!=", nil >>
+    << ast.NEQ, nil >>
     ;
 
 // Expresión aritmética
@@ -261,7 +261,7 @@ Exp
     : Exp plus Term
     <<
         &ast.ExpressionNode{
-            Op:    "+",
+            Op:    ast.PLUS,
             Left:  $0.(ast.Quad),
             Right: $2.(ast.Quad),
         }, nil
@@ -269,7 +269,7 @@ Exp
     | Exp minus Term
     <<
         &ast.ExpressionNode{
-            Op:    "-",
+            Op:    ast.MINUS,
             Left:  $0.(ast.Quad),
             Right: $2.(ast.Quad),
         }, nil
@@ -283,7 +283,7 @@ Term
     : Term times Factor
     <<
         &ast.ExpressionNode{
-            Op:    "*",
+            Op:    ast.TIMES,
             Left:  $0.(ast.Quad),
             Right: $2.(ast.Quad),
         }, nil
@@ -291,7 +291,7 @@ Term
     | Term divide Factor
     <<
         &ast.ExpressionNode{
-            Op:    "/",
+            Op:    ast.DIVIDE,
             Left:  $0.(ast.Quad),
             Right: $2.(ast.Quad),
         }, nil
@@ -305,16 +305,7 @@ Factor
     : lparen Expression rparen
     << $1, nil >>
     | minus Atom
-    <<
-        &ast.ExpressionNode{
-            Op:    "-",
-            Left:  &ast.VarNode{
-                Type: "int",
-                Value: "0",
-            },
-            Right: $1.(ast.Quad),
-        }, nil
-    >>
+    << ast.AddNegative($1.(*ast.VarNode)) >>
     | Atom
     << $0, nil >>
     ;

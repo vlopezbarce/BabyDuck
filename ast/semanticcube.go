@@ -2,8 +2,8 @@ package ast
 
 import "fmt"
 
-var semanticCube = map[string]map[string]map[string]string{
-	"+": {
+var semanticCube = map[int]map[string]map[string]string{
+	PLUS: {
 		"int": {
 			"int":   "int",
 			"float": "float",
@@ -13,7 +13,7 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "float",
 		},
 	},
-	"-": {
+	MINUS: {
 		"int": {
 			"int":   "int",
 			"float": "float",
@@ -23,7 +23,7 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "float",
 		},
 	},
-	"*": {
+	TIMES: {
 		"int": {
 			"int":   "int",
 			"float": "float",
@@ -33,7 +33,7 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "float",
 		},
 	},
-	"/": {
+	DIVIDE: {
 		"int": {
 			"int":   "int",
 			"float": "float",
@@ -43,7 +43,7 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "float",
 		},
 	},
-	">": {
+	GT: {
 		"int": {
 			"int":   "bool",
 			"float": "bool",
@@ -53,7 +53,7 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "bool",
 		},
 	},
-	"<": {
+	LT: {
 		"int": {
 			"int":   "bool",
 			"float": "bool",
@@ -63,7 +63,7 @@ var semanticCube = map[string]map[string]map[string]string{
 			"float": "bool",
 		},
 	},
-	"!=": {
+	NEQ: {
 		"int": {
 			"int":   "bool",
 			"float": "bool",
@@ -78,15 +78,12 @@ var semanticCube = map[string]map[string]map[string]string{
 	},
 }
 
-func CheckSemantic(op string, left string, right string) (string, error) {
-	if _, ok := semanticCube[op]; !ok {
-		return "", fmt.Errorf("operador no soportado: %s", op)
-	}
+func CheckSemantic(op int, left string, right string) (string, error) {
 	if _, ok := semanticCube[op][left]; !ok {
 		return "", fmt.Errorf("tipo izquierdo no soportado: %s", left)
 	}
 	if result, ok := semanticCube[op][left][right]; ok {
 		return result, nil
 	}
-	return "", fmt.Errorf("operación inválida: %s %s %s", left, op, right)
+	return "", fmt.Errorf("operación inválida entre %s y %s", left, right)
 }

@@ -71,159 +71,178 @@ func (ctx *Context) Evaluate() error {
 	fmt.Println("Ejecución de cuádruplos")
 	fmt.Println("===================================")
 
-	for _, q := range ctx.Quads {
-		// Ignorar cuádruplos de etiquetas
-		if q.Left == -1 {
+	for i := 0; i < len(ctx.Quads); i++ {
+		q := ctx.Quads[i]
+
+		switch q.Operator {
+		case GOTO:
+			// Saltar al cuádruplo indicado
+			i = q.Result - 1
+			fmt.Printf("%s %d\n", opsList[q.Operator], q.Result)
+
+			continue
+		case GOTOF:
+			// Obtener el resultado de la condición desde la memoria de temporales
+			node, _ := memory.Temp.FindByAddress(q.Left)
+
+			// Si la condición es falsa, saltar al cuádruplo indicado
+			if node.Value == "0" {
+				i = q.Result - 1
+				fmt.Printf("%s %d\n", opsList[q.Operator], q.Result)
+			}
+
+			continue
+		case PRINTLN:
+			// Imprimir un salto de línea
+			fmt.Println()
+
 			continue
 		}
 
-		// Recuperar operando izquierdo desde memoria
-		leftNode, err := lookupVarByAddress(q.Left)
+		// Obtener el operando izquierdo desde memoria
+		left, err := lookupVarByAddress(q.Left)
 		if err != nil {
 			return err
 		}
 
-		// Recuperar operando derecho desde memoria si no es parte de un cuádruplo unario
-		var rightNode *VarNode
-		if q.Right != -1 {
-			node, err := lookupVarByAddress(q.Right)
-			if err != nil {
-				return err
-			}
-			rightNode = node
-		}
-
-		// Convertir el string del valor a su tipo correspondiente
-		var leftVal, rightVal Attrib
-		switch leftNode.Type {
-		case "int":
-			leftVal, _ = strconv.Atoi(leftNode.Value)
-		case "float":
-			leftVal, _ = strconv.ParseFloat(leftNode.Value, 64)
-		case "bool":
-			leftVal = leftNode.Value == "1"
-		case "string":
-			leftVal = leftNode.Value
-		}
-
-		if q.Right != -1 {
-			switch rightNode.Type {
-			case "int":
-				rightVal, _ = strconv.Atoi(rightNode.Value)
-			case "float":
-				rightVal, _ = strconv.ParseFloat(rightNode.Value, 64)
-			case "bool":
-				rightVal = rightNode.Value == "1"
-			}
-		}
-
-		// Obtener el operador de la memoria
-		opNode, _ := memory.Operators.FindByAddress(q.Operator)
-
-		// Ejecutar la operación
-		var rawResult Attrib
-		switch opNode.Id {
-		case "+":
-			rawResult = toFloat64(leftVal) + toFloat64(rightVal)
-		case "-":
-			rawResult = toFloat64(leftVal) - toFloat64(rightVal)
-		case "*":
-			rawResult = toFloat64(leftVal) * toFloat64(rightVal)
-		case "/":
-			rawResult = toFloat64(leftVal) / toFloat64(rightVal)
-		case ">":
-			rawResult = toFloat64(leftVal) > toFloat64(rightVal)
-		case "<":
-			rawResult = toFloat64(leftVal) < toFloat64(rightVal)
-		case "!=":
-			rawResult = toFloat64(leftVal) != toFloat64(rightVal)
-		case "=":
-			rawResult = leftVal
-		case "PRINT":
-			switch leftNode.Type {
+		switch q.Operator {
+		case PRINT:
+			// Imprimir el valor de la variable
+			switch left.Type {
 			case "int", "float":
-				fmt.Print(leftVal)
+				fmt.Print(left.Value, " ")
 			case "bool":
-				if leftVal == "1" {
-					fmt.Print("true")
+				if left.Value == "1" {
+					fmt.Print("true", " ")
 				} else {
-					fmt.Print("false")
+					fmt.Print("false", " ")
 				}
 			case "string":
-				fmt.Print(leftVal)
+				// Imprimir el string sin comillas
+				fmt.Print(left.Value[1:len(left.Value)-1], " ")
 			}
-			fmt.Print(" ")
-			return nil
+			continue
 		}
 
-		// Obtener los datos de la variable de salida
-		resultNode, err := lookupVarByAddress(q.Result)
+		// Obtener el nodo de resultado desde memoria
+		result, err := lookupVarByAddress(q.Result)
 		if err != nil {
 			return err
+		}
+
+		switch q.Operator {
+		case ASSIGN:
+			// Verificar que el tipo de la variable izquierda y el resultado sean compatibles
+			if result.Type != left.Type {
+				return fmt.Errorf("tipo incompatible en asignación: se esperaba %s, se obtuvo %s", result.Type, left.Type)
+			}
+			result.Value = left.Value
+
+			// Guardar el resultado en memoria
+			if scope != global {
+				memory.Local.Update(result)
+			} else {
+				memory.Global.Update(result)
+			}
+			fmt.Printf("%s %s %s (%s)\n", result.Id, opsList[q.Operator], result.Value, result.Type)
+
+			continue
+		}
+
+		// Obtener el operando derecho desde memoria
+		right, err := lookupVarByAddress(q.Right)
+		if err != nil {
+			return err
+		}
+
+		// Ejecutar la operación
+		var floatResult float64
+		lVal := left.Value
+		lTyp := left.Type
+		rVal := right.Value
+		rTyp := right.Type
+
+		switch q.Operator {
+		case PLUS:
+			floatResult = valToFloat(lVal, lTyp) + valToFloat(rVal, rTyp)
+		case MINUS:
+			floatResult = valToFloat(lVal, lTyp) - valToFloat(rVal, rTyp)
+		case TIMES:
+			floatResult = valToFloat(lVal, lTyp) * valToFloat(rVal, rTyp)
+		case DIVIDE:
+			floatResult = valToFloat(lVal, lTyp) / valToFloat(rVal, rTyp)
+		case GT:
+			boolResult := valToFloat(lVal, lTyp) > valToFloat(rVal, rTyp)
+			floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
+		case LT:
+			boolResult := valToFloat(lVal, lTyp) < valToFloat(rVal, rTyp)
+			floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
+		case NEQ:
+			boolResult := valToFloat(lVal, lTyp) < valToFloat(rVal, rTyp)
+			floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
 		}
 
 		// Normalizar a string según el tipo de resultado
-		var outValue string
-		switch resultNode.Type {
-		case "int":
-			outValue = fmt.Sprintf("%d", int(toFloat64(rawResult)))
+		var stringValue string
+		switch result.Type {
+		case "int", "bool":
+			stringValue = fmt.Sprintf("%d", int(floatResult))
 		case "float":
-			outValue = fmt.Sprintf("%f", toFloat64(rawResult))
-		case "bool":
-			if rawResult.(bool) {
-				outValue = "1"
-			} else {
-				outValue = "0"
-			}
+			stringValue = fmt.Sprintf("%f", floatResult)
 		}
-
-		// Debug
-		/*var debugRight string
-		if q.Right != -1 {
-			debugRight = rightNode.Value
-		} else {
-			debugRight = "_"
-		}
-
-		fmt.Printf("%s %s %s -> %s (%s)\n",
-			opNode.Id,
-			leftNode.Value,
-			debugRight,
-			outValue,
-			resultNode.Type,
-		)*/
 
 		// Actualizar el nodo de resultado
-		resultNode.Value = outValue
+		result.Value = stringValue
 
 		// Guardar el resultado en memoria
-		memory.Temp.Update(resultNode)
+		memory.Temp.Update(result)
 
-		if opNode.Id == "=" {
-			// Actualizar el nodo de destino
-			if scope != global {
-				memory.Local.Update(resultNode)
-			} else {
-				memory.Global.Update(resultNode)
-			}
-		}
+		// Debug
+		fmt.Printf("%s %s %s -> %s (%s)\n", left.Value, opsList[q.Operator], right.Value, result.Value, result.Type)
 	}
 	return nil
 }
 
-// Convierte int, float64 o bool a float64
-func toFloat64(v Attrib) float64 {
-	switch x := v.(type) {
-	case int:
-		return float64(x)
-	case float64:
-		return x
-	case bool:
-		if x {
+// Convertir el valor a tipo float64
+func valToFloat(val string, typ string) float64 {
+	switch typ {
+	case "int":
+		intVal, _ := strconv.Atoi(val)
+		return float64(intVal)
+	case "float":
+		floatVal, _ := strconv.ParseFloat(val, 64)
+		return floatVal
+	case "bool":
+		if val == "true" || val == "1" {
 			return 1
 		}
 		return 0
-	default:
-		panic("tipo no soportado en toFloat64")
 	}
+	return 0
+}
+
+// Función auxiliar para el parser que agrega un operador negativo
+func AddNegative(atom *VarNode) (Attrib, error) {
+	// Si es una constante, se invierte el valor
+	if atom.Value != "" {
+		switch atom.Type {
+		case "int":
+			intVal, _ := strconv.Atoi(atom.Value)
+			atom.Value = strconv.Itoa(-intVal)
+		case "float":
+			val, _ := strconv.ParseFloat(atom.Value, 64)
+			atom.Value = fmt.Sprintf("%f", -val)
+		}
+		return atom, nil
+	}
+
+	// Si es una variable, se genera un nuevo nodo de expresión
+	return &ExpressionNode{
+		Op: MINUS,
+		Left: &VarNode{
+			Type:  "int",
+			Value: "0",
+		},
+		Right: atom,
+	}, nil
 }

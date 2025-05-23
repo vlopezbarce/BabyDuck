@@ -7,7 +7,6 @@ var alloc *Allocator
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
-		Operators: Range{Start: 0, End: 999, Counter: 0},
 		Global: MemoryRanges{
 			Int:   Range{Start: 1000, End: 1999, Counter: 1000},
 			Float: Range{Start: 2000, End: 2999, Counter: 2000},
@@ -30,95 +29,101 @@ func NewAllocator() {
 }
 
 // Global
-func (a *Allocator) NextGlobalInt() (int, error) {
-	addr := a.Global.Int.Counter
-	if addr > a.Global.Int.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables globales de tipo int")
-	}
-	a.Global.Int.Counter++
-	return addr, nil
-}
+func (a *Allocator) NextGlobal(typ string) (int, error) {
+	var addr int
+	var end int
 
-func (a *Allocator) NextGlobalFloat() (int, error) {
-	addr := a.Global.Float.Counter
-	if a.Global.Float.Counter > 2999 {
-		return -1, fmt.Errorf("espacio insuficiente para variables globales de tipo float")
+	switch typ {
+	case "int":
+		addr = a.Global.Int.Counter
+		end = a.Global.Int.End
+		a.Global.Int.Counter++
+	case "float":
+		addr = a.Global.Float.Counter
+		end = a.Global.Float.End
+		a.Global.Float.Counter++
 	}
-	a.Global.Float.Counter++
+
+	if addr > end {
+		return -1, fmt.Errorf("espacio insuficiente para variables globales de tipo %s", typ)
+	}
+
 	return addr, nil
 }
 
 // Local
-func (a *Allocator) NextLocalInt() (int, error) {
-	addr := a.Local.Int.Counter
-	if addr > a.Local.Int.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables locales de tipo int")
-	}
-	a.Local.Int.Counter++
-	return addr, nil
-}
+func (a *Allocator) NextLocal(typ string) (int, error) {
+	var addr int
+	var end int
 
-func (a *Allocator) NextLocalFloat() (int, error) {
-	addr := a.Local.Float.Counter
-	if addr > a.Local.Float.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables locales de tipo float")
+	switch typ {
+	case "int":
+		addr = a.Local.Int.Counter
+		end = a.Local.Int.End
+		a.Local.Int.Counter++
+	case "float":
+		addr = a.Local.Float.Counter
+		end = a.Local.Float.End
+		a.Local.Float.Counter++
 	}
-	a.Local.Float.Counter++
+
+	if addr > end {
+		return -1, fmt.Errorf("espacio insuficiente para variables locales de tipo %s", typ)
+	}
+
 	return addr, nil
 }
 
 // Const
-func (a *Allocator) NextConstInt() (int, error) {
-	addr := a.Const.Int.Counter
-	if addr > a.Const.Int.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo int")
-	}
-	a.Const.Int.Counter++
-	return addr, nil
-}
+func (a *Allocator) NextConst(typ string) (int, error) {
+	var addr int
+	var end int
 
-func (a *Allocator) NextConstFloat() (int, error) {
-	addr := a.Const.Float.Counter
-	if addr > a.Const.Float.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo float")
+	switch typ {
+	case "int":
+		addr = a.Const.Int.Counter
+		end = a.Const.Int.End
+		a.Const.Int.Counter++
+	case "float":
+		addr = a.Const.Float.Counter
+		end = a.Const.Float.End
+		a.Const.Float.Counter++
+	case "string":
+		addr = a.Const.String.Counter
+		end = a.Const.String.End
+		a.Const.String.Counter++
 	}
-	a.Const.Float.Counter++
-	return addr, nil
-}
 
-func (a *Allocator) NextConstString() (int, error) {
-	addr := a.Const.String.Counter
-	if addr > a.Const.String.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo string")
+	if addr > end {
+		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo %s", typ)
 	}
-	a.Const.String.Counter++
+
 	return addr, nil
 }
 
 // Temp
-func (a *Allocator) NextTempInt() (int, error) {
-	addr := a.Temp.Int.Counter
-	if addr > a.Temp.Int.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo int")
-	}
-	a.Temp.Int.Counter++
-	return addr, nil
-}
+func (a *Allocator) NextTemp(typ string) (int, error) {
+	var addr int
+	var end int
 
-func (a *Allocator) NextTempFloat() (int, error) {
-	addr := a.Temp.Float.Counter
-	if addr > a.Temp.Float.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo float")
+	switch typ {
+	case "int":
+		addr = a.Temp.Int.Counter
+		end = a.Temp.Int.End
+		a.Temp.Int.Counter++
+	case "float":
+		addr = a.Temp.Float.Counter
+		end = a.Temp.Float.End
+		a.Temp.Float.Counter++
+	case "bool":
+		addr = a.Temp.Bool.Counter
+		end = a.Temp.Bool.End
+		a.Temp.Bool.Counter++
 	}
-	a.Temp.Float.Counter++
-	return addr, nil
-}
 
-func (a *Allocator) NextTempBool() (int, error) {
-	addr := a.Temp.Bool.Counter
-	if addr > a.Temp.Bool.End {
-		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo bool")
+	if addr > end {
+		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo %s", typ)
 	}
-	a.Temp.Bool.Counter++
+
 	return addr, nil
 }

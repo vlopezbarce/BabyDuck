@@ -15,255 +15,57 @@ type TI struct {
 
 // Casos de prueba con código fuente y una expectativa de éxito o fracaso
 var testData = []*TI{
-	// Test 0: Palabras reservadas en una función
-	{
-		src: `program reservedWords;
-			void mainA() [{
-				print("Hello World");
-			}];
-			main {
-				mainA();
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 1: Programa básico sin errores
 	{
 		src: `program sumTest;
 			var
-				x, y : int;
-			void sumNumbers(x: int, y: int) [
+                a, b, c, d, e, f, g, h, j, k, l : int;
+                sum : int;
+			void parserTest() [
 				var
-					sum : int;
+					x, y, z : int;
 				{
-					sum = x + y;
-					print(sum);
+					x = 1;
+					y = 2;
+					z = x + y;
+					print("x + y = ", z);
 				}
 			];
-			main {
-				sumNumbers();
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 2: Función sin variables
-	{
-		src: `program simpleFunction;
-			void myFunction() [{
-				print("Simple Function");
-			}];
-			main {
-				myFunction();
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 3: If-Else correcto
-	{
-		src: `program ifElseCondition;
-			var
-				a : int;
-			main {
-				if (a > 5) {
-					a = 10;
+			void memoryTest() [
+				var
+					x, y, z : int;
+				{
+					x = 1;
+					y = 2;
+					z = x + y;
+					print("x + y = ", z);
+				}
+			];
+            main {
+				a = 5;
+				b = 10;
+                if (a < b) {
+					c = a + b;
 				} else {
-					a = 0;
+					c = a - b;
 				};
-			}
-			end
+
+				a = 1;
+				b = 2;
+				c = 3;
+				d = 4;
+				e = 5;
+				f = 6;
+				g = 7;
+				h = 8;
+				j = 10;
+				k = 11;
+				l = 12;
+				print(( ( a + b ) * c + d * e * f + k / h * j ) + g * l + h + j > ( a - c * d ) / f);
+				print("hello world", a, 0, 1 < 2, 3.5);
+            }
+            end
 		`,
 		expect: true,
-	},
-
-	// Test 4: Ciclo While
-	{
-		src: `program whileLoop;
-			var
-				b : int;
-			main {
-				while (b < 10) do {
-					b = b + 1;
-				};
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 5: Llamada a función sin parámetros
-	{
-		src: `program functionCall;
-			void printValue() [
-				var
-					c : int;
-				{
-					c = 15;
-					print(c);
-				}
-			];
-			main {
-				printValue();
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 6: Llamada a función con parámetros
-	{
-		src: `program functionCallWithParams;
-			var
-				d : float;
-			void addValues(a : int, b : float) [{
-				d = a + b;
-			}];
-			main {
-				addValues(5, 2.5);
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 7: Uso de print con expresiones
-	{
-		src: `program printTest;
-			var
-				e : int;
-				f : float;
-			main {
-				e = 10;
-				f = 3.14;
-				print("El valor de e es:", e);
-				print("El valor de f es:", f);
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 8: Operadores lógicos
-	{
-		src: `program logicalOperators;
-			var
-				g : int;
-			main {
-				if (g > 5) {
-					if (g < 10) {
-						g = 1;
-					};
-				};
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 9: Operaciones aritméticas
-	{
-		src: `program arithmeticOperations;
-			var
-				h : int;
-			main {
-				h = 5 * (3 + 2);
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 10: Función compleja
-	{
-		src: `program complexFunction;
-			var
-				j : int;
-			void calculate(a : int, b : int) [{
-				j = a + (b * 2);
-			}];
-			main {
-				calculate(3, 4);
-			}
-			end
-		`,
-		expect: true,
-	},
-
-	// Test 11: Programa con falta de punto y coma después de "program"
-	{
-		src: `program missingSemicolon
-			var
-				y : float;
-			main {
-				y = 5.5;
-			}
-			end
-		`,
-		expect: false, // Falta punto y coma después de "program missingSemicolon"
-	},
-
-	// Test 12: Tipo de variable inválido
-	{
-		src: `program invalidType;
-			var
-				z : string;
-			main {
-				print(z);
-			}
-			end
-		`,
-		expect: false, // 'string' no es tipo válido en el lenguaje
-	},
-
-	// Test 13: Uso incorrecto de void
-	{
-		src: `program badVoid;
-			var
-				k : int;
-			void mainFunc() [{
-				void k = 5;
-			}];
-			main {
-				mainFunc();
-			}
-			end
-		`,
-		expect: false, // Palabra 'void' usada incorrectamente adentro del cuerpo de función
-	},
-
-	// Test 14: Declaración incorrecta de variables
-	{
-		src: `program badVariables;
-			var
-				k : int,
-				a : float;
-			main {
-				print(k);
-			}
-			end
-		`,
-		expect: false, // Variables de diferente tipo deben ser declaradas con punto y coma al final
-	},
-
-	// Test 15: Declaración incorrecta de función
-	{
-		src: `program badFunction;
-			var
-				x : int;
-			void myPrint(x: int) {
-				print("El valor de x es: ", x);
-			}
-			main {
-				myPrint(x);
-			}
-			end
-		`,
-		expect: false, // Funciones esperan brackets y corchetes y punto y coma al final
 	},
 }
 

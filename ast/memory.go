@@ -4,25 +4,31 @@ import "fmt"
 
 var memory *Memory
 
+// Direcciones fijas para operadores
+const (
+	PLUS    = 0
+	MINUS   = 1
+	TIMES   = 2
+	DIVIDE  = 3
+	GT      = 4
+	LT      = 5
+	NEQ     = 6
+	ASSIGN  = 7
+	PRINT   = 8
+	PRINTLN = 9
+	GOTO    = 10
+	GOTOF   = 11
+)
+
+// Lista de operadores para imprimir operación en debug
+var opsList = []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "PRINTLN", "GOTO", "GOTOF"}
+
 func NewMemory() {
 	memory = &Memory{
-		Operators: &SymbolTree{Root: nil},
-		Global:    &SymbolTree{Root: nil},
-		Local:     &SymbolTree{Root: nil},
-		Const:     &SymbolTree{Root: nil},
-		Temp:      &SymbolTree{Root: nil},
-	}
-}
-
-// Llenar el árbol de operadores con los operadores disponibles
-func FillOperatorsTree() {
-	operators := []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "GOTO", "GOTOF", "LABEL"}
-	for addr, op := range operators {
-		node := &VarNode{
-			Address: addr,
-			Id:      op,
-		}
-		memory.Operators.Insert(node)
+		Global: &SymbolTree{Root: nil},
+		Local:  &SymbolTree{Root: nil},
+		Const:  &SymbolTree{Root: nil},
+		Temp:   &SymbolTree{Root: nil},
 	}
 }
 
@@ -113,20 +119,12 @@ func findConst(node *VarNode, typ string, val string) (*VarNode, bool) {
 
 // Busca un VarNode por su dirección usando los rangos de alloc
 func lookupVarByAddress(a int) (*VarNode, error) {
-	// Temporales
-	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
-		if node, found := memory.Temp.FindByAddress(a); found {
+	// Globales
+	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
+		if node, found := memory.Global.FindByAddress(a); found {
 			return node, nil
 		}
-		return nil, fmt.Errorf("dirección temporal '%d' no encontrada", a)
-	}
-
-	// Constantes
-	if a >= alloc.Const.Int.Start && a <= alloc.Const.Float.End {
-		if node, found := memory.Const.FindByAddress(a); found {
-			return node, nil
-		}
-		return nil, fmt.Errorf("dirección de constante '%d' no encontrada", a)
+		return nil, fmt.Errorf("dirección global '%d' no encontrada", a)
 	}
 
 	// Locales
@@ -139,20 +137,20 @@ func lookupVarByAddress(a int) (*VarNode, error) {
 		}
 	}
 
-	// Globales
-	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
-		if node, found := memory.Global.FindByAddress(a); found {
+	// Constantes
+	if a >= alloc.Const.Int.Start && a <= alloc.Const.String.End {
+		if node, found := memory.Const.FindByAddress(a); found {
 			return node, nil
 		}
-		return nil, fmt.Errorf("dirección global '%d' no encontrada", a)
+		return nil, fmt.Errorf("dirección de constante '%d' no encontrada", a)
 	}
 
-	// Operadores
-	if a >= alloc.Operators.Start && a <= alloc.Operators.End {
-		if node, found := memory.Operators.FindByAddress(a); found {
+	// Temporales
+	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
+		if node, found := memory.Temp.FindByAddress(a); found {
 			return node, nil
 		}
-		return nil, fmt.Errorf("dirección de operador '%d' no encontrada", a)
+		return nil, fmt.Errorf("dirección temporal '%d' no encontrada", a)
 	}
 
 	return nil, fmt.Errorf("dirección '%d' fuera de todos los rangos conocidos", a)
