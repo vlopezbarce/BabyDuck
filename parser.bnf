@@ -305,7 +305,27 @@ Factor
     : lparen Expression rparen
     << $1, nil >>
     | minus Atom
-    << ast.AddNegative($1.(*ast.VarNode)) >>
+    << 
+        func() (Attrib, error) {
+            atom := $1.(*ast.VarNode)
+
+            // Si es una constante, convertir al negativo
+            if atom.Value != "" {
+                atom.Value = "-" + atom.Value
+                return atom, nil
+            }
+
+            // Si es una variable, genera un nuevo nodo de expresión
+            return &ast.ExpressionNode{
+                Op: ast.MINUS,
+                Left: &ast.VarNode{
+                    Type:  "int",
+                    Value: "0",
+                },
+                Right: $1.(ast.Quad),
+            }, nil
+        }()
+    >>
     | Atom
     << $0, nil >>
     ;

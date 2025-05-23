@@ -220,29 +220,3 @@ func valToFloat(val string, typ string) float64 {
 	}
 	return 0
 }
-
-// Función auxiliar para el parser que agrega un operador negativo
-func AddNegative(atom *VarNode) (Attrib, error) {
-	// Si es una constante, se invierte el valor
-	if atom.Value != "" {
-		switch atom.Type {
-		case "int":
-			intVal, _ := strconv.Atoi(atom.Value)
-			atom.Value = strconv.Itoa(-intVal)
-		case "float":
-			val, _ := strconv.ParseFloat(atom.Value, 64)
-			atom.Value = fmt.Sprintf("%f", -val)
-		}
-		return atom, nil
-	}
-
-	// Si es una variable, se genera un nuevo nodo de expresión
-	return &ExpressionNode{
-		Op: MINUS,
-		Left: &VarNode{
-			Type:  "int",
-			Value: "0",
-		},
-		Right: atom,
-	}, nil
-}

@@ -555,13 +555,49 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : minus Atom	<< ast.AddNegative(X[1].(*ast.VarNode)) >>`,
+		String: `Factor : minus Atom	<< func() (Attrib, error) {
+            atom := X[1].(*ast.VarNode)
+
+            // Si es una constante, convertir al negativo
+            if atom.Value != "" {
+                atom.Value = "-" + atom.Value
+                return atom, nil
+            }
+
+            // Si es una variable, genera un nuevo nodo de expresión
+            return &ast.ExpressionNode{
+                Op: ast.MINUS,
+                Left: &ast.VarNode{
+                    Type:  "int",
+                    Value: "0",
+                },
+                Right: X[1].(ast.Quad),
+            }, nil
+        }() >>`,
 		Id:         "Factor",
 		NTType:     21,
 		Index:      41,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ast.AddNegative(X[1].(*ast.VarNode))
+			return func() (Attrib, error) {
+            atom := X[1].(*ast.VarNode)
+
+            // Si es una constante, convertir al negativo
+            if atom.Value != "" {
+                atom.Value = "-" + atom.Value
+                return atom, nil
+            }
+
+            // Si es una variable, genera un nuevo nodo de expresión
+            return &ast.ExpressionNode{
+                Op: ast.MINUS,
+                Left: &ast.VarNode{
+                    Type:  "int",
+                    Value: "0",
+                },
+                Right: X[1].(ast.Quad),
+            }, nil
+        }()
 		},
 	},
 	ProdTabEntry{
