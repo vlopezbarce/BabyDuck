@@ -323,6 +323,42 @@ func (n *IfNode) Generate(ctx *Context) error {
 	return nil
 }
 
+func (n *WhileNode) Generate(ctx *Context) error {
+	// Marcar el inicio del ciclo
+	start := len(ctx.Quads)
+
+	// Generar el código intermedio para el ciclo
+	if err := n.Condition.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
+
+	// Buscar el tipo del resultado de la condición
+	resultNode, _ := memory.Temp.FindByAddress(result)
+	if resultNode.Type != "bool" {
+		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
+	}
+
+	// Agregar el cuádruplo GOTOF
+	indexGOTOF := len(ctx.Quads)
+	ctx.AddQuad(GOTOF, result, -1, -1)
+
+	// Generar los cuádruplos para el cuerpo del ciclo
+	for _, stmt := range n.Body {
+		if err := stmt.(Quad).Generate(ctx); err != nil {
+			return err
+		}
+	}
+
+	// Agregar el cuádruplo GOTO
+	ctx.AddQuad(GOTO, -1, -1, start)
+
+	// Marcar la etiqueta para el cuádruplo GOTOF
+	ctx.Quads[indexGOTOF].Result = len(ctx.Quads)
+
+	return nil
+}
+
 func PrintVariables() {
 	fmt.Println()
 	fmt.Println("Funciones registradas:")

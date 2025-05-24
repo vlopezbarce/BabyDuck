@@ -27,7 +27,7 @@ var testData = []*TI{
 					x = 1;
 					y = 2;
 					z = x + y;
-					print("x + y = ", z);
+					print("x + y =", z);
 				}
 			];
 			void memoryTest() [
@@ -37,31 +37,16 @@ var testData = []*TI{
 					x = 1;
 					y = 2;
 					z = x + y;
-					print("x + y = ", z);
+					print("x + y =", z);
 				}
 			];
             main {
 				a = 5;
 				b = 10;
-                if (a < b) {
-					c = a + b;
-				} else {
-					c = a - b;
+                while (a < b) do {
+					print("a =", a);
+					a = a + 1;
 				};
-
-				a = 1;
-				b = 2;
-				c = 3;
-				d = 4;
-				e = 5;
-				f = 6;
-				g = 7;
-				h = 8;
-				j = 10;
-				k = 11;
-				l = 12;
-				print(( ( a + b ) * c + d * e * f + k / h * j ) + g * l + h + j > ( a - c * d ) / f);
-				print("hello world", a, 0, 1 < 2, 3.5);
             }
             end
 		`,

@@ -7,20 +7,20 @@ var alloc *Allocator
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
-		Global: MemoryRanges{
+		Global: Segment{
 			Int:   Range{Start: 1000, End: 1999, Counter: 1000},
 			Float: Range{Start: 2000, End: 2999, Counter: 2000},
 		},
-		Local: MemoryRanges{
+		Local: Segment{
 			Int:   Range{Start: 3000, End: 3999, Counter: 3000},
 			Float: Range{Start: 4000, End: 4999, Counter: 4000},
 		},
-		Const: MemoryRanges{
+		Const: Segment{
 			Int:    Range{Start: 5000, End: 5999, Counter: 5000},
 			Float:  Range{Start: 6000, End: 6999, Counter: 6000},
 			String: Range{Start: 7000, End: 7999, Counter: 7000},
 		},
-		Temp: MemoryRanges{
+		Temp: Segment{
 			Int:   Range{Start: 8000, End: 8499, Counter: 8000},
 			Float: Range{Start: 8500, End: 8999, Counter: 8500},
 			Bool:  Range{Start: 9000, End: 9499, Counter: 9000},

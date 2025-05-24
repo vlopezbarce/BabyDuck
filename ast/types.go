@@ -38,22 +38,21 @@ type VarNode struct {
 
 // Gestiona la asignación de direcciones de memoria
 type Allocator struct {
-	Operators Range
-	Global    MemoryRanges
-	Local     MemoryRanges
-	Const     MemoryRanges
-	Temp      MemoryRanges
+	Global Segment
+	Local  Segment
+	Const  Segment
+	Temp   Segment
 }
 
-// Rangos para tipos de datos
-type MemoryRanges struct {
+// Segmento de memoria apartado
+type Segment struct {
 	Int    Range
 	Float  Range
 	Bool   Range
 	String Range
 }
 
-// Rango de memoria para funciones
+// Rango de memoria para tipos de datos
 type Range struct {
 	Start   int
 	End     int
