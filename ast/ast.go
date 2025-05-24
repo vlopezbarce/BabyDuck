@@ -98,7 +98,7 @@ func ExecuteFunction(funcNode *FuncNode) error {
 	// Generar cuádruplos para el cuerpo de la función
 	ctx := &Context{}
 	for _, stmt := range funcNode.Body {
-		if err := GenerateStatement(ctx, stmt); err != nil {
+		if err := stmt.(Quad).Generate(ctx); err != nil {
 			return fmt.Errorf("error al generar cuádruplos para '%s': %v", funcNode.Id, err)
 		}
 	}
@@ -120,28 +120,6 @@ func ExecuteFunction(funcNode *FuncNode) error {
 	// Restablecer el ámbito global
 	scope = global
 
-	return nil
-}
-
-func GenerateStatement(ctx *Context, stmt Attrib) error {
-	// Generar cuádruplos para la declaración
-	switch stmt := stmt.(type) {
-	case *AssignNode:
-		if err := stmt.Generate(ctx); err != nil {
-			return err
-		}
-	case []*PrintNode:
-		for _, printNode := range stmt {
-			if err := printNode.Generate(ctx); err != nil {
-				return err
-			}
-		}
-		ctx.AddQuad(PRINTLN, -1, -1, -1)
-	case *IfNode:
-		if err := stmt.Generate(ctx); err != nil {
-			return err
-		}
-	}
 	return nil
 }
 
@@ -227,14 +205,19 @@ func (n *AssignNode) Generate(ctx *Context) error {
 }
 
 func (n *PrintNode) Generate(ctx *Context) error {
-	// Generar el código intermedio para la expresión
-	if err := n.Item.Generate(ctx); err != nil {
-		return err
-	}
-	result := ctx.Pop()
+	// Generar el código intermedio para los elementos a imprimir
+	for _, item := range n.Items {
+		if err := item.Generate(ctx); err != nil {
+			return err
+		}
+		result := ctx.Pop()
 
-	// Agregar el cuádruplo de impresión
-	ctx.AddQuad(PRINT, result, -1, -1)
+		// Agregar el cuádruplo de impresión
+		ctx.AddQuad(PRINT, result, -1, -1)
+	}
+
+	// Agregar el cuádruplo de nueva línea
+	ctx.AddQuad(PRINTLN, -1, -1, -1)
 
 	return nil
 }
@@ -315,7 +298,7 @@ func (n *IfNode) Generate(ctx *Context) error {
 
 	// Generar los cuádruplos para el bloque Then
 	for _, stmt := range n.ThenBlock {
-		if err := GenerateStatement(ctx, stmt); err != nil {
+		if err := stmt.(Quad).Generate(ctx); err != nil {
 			return err
 		}
 	}
@@ -329,7 +312,7 @@ func (n *IfNode) Generate(ctx *Context) error {
 
 	// Generar los cuádruplos para el bloque Else
 	for _, stmt := range n.ElseBlock {
-		if err := GenerateStatement(ctx, stmt); err != nil {
+		if err := stmt.(Quad).Generate(ctx); err != nil {
 			return err
 		}
 	}

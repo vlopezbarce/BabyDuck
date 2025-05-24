@@ -383,6 +383,12 @@ ElseOptional
 // Ciclo while-do
 Cycle
     : while lparen Expression rparen do Body semicolon
+    <<
+        &ast.WhileNode{
+            Condition: $2.(ast.Quad),
+            Body: $5.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Llamada a función
@@ -405,25 +411,30 @@ F_ArgsList
 // Instrucción de impresión
 Print
     : print lparen PrintVarList rparen semicolon
-    << $2.([]*ast.PrintNode), nil >>
+    <<
+        &ast.PrintNode{
+            Items: $2.([]ast.Quad),
+        }, nil
+    >>
     ;
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar
-    << []*ast.PrintNode{ $0.(*ast.PrintNode) }, nil >>
+    << []ast.Quad{ $0.(ast.Quad) }, nil >>
     | PrintVar comma PrintVarList
-    << append([]*ast.PrintNode{ $0.(*ast.PrintNode) }, $2.([]*ast.PrintNode)...), nil >>
+    << append([]ast.Quad{ $0.(ast.Quad) }, $2.([]ast.Quad)..., ), nil >>
     ;
 
 // Variable a imprimir
 PrintVar
     : Expression
-    << &ast.PrintNode{ Item: $0.(ast.Quad) }, nil >>
+    << $0, nil >>
     | cte_string
     <<
-        &ast.PrintNode{
-            Item: &ast.VarNode{ Type: "string", Value: string($0.(*token.Token).Lit) },
+        &ast.VarNode{
+            Type: "string",
+            Value: string($0.(*token.Token).Lit),
         },
         nil
     >>

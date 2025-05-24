@@ -88,7 +88,7 @@ type AssignNode struct {
 
 // Nodo de impresión
 type PrintNode struct {
-	Item Quad
+	Items []Quad
 }
 
 // Nodo de expresión binaria
