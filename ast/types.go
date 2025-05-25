@@ -1,7 +1,9 @@
 package ast
 
 // Attrib es la interfaz general para todo tipo en el árbol AST
-type Attrib interface{}
+type Attrib interface {
+	Generate(ctx *Context) error
+}
 
 // Tabla de funciones registradas
 var funcDir = map[string]*FuncNode{}
@@ -74,38 +76,33 @@ type Context struct {
 	TempCount int
 }
 
-// Interfaz para nodos que pueden generar cuádruplos
-type Quad interface {
-	Generate(ctx *Context) error
-}
-
 // Nodo de asignación
 type AssignNode struct {
 	Id  string
-	Exp Quad
+	Exp Attrib
 }
 
 // Nodo de impresión
 type PrintNode struct {
-	Items []Quad
+	Items []Attrib
 }
 
 // Nodo de expresión binaria
 type ExpressionNode struct {
 	Op    int
-	Left  Quad
-	Right Quad
+	Left  Attrib
+	Right Attrib
 }
 
 // Nodo de condición
 type IfNode struct {
-	Condition Quad
+	Condition Attrib
 	ThenBlock []Attrib
 	ElseBlock []Attrib
 }
 
 // Nodo de ciclo while
 type WhileNode struct {
-	Condition Quad
+	Condition Attrib
 	Body      []Attrib
 }

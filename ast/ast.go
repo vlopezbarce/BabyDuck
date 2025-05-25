@@ -98,7 +98,7 @@ func ExecuteFunction(funcNode *FuncNode) error {
 	// Generar cuádruplos para el cuerpo de la función
 	ctx := &Context{}
 	for _, stmt := range funcNode.Body {
-		if err := stmt.(Quad).Generate(ctx); err != nil {
+		if err := stmt.Generate(ctx); err != nil {
 			return fmt.Errorf("error al generar cuádruplos para '%s': %v", funcNode.Id, err)
 		}
 	}
@@ -298,7 +298,7 @@ func (n *IfNode) Generate(ctx *Context) error {
 
 	// Generar los cuádruplos para el bloque Then
 	for _, stmt := range n.ThenBlock {
-		if err := stmt.(Quad).Generate(ctx); err != nil {
+		if err := stmt.Generate(ctx); err != nil {
 			return err
 		}
 	}
@@ -312,7 +312,7 @@ func (n *IfNode) Generate(ctx *Context) error {
 
 	// Generar los cuádruplos para el bloque Else
 	for _, stmt := range n.ElseBlock {
-		if err := stmt.(Quad).Generate(ctx); err != nil {
+		if err := stmt.Generate(ctx); err != nil {
 			return err
 		}
 	}
@@ -345,7 +345,7 @@ func (n *WhileNode) Generate(ctx *Context) error {
 
 	// Generar los cuádruplos para el cuerpo del ciclo
 	for _, stmt := range n.Body {
-		if err := stmt.(Quad).Generate(ctx); err != nil {
+		if err := stmt.Generate(ctx); err != nil {
 			return err
 		}
 	}

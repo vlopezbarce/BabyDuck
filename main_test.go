@@ -45,6 +45,9 @@ var testData = []*TI{
 				b = 10;
                 while (a < b) do {
 					print("a =", a);
+					if (a > 8) {
+						print("a es mayor a 8");
+					};
 					a = a + 1;
 				};
             }

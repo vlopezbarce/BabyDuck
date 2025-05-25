@@ -205,7 +205,7 @@ Body
 // Declaración opcional de sentencias (0 o más)
 StatementList
     : Statement StatementList
-    << append([]ast.Attrib{$0}, $1.([]ast.Attrib)...), nil >>
+    << append([]ast.Attrib{ $0.(ast.Attrib) }, $1.([]ast.Attrib)...), nil >>
     | "empty"
     << []ast.Attrib{}, nil >>
     ;
@@ -215,7 +215,9 @@ Statement
     : Assign
     << $0, nil >>
     | Condition
+    << $0, nil >>
     | Cycle
+    << $0, nil >>
     | F_Call
     | Print
     << $0, nil >>
@@ -227,7 +229,7 @@ Assign
     <<
         &ast.AssignNode{
             Id: string($0.(*token.Token).Lit),
-            Exp: $2.(ast.Quad),
+            Exp: $2.(ast.Attrib),
         }, nil
     >>
     ;
@@ -239,9 +241,9 @@ Expression
     | Exp RelOp Exp
     << 
         &ast.ExpressionNode{
-            Left:  $0.(ast.Quad),
+            Left:  $0.(ast.Attrib),
             Op:    $1.(int),
-            Right: $2.(ast.Quad),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     ;
@@ -262,16 +264,16 @@ Exp
     <<
         &ast.ExpressionNode{
             Op:    ast.PLUS,
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Exp minus Term
     <<
         &ast.ExpressionNode{
             Op:    ast.MINUS,
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Term
@@ -284,16 +286,16 @@ Term
     <<
         &ast.ExpressionNode{
             Op:    ast.TIMES,
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Term divide Factor
     <<
         &ast.ExpressionNode{
             Op:    ast.DIVIDE,
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Factor
@@ -322,7 +324,7 @@ Factor
                     Type:  "int",
                     Value: "0",
                 },
-                Right: $1.(ast.Quad),
+                Right: $1.(ast.Attrib),
             }, nil
         }()
     >>
@@ -365,7 +367,7 @@ Condition
     : if lparen Expression rparen Body ElseOptional semicolon
     <<
         &ast.IfNode{
-            Condition: $2.(ast.Quad),
+            Condition: $2.(ast.Attrib),
             ThenBlock: $4.([]ast.Attrib),
             ElseBlock: $5.([]ast.Attrib),
         }, nil
@@ -377,7 +379,7 @@ ElseOptional
     : else Body
     << $1, nil >>
     | "empty"
-    << nil, nil >>
+    << []ast.Attrib{}, nil >>
     ;
 
 // Ciclo while-do
@@ -385,7 +387,7 @@ Cycle
     : while lparen Expression rparen do Body semicolon
     <<
         &ast.WhileNode{
-            Condition: $2.(ast.Quad),
+            Condition: $2.(ast.Attrib),
             Body: $5.([]ast.Attrib),
         }, nil
     >>
@@ -413,7 +415,7 @@ Print
     : print lparen PrintVarList rparen semicolon
     <<
         &ast.PrintNode{
-            Items: $2.([]ast.Quad),
+            Items: $2.([]ast.Attrib),
         }, nil
     >>
     ;
@@ -421,9 +423,9 @@ Print
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar
-    << []ast.Quad{ $0.(ast.Quad) }, nil >>
+    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
     | PrintVar comma PrintVarList
-    << append([]ast.Quad{ $0.(ast.Quad) }, $2.([]ast.Quad)..., ), nil >>
+    << append([]ast.Attrib{ $0.(ast.Attrib) }, $2.([]ast.Attrib)..., ), nil >>
     ;
 
 // Variable a imprimir
