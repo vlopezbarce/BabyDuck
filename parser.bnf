@@ -68,29 +68,17 @@ import(
 >>
 
 Program
-    : ProgramHeader VarSection FuncSection main Body end
+    : program id semicolon VarSection FuncSection main Body end
     <<
         func() (Attrib, error) {
-            id := $0.(string)
-            vars := $1.([]*ast.VarNode)
-            body := $4.([]ast.Attrib)
+            id := string($1.(*token.Token).Lit)
+            vars := $3.([]*ast.VarNode)
+            funcs := $4.([]*ast.FuncNode)
+            body := $6.([]ast.Attrib)
 
-            // Inicializar programa como una función
-            programNode, err := ast.DeclareFunction(id, vars, body)
-            if err != nil {
-                return nil, err
-            }
-
-            // Ejecutar programa
-            return nil, ast.ExecuteFunction(programNode)
+            return nil, ast.GenerateProgram(id, vars, funcs, body)
         }()
     >>
-    ;
-
-// Inicializa el programa y la memoria
-ProgramHeader
-    : program id semicolon
-    << ast.InitProgram(string($1.(*token.Token).Lit)), nil >>
     ;
 
 // Declaración opcional de variables
@@ -151,7 +139,9 @@ Type
 // Sección de funciones (0 o más)
 FuncSection
     : FuncDeclaration FuncSection
+    << append([]*ast.FuncNode{$0.(*ast.FuncNode)}, $1.([]*ast.FuncNode)...), nil >>
     | "empty"
+    << []*ast.FuncNode{}, nil >>
     ;
 
 // Declaración de función
@@ -160,11 +150,12 @@ FuncDeclaration
     <<
         func() (Attrib, error) {
             id := string($1.(*token.Token).Lit)
-            vars := append($3.([]*ast.VarNode), $6.([]*ast.VarNode)...)
+            params := $3.([]*ast.VarNode)
+            vars := $6.([]*ast.VarNode)
             body := $7.([]ast.Attrib)
 
-            // Crear y registrar la función
-            return ast.DeclareFunction(id, vars, body)
+            // Validar y registrar la función en el directorio
+            return ast.ValidateFunction(id, params, vars, body)
         }()
     >>
     ;

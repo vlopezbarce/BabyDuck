@@ -2,8 +2,6 @@ package ast
 
 import "fmt"
 
-var alloc *Allocator
-
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
@@ -26,6 +24,22 @@ func NewAllocator() {
 			Bool:  Range{Start: 9000, End: 9499, Counter: 9000},
 		},
 	}
+}
+
+// Obtener cantidad de variables creadas en un segmento
+func (s *Segment) Count() int {
+	return s.Int.Counter - s.Int.Start +
+		s.Float.Counter - s.Float.Start +
+		s.Bool.Counter - s.Bool.Start +
+		s.String.Counter - s.String.Start
+}
+
+// Reiniciar contadores para un segmento
+func (s *Segment) Reset() {
+	s.Int.Counter = s.Int.Start
+	s.Float.Counter = s.Float.Start
+	s.Bool.Counter = s.Bool.Start
+	s.String.Counter = s.String.Start
 }
 
 // Global

@@ -2,26 +2,28 @@ package ast
 
 import "fmt"
 
-var memory *Memory
-
 // Direcciones fijas para operadores
 const (
-	PLUS    = 0
-	MINUS   = 1
-	TIMES   = 2
-	DIVIDE  = 3
-	GT      = 4
-	LT      = 5
-	NEQ     = 6
-	ASSIGN  = 7
-	PRINT   = 8
-	PRINTLN = 9
-	GOTO    = 10
-	GOTOF   = 11
+	PLUS      = 0
+	MINUS     = 1
+	TIMES     = 2
+	DIVIDE    = 3
+	GT        = 4
+	LT        = 5
+	NEQ       = 6
+	ASSIGN    = 7
+	PRINT     = 8
+	PRINTLN   = 9
+	GOTO      = 10
+	GOTOF     = 11
+	ERA       = 12
+	PARAMETER = 13
+	GOSUB     = 14
+	ENDFUNC   = 15
 )
 
 // Lista de operadores para imprimir operación en debug
-var opsList = []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "PRINTLN", "GOTO", "GOTOF"}
+var opsList = []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "PRINTLN", "GOTO", "GOTOF", "ERA", "PARAMETER", "GOSUB", "ENDFUNC"}
 
 func NewMemory() {
 	memory = &Memory{
@@ -117,8 +119,8 @@ func findConst(node *VarNode, typ string, val string) (*VarNode, bool) {
 	return findConst(node.Right, typ, val)
 }
 
-// Busca un VarNode por su dirección usando los rangos de alloc
-func lookupVarByAddress(a int) (*VarNode, error) {
+// Busca un VarNode por su dirección usando los rangos de Alloc
+func GetVarByAddress(a int) (*VarNode, error) {
 	// Globales
 	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
 		if node, found := memory.Global.FindByAddress(a); found {

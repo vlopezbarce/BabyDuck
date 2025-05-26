@@ -1,7 +1,6 @@
 package main
 
 import (
-	"BabyDuck/ast"
 	"BabyDuck/lexer"
 	"BabyDuck/parser"
 	"testing"
@@ -16,53 +15,29 @@ type TI struct {
 // Casos de prueba con código fuente y una expectativa de éxito o fracaso
 var testData = []*TI{
 	{
-		src: `program sumTest;
+		src: `program patito;
 			var
-                a, b, c, d, e, f, g, h, j, k, l : int;
-                sum : int;
-			void parserTest() [
-				var
-					x, y, z : int;
+                i, j: int;
+                f: float;
+			void uno(a: int, b: int) [
 				{
-					x = 1;
-					y = 2;
-					z = x + y;
-					print("x + y =", z);
-				}
-			];
-			void memoryTest() [
-				var
-					x, y, z : int;
-				{
-					x = 1;
-					y = 2;
-					z = x + y;
-					print("x + y =", z);
+					if (a > 0) {
+						a = a + b * j + i;
+						print(a + b);
+					}
+					else {
+						print(i + j);
+					};
 				}
 			];
             main {
-				a = 1;
-				b = 2;
-				c = 3;
-				d = 4;
-				e = 5;
-				f = 6;
-				g = 7;
-				h = 8;
-				j = 10;
-				k = 11;
-				l = 12;
-				print(( ( a + b ) * c + d * e * f + k / h * j ) + g * l + h + j > ( a - c * d ) / f);
-				print("hello world", a, 0, 1 < 2, 3.5);
-				
-				a = 5;
-				b = 10;
-                while (a < b) do {
-					print("a =", a);
-					if (a > 8) {
-						print("a es mayor a 8");
-					};
-					a = a + 1;
+				i = 2;
+				j = 1;
+				f = 3.14;
+
+				while (i > 0) do {
+					print(i, j * 2, f * 2 + 1.5);
+					i = i - j;
 				};
             }
             end
@@ -104,8 +79,6 @@ func TestParser(t *testing.T) {
 					t.Errorf("Se esperaba un error, pero no se produjo")
 				}
 			}
-
-			ast.PrintVariables()
 
 			if !pass {
 				t.Fail()

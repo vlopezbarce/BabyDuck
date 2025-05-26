@@ -5,6 +5,20 @@ import (
 	"strconv"
 )
 
+// Resetear el contexto para una nueva función
+func (ctx *Context) ClearLocalScope() {
+	// Restablecer el contador de cuádruplos
+	ctx.TempCount = 0
+
+	// Limpiar la memoria local y temporal
+	memory.Local.Clear()
+	memory.Temp.Clear()
+
+	// Reiniciar los contadores
+	alloc.Local.Reset()
+	alloc.Temp.Reset()
+}
+
 // Agrega un operando a la pila semántica
 func (ctx *Context) Push(addr int) {
 	ctx.SemStack = append(ctx.SemStack, addr)
@@ -49,19 +63,40 @@ func (ctx *Context) PrintQuads() {
 		if q.Left == -1 {
 			left = "_"
 		} else {
-			left = fmt.Sprintf("%d", q.Left)
+			lNode, err := GetVarByAddress(q.Left)
+			if err != nil {
+				left = fmt.Sprintf("%d", q.Left)
+			} else if lNode.Id == "" {
+				left = lNode.Value
+			} else {
+				left = lNode.Id
+			}
 		}
 		if q.Right == -1 {
 			right = "_"
 		} else {
-			right = fmt.Sprintf("%d", q.Right)
+			rNode, err := GetVarByAddress(q.Right)
+			if err != nil {
+				right = fmt.Sprintf("%d", q.Right)
+			} else if rNode.Id == "" {
+				right = rNode.Value
+			} else {
+				right = rNode.Id
+			}
 		}
 		if q.Result == -1 {
 			result = "_"
 		} else {
-			result = fmt.Sprintf("%d", q.Result)
+			resNode, err := GetVarByAddress(q.Result)
+			if err != nil {
+				result = fmt.Sprintf("%d", q.Result)
+			} else if resNode.Id == "" {
+				result = resNode.Value
+			} else {
+				result = resNode.Id
+			}
 		}
-		fmt.Printf("%d: (%d, %s, %s, %s)\n", i, q.Operator, left, right, result)
+		fmt.Printf("%d: (%s, %s, %s, %s)\n", i, opsList[q.Operator], left, right, result)
 	}
 }
 
@@ -100,7 +135,7 @@ func (ctx *Context) Evaluate() error {
 		}
 
 		// Obtener el operando izquierdo desde memoria
-		left, err := lookupVarByAddress(q.Left)
+		left, err := GetVarByAddress(q.Left)
 		if err != nil {
 			return err
 		}
@@ -125,7 +160,7 @@ func (ctx *Context) Evaluate() error {
 		}
 
 		// Obtener el nodo de resultado desde memoria
-		result, err := lookupVarByAddress(q.Result)
+		result, err := GetVarByAddress(q.Result)
 		if err != nil {
 			return err
 		}
@@ -150,7 +185,7 @@ func (ctx *Context) Evaluate() error {
 		}
 
 		// Obtener el operando derecho desde memoria
-		right, err := lookupVarByAddress(q.Right)
+		right, err := GetVarByAddress(q.Right)
 		if err != nil {
 			return err
 		}

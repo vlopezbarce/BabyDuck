@@ -1,18 +1,24 @@
 package ast
 
+var memory *Memory                   // Memoria virtual para variables y constantes
+var alloc *Allocator                 // Asignador de memoria para variables
+var funcDir = map[string]*FuncNode{} // Tabla de funciones registradas
+
 // Attrib es la interfaz general para todo tipo en el árbol AST
 type Attrib interface {
 	Generate(ctx *Context) error
 }
 
-// Tabla de funciones registradas
-var funcDir = map[string]*FuncNode{}
-
 // Nodo de función
 type FuncNode struct {
-	Id   string
-	Vars []*VarNode
-	Body []Attrib
+	Id          string
+	Params      []*VarNode
+	Vars        []*VarNode
+	Body        []Attrib
+	ParamsCount int
+	VarsCount   int
+	TempCount   int
+	QuadStart   int
 }
 
 // Memoria de direcciones virtuales
