@@ -39,7 +39,19 @@ var productionsTable = ProdTab{
             funcs := X[4].([]*ast.FuncNode)
             body := X[6].([]ast.Attrib)
 
-            return nil, ast.GenerateProgram(id, vars, funcs, body)
+            // Crear nodo del programa
+            programNode := &ast.ProgramNode{
+                Id: id,
+                Vars: vars,
+                Funcs: funcs,
+                Body: body,
+            }
+
+            // Crear contexto para todo el programa
+            ctx := &ast.Context{}
+            err := programNode.Generate(ctx)
+
+            return ctx, err
         }() >>`,
 		Id:         "Program",
 		NTType:     1,
@@ -52,7 +64,19 @@ var productionsTable = ProdTab{
             funcs := X[4].([]*ast.FuncNode)
             body := X[6].([]ast.Attrib)
 
-            return nil, ast.GenerateProgram(id, vars, funcs, body)
+            // Crear nodo del programa
+            programNode := &ast.ProgramNode{
+                Id: id,
+                Vars: vars,
+                Funcs: funcs,
+                Body: body,
+            }
+
+            // Crear contexto para todo el programa
+            ctx := &ast.Context{}
+            err := programNode.Generate(ctx)
+
+            return ctx, err
         }()
 		},
 	},

@@ -1,22 +1,20 @@
 package ast
 
-import (
-	"fmt"
-	"strconv"
-)
+import "fmt"
 
-// Resetear el contexto para una nueva función
-func (ctx *Context) ClearLocalScope() {
-	// Restablecer el contador de cuádruplos
-	ctx.TempCount = 0
+// Almacena el contexto de ejecución actual
+type Context struct {
+	SemStack  []int
+	Quads     []Quadruple
+	TempCount int
+}
 
-	// Limpiar la memoria local y temporal
-	memory.Local.Clear()
-	memory.Temp.Clear()
-
-	// Reiniciar los contadores
-	alloc.Local.Reset()
-	alloc.Temp.Reset()
+// Representa una instrucción de código intermedio (cuádruplo)
+type Quadruple struct {
+	Operator int
+	Left     int
+	Right    int
+	Result   int
 }
 
 // Agrega un operando a la pila semántica
@@ -50,6 +48,20 @@ func (ctx *Context) AddQuad(operator, left, right, result int) {
 	})
 }
 
+// Resetea el contexto para una nueva función
+func (ctx *Context) ClearLocalScope() {
+	// Restablecer el contador de cuádruplos
+	ctx.TempCount = 0
+
+	// Limpiar la memoria local y temporal
+	memory.Local.Clear()
+	memory.Temp.Clear()
+
+	// Reiniciar los contadores
+	alloc.Local.Reset()
+	alloc.Temp.Reset()
+}
+
 // Imprime todos los cuádruplos con sus índices
 func (ctx *Context) PrintQuads() {
 	fmt.Println()
@@ -60,10 +72,11 @@ func (ctx *Context) PrintQuads() {
 	var right string
 	var result string
 	for i, q := range ctx.Quads {
+		// DEBUG
 		if q.Left == -1 {
 			left = "_"
 		} else {
-			lNode, err := GetVarByAddress(q.Left)
+			lNode, err := GetCompileTimeVar(q.Left)
 			if err != nil {
 				left = fmt.Sprintf("%d", q.Left)
 			} else if lNode.Id == "" {
@@ -75,7 +88,7 @@ func (ctx *Context) PrintQuads() {
 		if q.Right == -1 {
 			right = "_"
 		} else {
-			rNode, err := GetVarByAddress(q.Right)
+			rNode, err := GetCompileTimeVar(q.Right)
 			if err != nil {
 				right = fmt.Sprintf("%d", q.Right)
 			} else if rNode.Id == "" {
@@ -87,7 +100,7 @@ func (ctx *Context) PrintQuads() {
 		if q.Result == -1 {
 			result = "_"
 		} else {
-			resNode, err := GetVarByAddress(q.Result)
+			resNode, err := GetCompileTimeVar(q.Result)
 			if err != nil {
 				result = fmt.Sprintf("%d", q.Result)
 			} else if resNode.Id == "" {
@@ -100,158 +113,32 @@ func (ctx *Context) PrintQuads() {
 	}
 }
 
-// Ejecuta los cuádruplos generados
-func (ctx *Context) Evaluate() error {
-	fmt.Println()
-	fmt.Println("Ejecución de cuádruplos")
-	fmt.Println("===================================")
-
-	for i := 0; i < len(ctx.Quads); i++ {
-		q := ctx.Quads[i]
-
-		switch q.Operator {
-		case GOTO:
-			// Saltar al cuádruplo indicado
-			i = q.Result - 1
-			fmt.Printf("%s %d\n", opsList[q.Operator], q.Result)
-
-			continue
-		case GOTOF:
-			// Obtener el resultado de la condición desde la memoria de temporales
-			node, _ := memory.Temp.FindByAddress(q.Left)
-
-			// Si la condición es falsa, saltar al cuádruplo indicado
-			if node.Value == "0" {
-				i = q.Result - 1
-				fmt.Printf("%s %d\n", opsList[q.Operator], q.Result)
-			}
-
-			continue
-		case PRINTLN:
-			// Imprimir un salto de línea
-			fmt.Println()
-
-			continue
+// Obtiene una variable de tiempo de compilación por su dirección
+func GetCompileTimeVar(a int) (*VarNode, error) {
+	// Globales
+	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
+		if node, found := memory.Global.FindByAddress(a); found {
+			return node, nil
 		}
-
-		// Obtener el operando izquierdo desde memoria
-		left, err := GetVarByAddress(q.Left)
-		if err != nil {
-			return err
-		}
-
-		switch q.Operator {
-		case PRINT:
-			// Imprimir el valor de la variable
-			switch left.Type {
-			case "int", "float":
-				fmt.Print(left.Value, " ")
-			case "bool":
-				if left.Value == "1" {
-					fmt.Print("true", " ")
-				} else {
-					fmt.Print("false", " ")
-				}
-			case "string":
-				// Imprimir el string sin comillas
-				fmt.Print(left.Value[1:len(left.Value)-1], " ")
-			}
-			continue
-		}
-
-		// Obtener el nodo de resultado desde memoria
-		result, err := GetVarByAddress(q.Result)
-		if err != nil {
-			return err
-		}
-
-		switch q.Operator {
-		case ASSIGN:
-			// Verificar que el tipo de la variable izquierda y el resultado sean compatibles
-			if result.Type != left.Type {
-				return fmt.Errorf("tipo incompatible en asignación: se esperaba %s, se obtuvo %s", result.Type, left.Type)
-			}
-			result.Value = left.Value
-
-			// Guardar el resultado en memoria
-			if scope != global {
-				memory.Local.Update(result)
-			} else {
-				memory.Global.Update(result)
-			}
-			fmt.Printf("%s %s %s (%s)\n", result.Id, opsList[q.Operator], result.Value, result.Type)
-
-			continue
-		}
-
-		// Obtener el operando derecho desde memoria
-		right, err := GetVarByAddress(q.Right)
-		if err != nil {
-			return err
-		}
-
-		// Ejecutar la operación
-		var floatResult float64
-		lVal := left.Value
-		lTyp := left.Type
-		rVal := right.Value
-		rTyp := right.Type
-
-		switch q.Operator {
-		case PLUS:
-			floatResult = valToFloat(lVal, lTyp) + valToFloat(rVal, rTyp)
-		case MINUS:
-			floatResult = valToFloat(lVal, lTyp) - valToFloat(rVal, rTyp)
-		case TIMES:
-			floatResult = valToFloat(lVal, lTyp) * valToFloat(rVal, rTyp)
-		case DIVIDE:
-			floatResult = valToFloat(lVal, lTyp) / valToFloat(rVal, rTyp)
-		case GT:
-			boolResult := valToFloat(lVal, lTyp) > valToFloat(rVal, rTyp)
-			floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
-		case LT:
-			boolResult := valToFloat(lVal, lTyp) < valToFloat(rVal, rTyp)
-			floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
-		case NEQ:
-			boolResult := valToFloat(lVal, lTyp) < valToFloat(rVal, rTyp)
-			floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
-		}
-
-		// Normalizar a string según el tipo de resultado
-		var stringValue string
-		switch result.Type {
-		case "int", "bool":
-			stringValue = fmt.Sprintf("%d", int(floatResult))
-		case "float":
-			stringValue = fmt.Sprintf("%f", floatResult)
-		}
-
-		// Actualizar el nodo de resultado
-		result.Value = stringValue
-
-		// Guardar el resultado en memoria
-		memory.Temp.Update(result)
-
-		// Debug
-		fmt.Printf("%s %s %s -> %s (%s)\n", left.Value, opsList[q.Operator], right.Value, result.Value, result.Type)
 	}
-	return nil
-}
-
-// Convertir el valor a tipo float64
-func valToFloat(val string, typ string) float64 {
-	switch typ {
-	case "int":
-		intVal, _ := strconv.Atoi(val)
-		return float64(intVal)
-	case "float":
-		floatVal, _ := strconv.ParseFloat(val, 64)
-		return floatVal
-	case "bool":
-		if val == "true" || val == "1" {
-			return 1
+	// Locales
+	if a >= alloc.Local.Int.Start && a <= alloc.Local.Float.End {
+		if node, found := memory.Local.FindByAddress(a); found {
+			return node, nil
 		}
-		return 0
 	}
-	return 0
+	// Constantes
+	if a >= alloc.Const.Int.Start && a <= alloc.Const.String.End {
+		if node, found := memory.Const.FindByAddress(a); found {
+			return node, nil
+		}
+	}
+	// Temporales
+	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
+		if node, found := memory.Temp.FindByAddress(a); found {
+			return node, nil
+		}
+	}
+
+	return nil, fmt.Errorf("dirección '%d' no encontrada", a)
 }

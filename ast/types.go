@@ -9,29 +9,22 @@ type Attrib interface {
 	Generate(ctx *Context) error
 }
 
+// Nodo de programa
+type ProgramNode struct {
+	Id    string
+	Vars  []*VarNode
+	Funcs []*FuncNode
+	Body  []Attrib
+}
+
 // Nodo de función
 type FuncNode struct {
-	Id          string
-	Params      []*VarNode
-	Vars        []*VarNode
-	Body        []Attrib
-	VarsCount   int
-	ParamsCount int
-	TempsCount  int
-	QuadStart   int
-}
-
-// Memoria de direcciones virtuales
-type Memory struct {
-	Global *SymbolTree
-	Const  *SymbolTree
-	Temp   *SymbolTree
-	Local  *SymbolTree
-}
-
-// Estructura del árbol de símbolos
-type SymbolTree struct {
-	Root *VarNode
+	Id        string
+	Params    []*VarNode
+	Vars      []*VarNode
+	Temps     []*VarNode
+	Body      []Attrib
+	QuadStart int
 }
 
 // Nodo de variable
@@ -42,45 +35,6 @@ type VarNode struct {
 	Value   string
 	Left    *VarNode
 	Right   *VarNode
-}
-
-// Gestiona la asignación de direcciones de memoria
-type Allocator struct {
-	Global Segment
-	Local  Segment
-	Const  Segment
-	Temp   Segment
-}
-
-// Segmento de memoria apartado
-type Segment struct {
-	Int    Range
-	Float  Range
-	Bool   Range
-	String Range
-}
-
-// Rango de memoria para tipos de datos
-type Range struct {
-	Start   int
-	End     int
-	Counter int
-}
-
-// Representa una instrucción de código intermedio (cuádruplo)
-type Quadruple struct {
-	Operator int
-	Left     int
-	Right    int
-	Result   int
-}
-
-// Almacena la pila semántica, cuádruplos y contador de temporales
-type Context struct {
-	SemStack  []int
-	Quads     []Quadruple
-	TempCount int
-	CallStack []*FCallNode
 }
 
 // Nodo de asignación

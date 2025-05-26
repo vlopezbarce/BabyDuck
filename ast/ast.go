@@ -4,7 +4,6 @@ import "fmt"
 
 var scope string
 var global string
-var ctx *Context
 
 func ValidateVars(vars []*VarNode) error {
 	tempVars := make(map[string]bool)
@@ -29,12 +28,10 @@ func ValidateFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncN
 
 	// Crear el nodo de función
 	funcNode := &FuncNode{
-		Id:          id,
-		Params:      params,
-		Vars:        vars,
-		Body:        body,
-		ParamsCount: len(params),
-		VarsCount:   len(vars),
+		Id:     id,
+		Params: params,
+		Vars:   vars,
+		Body:   body,
 	}
 
 	// Agregar la función al directorio de funciones
@@ -48,29 +45,55 @@ func ValidateFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncN
 	return funcNode, nil
 }
 
-func GenerateProgram(id string, vars []*VarNode, funcs []*FuncNode, body []Attrib) error {
-	// Inicializar el contexto global, la memoria y el asignador de direcciones
-	ctx = &Context{}
+func DeclareVariable(id, typ string) (*VarNode, error) {
+	// Obtener la dirección de memoria para la variable
+	var addr int
+	var err error
+
+	if scope == global {
+		addr, err = alloc.NextGlobal(typ)
+	} else {
+		addr, err = alloc.NextLocal(typ)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	// Crear el nodo de variable
+	node := &VarNode{
+		Address: addr,
+		Id:      id,
+		Type:    typ,
+	}
+
+	// Insertar en el árbol correspondiente
+	if scope == global {
+		memory.Global.Insert(node)
+	} else {
+		memory.Local.Insert(node)
+	}
+
+	return node, nil
+}
+
+func (n *ProgramNode) Generate(ctx *Context) error {
+	// Inicializar la memoria y el asignador de direcciones
 	NewMemory()
 	NewAllocator()
 
 	// Establecer el ámbito global
-	global = id
+	global = n.Id
 	scope = global
 
-	// Crear el nodo de función principal
-	programNode := &FuncNode{
-		Id:        id,
-		Vars:      vars,
-		Body:      body,
-		VarsCount: len(vars),
+	// Registrar la función en el directorio de funciones
+	funcDir[n.Id] = &FuncNode{
+		Id:   n.Id,
+		Vars: n.Vars,
+		Body: n.Body,
 	}
 
-	// Registrar la función en el directorio de funciones
-	funcDir[id] = programNode
-
 	// Verificar si hay variables duplicadas
-	if err := ValidateVars(vars); err != nil {
+	if err := ValidateVars(n.Vars); err != nil {
 		return err
 	}
 
@@ -78,14 +101,14 @@ func GenerateProgram(id string, vars []*VarNode, funcs []*FuncNode, body []Attri
 	ctx.AddQuad(GOTO, -1, -1, -1)
 
 	// Crear variables dentro del ámbito global
-	for _, v := range vars {
-		if err := DeclareVariable(v.Id, v.Type); err != nil {
+	for _, v := range n.Vars {
+		if _, err := DeclareVariable(v.Id, v.Type); err != nil {
 			return fmt.Errorf("error al declarar variable '%s': %v", v.Id, err)
 		}
 	}
 
 	// Generar cuádruplos para las funciones
-	for _, funcNode := range funcs {
+	for _, funcNode := range n.Funcs {
 		if err := funcNode.Generate(ctx); err != nil {
 			return fmt.Errorf("error al generar cuádruplos para '%s': %v", funcNode.Id, err)
 		}
@@ -95,15 +118,15 @@ func GenerateProgram(id string, vars []*VarNode, funcs []*FuncNode, body []Attri
 	ctx.Quads[0].Result = len(ctx.Quads)
 
 	// Generar cuádruplos para el cuerpo del programa
-	for _, stmt := range body {
+	for _, stmt := range n.Body {
 		if err := stmt.Generate(ctx); err != nil {
-			return fmt.Errorf("error al generar cuádruplos para '%s': %v", id, err)
+			return fmt.Errorf("error al generar cuádruplos para '%s': %v", n.Id, err)
 		}
 	}
 
 	// Imprimir variables globales y constantes
 	fmt.Println()
-	fmt.Printf("Programa: %s\n", id)
+	fmt.Printf("Programa: %s\n", n.Id)
 	fmt.Println("===================================")
 
 	fmt.Println("Globales:")
@@ -130,37 +153,6 @@ func GenerateProgram(id string, vars []*VarNode, funcs []*FuncNode, body []Attri
 	return nil
 }
 
-func DeclareVariable(id, typ string) error {
-	// Obtener la dirección de memoria para la variable
-	var addr int
-	var err error
-
-	if scope == global {
-		addr, err = alloc.NextGlobal(typ)
-	} else {
-		addr, err = alloc.NextLocal(typ)
-	}
-	if err != nil {
-		return err
-	}
-
-	// Crear el nodo de variable
-	node := &VarNode{
-		Address: addr,
-		Id:      id,
-		Type:    typ,
-	}
-
-	// Insertar en el árbol correspondiente
-	if scope == global {
-		memory.Global.Insert(node)
-	} else {
-		memory.Local.Insert(node)
-	}
-
-	return nil
-}
-
 func (n *FuncNode) Generate(ctx *Context) error {
 	// Marcar el inicio del cuádruplo de la función
 	funcDir[n.Id].QuadStart = len(ctx.Quads)
@@ -169,17 +161,23 @@ func (n *FuncNode) Generate(ctx *Context) error {
 	scope = n.Id
 
 	// Crear parámetros dentro del ámbito de la función
+	var paramNodes []*VarNode
 	for _, p := range n.Params {
-		if err := DeclareVariable(p.Id, p.Type); err != nil {
+		paramNode, err := DeclareVariable(p.Id, p.Type)
+		if err != nil {
 			return fmt.Errorf("error al declarar parámetro '%s' en función '%s': %v", p.Id, n.Id, err)
 		}
+		paramNodes = append(paramNodes, paramNode)
 	}
 
 	// Crear variables dentro del ámbito de la función
+	var varNodes []*VarNode
 	for _, v := range n.Vars {
-		if err := DeclareVariable(v.Id, v.Type); err != nil {
+		varNode, err := DeclareVariable(v.Id, v.Type)
+		if err != nil {
 			return fmt.Errorf("error al declarar variable '%s' en función '%s': %v", v.Id, n.Id, err)
 		}
+		varNodes = append(varNodes, varNode)
 	}
 
 	// Generar cuádruplos para el cuerpo de la función
@@ -192,8 +190,10 @@ func (n *FuncNode) Generate(ctx *Context) error {
 	// Agregar el cuádruplo de retorno al final de la función
 	ctx.AddQuad(ENDFUNC, -1, -1, -1)
 
-	// Actualizar contador de temporales de la función
-	funcDir[n.Id].TempsCount = alloc.Temp.Count()
+	// Guardar variables generadas en la función
+	funcDir[n.Id].Params = paramNodes
+	funcDir[n.Id].Vars = varNodes
+	funcDir[n.Id].Temps = memory.Temp.GetAll()
 
 	// Restablecer el ámbito global
 	scope = global
@@ -275,15 +275,14 @@ func (n *AssignNode) Generate(ctx *Context) error {
 	// Buscar variable destino y memoria correcta
 	var dest *VarNode
 	var found bool
-
 	if scope != global {
-		if dest, found = memory.Local.FindByName(n.Id); !found {
-			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
-		}
-	} else {
-		if dest, found = memory.Global.FindByName(n.Id); !found {
-			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
-		}
+		dest, found = memory.Local.FindByName(n.Id)
+	}
+	if !found {
+		dest, found = memory.Global.FindByName(n.Id)
+	}
+	if !found {
+		return fmt.Errorf("variable '%s' no declarada", n.Id)
 	}
 
 	// Generar el código intermedio para la expresión
@@ -330,11 +329,11 @@ func (n *ExpressionNode) Generate(ctx *Context) error {
 	left := ctx.Pop()
 
 	// Obtener los nodos de memoria correspondientes
-	leftNode, err := GetVarByAddress(left)
+	leftNode, err := GetCompileTimeVar(left)
 	if err != nil {
 		return err
 	}
-	rightNode, err := GetVarByAddress(right)
+	rightNode, err := GetCompileTimeVar(right)
 	if err != nil {
 		return err
 	}
@@ -461,8 +460,8 @@ func (n *FCallNode) Generate(ctx *Context) error {
 	}
 
 	// Verificar el número de parámetros
-	if len(n.Params) != funcNode.ParamsCount {
-		return fmt.Errorf("número de parámetros incorrecto para la función '%s': se esperaban %d, se recibieron %d", n.Id, funcNode.ParamsCount, len(n.Params))
+	if len(n.Params) != len(funcNode.Params) {
+		return fmt.Errorf("número de parámetros incorrecto para la función '%s': se esperaban %d, se recibieron %d", n.Id, len(funcNode.Params), len(n.Params))
 	}
 
 	// Agregar el cuádruplo de ERA (Reservar Espacio de Registro)
@@ -474,6 +473,12 @@ func (n *FCallNode) Generate(ctx *Context) error {
 			return fmt.Errorf("error al generar parámetro en llamada a función '%s': %v", n.Id, err)
 		}
 		result := ctx.Pop()
+
+		// Verificar el tipo del parámetro
+		resultNode, _ := GetCompileTimeVar(result)
+		if resultNode.Type != funcNode.Params[i].Type {
+			return fmt.Errorf("tipo de parámetro incorrecto en la función '%s': se esperaba %s, se recibió %s", n.Id, funcNode.Params[i].Type, resultNode.Type)
+		}
 
 		// Agregar el cuádruplo de asignación de parámetro
 		ctx.AddQuad(PARAM, result, -1, i+1)

@@ -22,8 +22,38 @@ const (
 	ENDFUNC = 15
 )
 
-// Lista de operadores para imprimir operación en debug
-var opsList = []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "PRINTLN", "GOTO", "GOTOF", "ERA", "PARAM", "GOSUB", "ENDFUNC"}
+// DEBUG: Lista de operadores para imprimir operación
+var opsList = []string{
+	"+",
+	"-",
+	"*",
+	"/",
+	">",
+	"<",
+	"!=",
+	"=",
+	"PRINT",
+	"PRINTLN",
+	"GOTO",
+	"GOTOF",
+	"ERA",
+	"PARAM",
+	"GOSUB",
+	"ENDFUNC",
+}
+
+// Memoria de direcciones virtuales
+type Memory struct {
+	Global *SymbolTree
+	Local  *SymbolTree
+	Const  *SymbolTree
+	Temp   *SymbolTree
+}
+
+// Estructura del árbol de símbolos
+type SymbolTree struct {
+	Root *VarNode
+}
 
 func NewMemory() {
 	memory = &Memory{
@@ -119,45 +149,6 @@ func findConst(node *VarNode, typ string, val string) (*VarNode, bool) {
 	return findConst(node.Right, typ, val)
 }
 
-// Busca un VarNode por su dirección usando los rangos de Alloc
-func GetVarByAddress(a int) (*VarNode, error) {
-	// Globales
-	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
-		if node, found := memory.Global.FindByAddress(a); found {
-			return node, nil
-		}
-		return nil, fmt.Errorf("dirección global '%d' no encontrada", a)
-	}
-
-	// Locales
-	if a >= alloc.Local.Int.Start && a <= alloc.Local.Float.End {
-		if scope != global {
-			if node, found := memory.Local.FindByAddress(a); found {
-				return node, nil
-			}
-			return nil, fmt.Errorf("dirección local '%d' no encontrada", a)
-		}
-	}
-
-	// Constantes
-	if a >= alloc.Const.Int.Start && a <= alloc.Const.String.End {
-		if node, found := memory.Const.FindByAddress(a); found {
-			return node, nil
-		}
-		return nil, fmt.Errorf("dirección de constante '%d' no encontrada", a)
-	}
-
-	// Temporales
-	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
-		if node, found := memory.Temp.FindByAddress(a); found {
-			return node, nil
-		}
-		return nil, fmt.Errorf("dirección temporal '%d' no encontrada", a)
-	}
-
-	return nil, fmt.Errorf("dirección '%d' fuera de todos los rangos conocidos", a)
-}
-
 // Busca una variable por su dirección en el árbol de símbolos
 func (tree *SymbolTree) FindByAddress(address int) (*VarNode, bool) {
 	return findByAddress(tree.Root, address)
@@ -176,6 +167,22 @@ func findByAddress(node *VarNode, address int) (*VarNode, bool) {
 	} else {
 		return findByAddress(node.Right, address)
 	}
+}
+
+// Obtiene todos los nodos del árbol de símbolos
+func (tree *SymbolTree) GetAll() []*VarNode {
+	return getAll(tree.Root)
+}
+
+// Función auxiliar para obtener todos los nodos
+func getAll(node *VarNode) []*VarNode {
+	if node == nil {
+		return nil
+	}
+	result := []*VarNode{node}
+	result = append(result, getAll(node.Left)...)
+	result = append(result, getAll(node.Right)...)
+	return result
 }
 
 // Limpia los valores en un árbol de símbolos dentro de un rango

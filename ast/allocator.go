@@ -2,6 +2,29 @@ package ast
 
 import "fmt"
 
+// Gestiona la asignación de direcciones de memoria
+type Allocator struct {
+	Global Segment
+	Local  Segment
+	Const  Segment
+	Temp   Segment
+}
+
+// Segmento de memoria apartado
+type Segment struct {
+	Int    Range
+	Float  Range
+	Bool   Range
+	String Range
+}
+
+// Rango de memoria para tipos de datos
+type Range struct {
+	Start   int
+	End     int
+	Counter int
+}
+
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
@@ -24,14 +47,6 @@ func NewAllocator() {
 			Bool:  Range{Start: 9000, End: 9499, Counter: 9000},
 		},
 	}
-}
-
-// Obtiene cantidad de variables creadas en un segmento
-func (s *Segment) Count() int {
-	return s.Int.Counter - s.Int.Start +
-		s.Float.Counter - s.Float.Start +
-		s.Bool.Counter - s.Bool.Start +
-		s.String.Counter - s.String.Start
 }
 
 // Reinicia contadores para un segmento
