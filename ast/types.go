@@ -15,9 +15,9 @@ type FuncNode struct {
 	Params      []*VarNode
 	Vars        []*VarNode
 	Body        []Attrib
-	ParamsCount int
 	VarsCount   int
-	TempCount   int
+	ParamsCount int
+	TempsCount  int
 	QuadStart   int
 }
 
@@ -80,6 +80,7 @@ type Context struct {
 	SemStack  []int
 	Quads     []Quadruple
 	TempCount int
+	CallStack []*FCallNode
 }
 
 // Nodo de asignación
@@ -111,4 +112,10 @@ type IfNode struct {
 type WhileNode struct {
 	Condition Attrib
 	Body      []Attrib
+}
+
+// Nodo de llamada a función
+type FCallNode struct {
+	Id     string
+	Params []Attrib
 }

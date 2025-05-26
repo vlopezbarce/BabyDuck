@@ -210,6 +210,7 @@ Statement
     | Cycle
     << $0, nil >>
     | F_Call
+    << $0, nil >>
     | Print
     << $0, nil >>
     ;
@@ -387,18 +388,28 @@ Cycle
 // Llamada a función
 F_Call
     : id lparen F_Args rparen semicolon
+    <<
+        &ast.FCallNode{
+            Id: string($0.(*token.Token).Lit),
+            Params: $2.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Lista de argumentos (0 o más expresiones)
 F_Args
     : F_ArgsList
+    << $0, nil >>
     | "empty"
+    << []ast.Attrib{}, nil >>
     ;
 
 // Lista separada por comas (1 o más expresiones)
 F_ArgsList
     : Expression comma F_ArgsList
+    << append([]ast.Attrib{ $0.(ast.Attrib) }, $2.([]ast.Attrib)..., ), nil >>
     | Expression
+    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
     ;
 
 // Instrucción de impresión
@@ -413,10 +424,10 @@ Print
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
-    : PrintVar
-    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
-    | PrintVar comma PrintVarList
+    : PrintVar comma PrintVarList
     << append([]ast.Attrib{ $0.(ast.Attrib) }, $2.([]ast.Attrib)..., ), nil >>
+    | PrintVar
+    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
     ;
 
 // Variable a imprimir

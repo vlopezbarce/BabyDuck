@@ -26,7 +26,7 @@ func NewAllocator() {
 	}
 }
 
-// Obtener cantidad de variables creadas en un segmento
+// Obtiene cantidad de variables creadas en un segmento
 func (s *Segment) Count() int {
 	return s.Int.Counter - s.Int.Start +
 		s.Float.Counter - s.Float.Start +
@@ -34,7 +34,7 @@ func (s *Segment) Count() int {
 		s.String.Counter - s.String.Start
 }
 
-// Reiniciar contadores para un segmento
+// Reinicia contadores para un segmento
 func (s *Segment) Reset() {
 	s.Int.Counter = s.Int.Start
 	s.Float.Counter = s.Float.Start

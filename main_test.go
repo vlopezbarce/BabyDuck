@@ -34,7 +34,9 @@ var testData = []*TI{
 				i = 2;
 				j = 1;
 				f = 3.14;
-
+				
+				uno(i, j);
+				
 				while (i > 0) do {
 					print(i, j * 2, f * 2 + 1.5);
 					i = i - j;

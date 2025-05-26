@@ -4,26 +4,26 @@ import "fmt"
 
 // Direcciones fijas para operadores
 const (
-	PLUS      = 0
-	MINUS     = 1
-	TIMES     = 2
-	DIVIDE    = 3
-	GT        = 4
-	LT        = 5
-	NEQ       = 6
-	ASSIGN    = 7
-	PRINT     = 8
-	PRINTLN   = 9
-	GOTO      = 10
-	GOTOF     = 11
-	ERA       = 12
-	PARAMETER = 13
-	GOSUB     = 14
-	ENDFUNC   = 15
+	PLUS    = 0
+	MINUS   = 1
+	TIMES   = 2
+	DIVIDE  = 3
+	GT      = 4
+	LT      = 5
+	NEQ     = 6
+	ASSIGN  = 7
+	PRINT   = 8
+	PRINTLN = 9
+	GOTO    = 10
+	GOTOF   = 11
+	ERA     = 12
+	PARAM   = 13
+	GOSUB   = 14
+	ENDFUNC = 15
 )
 
 // Lista de operadores para imprimir operación en debug
-var opsList = []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "PRINTLN", "GOTO", "GOTOF", "ERA", "PARAMETER", "GOSUB", "ENDFUNC"}
+var opsList = []string{"+", "-", "*", "/", ">", "<", "!=", "=", "PRINT", "PRINTLN", "GOTO", "GOTOF", "ERA", "PARAM", "GOSUB", "ENDFUNC"}
 
 func NewMemory() {
 	memory = &Memory{

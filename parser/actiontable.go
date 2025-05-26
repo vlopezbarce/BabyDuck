@@ -3801,7 +3801,7 @@ var actionTab = actionTable{
 			nil,        // float
 			nil,        // void
 			nil,        // lparen
-			reduce(56), // rparen, reduce: PrintVarList
+			reduce(57), // rparen, reduce: PrintVarList
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace
@@ -7532,7 +7532,7 @@ var actionTab = actionTable{
 			nil,        // float
 			nil,        // void
 			nil,        // lparen
-			reduce(57), // rparen, reduce: PrintVarList
+			reduce(56), // rparen, reduce: PrintVarList
 			nil,        // lbracket
 			nil,        // rbracket
 			nil,        // lbrace

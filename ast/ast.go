@@ -193,7 +193,7 @@ func (n *FuncNode) Generate(ctx *Context) error {
 	ctx.AddQuad(ENDFUNC, -1, -1, -1)
 
 	// Actualizar contador de temporales de la función
-	funcDir[n.Id].TempCount = alloc.Temp.Count()
+	funcDir[n.Id].TempsCount = alloc.Temp.Count()
 
 	// Restablecer el ámbito global
 	scope = global
@@ -449,6 +449,38 @@ func (n *WhileNode) Generate(ctx *Context) error {
 
 	// Marcar la etiqueta para el cuádruplo GOTOF
 	ctx.Quads[indexGOTOF].Result = len(ctx.Quads)
+
+	return nil
+}
+
+func (n *FCallNode) Generate(ctx *Context) error {
+	// Buscar la función en el directorio de funciones
+	funcNode, found := funcDir[n.Id]
+	if !found {
+		return fmt.Errorf("función '%s' no declarada", n.Id)
+	}
+
+	// Verificar el número de parámetros
+	if len(n.Params) != funcNode.ParamsCount {
+		return fmt.Errorf("número de parámetros incorrecto para la función '%s': se esperaban %d, se recibieron %d", n.Id, funcNode.ParamsCount, len(n.Params))
+	}
+
+	// Agregar el cuádruplo de ERA (Reservar Espacio de Registro)
+	ctx.AddQuad(ERA, funcNode.QuadStart, -1, -1)
+
+	// Generar el código intermedio para los parámetros
+	for i, param := range n.Params {
+		if err := param.Generate(ctx); err != nil {
+			return fmt.Errorf("error al generar parámetro en llamada a función '%s': %v", n.Id, err)
+		}
+		result := ctx.Pop()
+
+		// Agregar el cuádruplo de asignación de parámetro
+		ctx.AddQuad(PARAM, result, -1, i+1)
+	}
+
+	// Agregar el cuádruplo de llamada a función
+	ctx.AddQuad(GOSUB, funcNode.QuadStart, -1, -1)
 
 	return nil
 }

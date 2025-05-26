@@ -339,7 +339,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : F_Call	<<  >>`,
+		String: `Statement : F_Call	<< X[0], nil >>`,
 		Id:         "Statement",
 		NTType:     14,
 		Index:      25,
@@ -701,17 +701,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `F_Call : id lparen F_Args rparen semicolon	<<  >>`,
+		String: `F_Call : id lparen F_Args rparen semicolon	<< &ast.FCallNode{
+            Id: string(X[0].(*token.Token).Lit),
+            Params: X[2].([]ast.Attrib),
+        }, nil >>`,
 		Id:         "F_Call",
 		NTType:     26,
 		Index:      50,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return &ast.FCallNode{
+            Id: string(X[0].(*token.Token).Lit),
+            Params: X[2].([]ast.Attrib),
+        }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `F_Args : F_ArgsList	<<  >>`,
+		String: `F_Args : F_ArgsList	<< X[0], nil >>`,
 		Id:         "F_Args",
 		NTType:     27,
 		Index:      51,
@@ -721,33 +727,33 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `F_Args : "empty"	<<  >>`,
+		String: `F_Args : "empty"	<< []ast.Attrib{}, nil >>`,
 		Id:         "F_Args",
 		NTType:     27,
 		Index:      52,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return nil, nil
+			return []ast.Attrib{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `F_ArgsList : Expression comma F_ArgsList	<<  >>`,
+		String: `F_ArgsList : Expression comma F_ArgsList	<< append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil >>`,
 		Id:         "F_ArgsList",
 		NTType:     28,
 		Index:      53,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil
 		},
 	},
 	ProdTabEntry{
-		String: `F_ArgsList : Expression	<<  >>`,
+		String: `F_ArgsList : Expression	<< []ast.Attrib{ X[0].(ast.Attrib) }, nil >>`,
 		Id:         "F_ArgsList",
 		NTType:     28,
 		Index:      54,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return []ast.Attrib{ X[0].(ast.Attrib) }, nil
 		},
 	},
 	ProdTabEntry{
@@ -765,23 +771,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `PrintVarList : PrintVar	<< []ast.Attrib{ X[0].(ast.Attrib) }, nil >>`,
-		Id:         "PrintVarList",
-		NTType:     30,
-		Index:      56,
-		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return []ast.Attrib{ X[0].(ast.Attrib) }, nil
-		},
-	},
-	ProdTabEntry{
 		String: `PrintVarList : PrintVar comma PrintVarList	<< append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil >>`,
 		Id:         "PrintVarList",
 		NTType:     30,
-		Index:      57,
+		Index:      56,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil
+		},
+	},
+	ProdTabEntry{
+		String: `PrintVarList : PrintVar	<< []ast.Attrib{ X[0].(ast.Attrib) }, nil >>`,
+		Id:         "PrintVarList",
+		NTType:     30,
+		Index:      57,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return []ast.Attrib{ X[0].(ast.Attrib) }, nil
 		},
 	},
 	ProdTabEntry{
