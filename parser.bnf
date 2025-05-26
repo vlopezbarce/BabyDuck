@@ -68,26 +68,29 @@ import(
 >>
 
 Program
-    : program id semicolon VarSection FuncSection main Body end
+    : ProgramHeader VarSection FuncSection main Body end
     <<
         func() (Attrib, error) {
-            id := string($1.(*token.Token).Lit)
-            vars := $3.([]*ast.VarNode)
-            body := $6.([]ast.Attrib)
+            id := $0.(string)
+            vars := $1.([]*ast.VarNode)
+            body := $4.([]ast.Attrib)
 
             // Inicializar programa como una función
-            programNode, err := ast.NewFunction(id, vars, body)
+            programNode, err := ast.DeclareFunction(id, vars, body)
             if err != nil {
                 return nil, err
             }
-
-            // Establecer ámbito global
-            ast.SetGlobalScope(programNode.Id)
 
             // Ejecutar programa
             return nil, ast.ExecuteFunction(programNode)
         }()
     >>
+    ;
+
+// Inicializa el programa y la memoria
+ProgramHeader
+    : program id semicolon
+    << ast.InitProgram(string($1.(*token.Token).Lit)), nil >>
     ;
 
 // Declaración opcional de variables
@@ -120,7 +123,7 @@ VarDeclaration
                 vars = append(vars, &ast.VarNode{
                     Id: string(id.Lit),
                     Type: typ,
-                    Value: ""},
+                    },
                 )
             }
 
@@ -161,7 +164,7 @@ FuncDeclaration
             body := $7.([]ast.Attrib)
 
             // Crear y registrar la función
-            return ast.NewFunction(id, vars, body)
+            return ast.DeclareFunction(id, vars, body)
         }()
     >>
     ;
@@ -189,7 +192,6 @@ Param
         &ast.VarNode{
             Id: string($0.(*token.Token).Lit),
             Type: string($2.(*token.Token).Lit),
-            Value: "",
         }, nil
     >>
     ;
@@ -203,7 +205,7 @@ Body
 // Declaración opcional de sentencias (0 o más)
 StatementList
     : Statement StatementList
-    << append([]ast.Attrib{$0}, $1.([]ast.Attrib)...), nil >>
+    << append([]ast.Attrib{ $0.(ast.Attrib) }, $1.([]ast.Attrib)...), nil >>
     | "empty"
     << []ast.Attrib{}, nil >>
     ;
@@ -213,7 +215,9 @@ Statement
     : Assign
     << $0, nil >>
     | Condition
+    << $0, nil >>
     | Cycle
+    << $0, nil >>
     | F_Call
     | Print
     << $0, nil >>
@@ -225,7 +229,7 @@ Assign
     <<
         &ast.AssignNode{
             Id: string($0.(*token.Token).Lit),
-            Exp: $2.(ast.Quad),
+            Exp: $2.(ast.Attrib),
         }, nil
     >>
     ;
@@ -237,9 +241,9 @@ Expression
     | Exp RelOp Exp
     << 
         &ast.ExpressionNode{
-            Left:  $0.(ast.Quad),
-            Op:    $1.(string),
-            Right: $2.(ast.Quad),
+            Left:  $0.(ast.Attrib),
+            Op:    $1.(int),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     ;
@@ -247,11 +251,11 @@ Expression
 // Operadores relacionales
 RelOp
     : gt
-    << ">", nil >>
+    << ast.GT, nil >>
     | lt
-    << "<", nil >>
+    << ast.LT, nil >>
     | neq
-    << "!=", nil >>
+    << ast.NEQ, nil >>
     ;
 
 // Expresión aritmética
@@ -259,17 +263,17 @@ Exp
     : Exp plus Term
     <<
         &ast.ExpressionNode{
-            Op:    "+",
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Op:    ast.PLUS,
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Exp minus Term
     <<
         &ast.ExpressionNode{
-            Op:    "-",
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Op:    ast.MINUS,
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Term
@@ -281,17 +285,17 @@ Term
     : Term times Factor
     <<
         &ast.ExpressionNode{
-            Op:    "*",
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Op:    ast.TIMES,
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Term divide Factor
     <<
         &ast.ExpressionNode{
-            Op:    "/",
-            Left:  $0.(ast.Quad),
-            Right: $2.(ast.Quad),
+            Op:    ast.DIVIDE,
+            Left:  $0.(ast.Attrib),
+            Right: $2.(ast.Attrib),
         }, nil
     >>
     | Factor
@@ -303,16 +307,26 @@ Factor
     : lparen Expression rparen
     << $1, nil >>
     | minus Atom
-    <<
-        &ast.ExpressionNode{
-            Op:    "-",
-            Left:  &ast.VarNode{
-                Id: "",
-                Type: "int",
-                Value: "0",
-            },
-            Right: $1.(ast.Quad),
-        }, nil
+    << 
+        func() (Attrib, error) {
+            atom := $1.(*ast.VarNode)
+
+            // Si es una constante, convertir al negativo
+            if atom.Value != "" {
+                atom.Value = "-" + atom.Value
+                return atom, nil
+            }
+
+            // Si es una variable, genera un nuevo nodo de expresión
+            return &ast.ExpressionNode{
+                Op: ast.MINUS,
+                Left: &ast.VarNode{
+                    Type:  "int",
+                    Value: "0",
+                },
+                Right: $1.(ast.Attrib),
+            }, nil
+        }()
     >>
     | Atom
     << $0, nil >>
@@ -326,8 +340,6 @@ Atom
     <<
         &ast.VarNode{
             Id: string($0.(*token.Token).Lit),
-            Type: "",
-            Value: "",
         }, nil
     >>
     ;
@@ -337,7 +349,6 @@ Cte
     : cte_int
     <<
         &ast.VarNode{
-            Id: "",
             Type: "int",
             Value: string($0.(*token.Token).Lit),
         }, nil
@@ -345,7 +356,6 @@ Cte
     | cte_float
     <<
         &ast.VarNode{
-            Id: "",
             Type: "float",
             Value: string($0.(*token.Token).Lit),
         }, nil
@@ -355,17 +365,32 @@ Cte
 // Condición if-else
 Condition
     : if lparen Expression rparen Body ElseOptional semicolon
+    <<
+        &ast.IfNode{
+            Condition: $2.(ast.Attrib),
+            ThenBlock: $4.([]ast.Attrib),
+            ElseBlock: $5.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Bloque else opcional (0 o 1)
 ElseOptional
     : else Body
+    << $1, nil >>
     | "empty"
+    << []ast.Attrib{}, nil >>
     ;
 
 // Ciclo while-do
 Cycle
     : while lparen Expression rparen do Body semicolon
+    <<
+        &ast.WhileNode{
+            Condition: $2.(ast.Attrib),
+            Body: $5.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Llamada a función
@@ -388,15 +413,19 @@ F_ArgsList
 // Instrucción de impresión
 Print
     : print lparen PrintVarList rparen semicolon
-    << &ast.PrintNode{Items: $2.([]ast.Attrib)}, nil >>
+    <<
+        &ast.PrintNode{
+            Items: $2.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
     : PrintVar
-    << []ast.Attrib{$0.(ast.Attrib)}, nil >>
+    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
     | PrintVar comma PrintVarList
-    << append([]ast.Attrib{$0.(ast.Attrib)}, $2.([]ast.Attrib)...), nil >>
+    << append([]ast.Attrib{ $0.(ast.Attrib) }, $2.([]ast.Attrib)..., ), nil >>
     ;
 
 // Variable a imprimir
@@ -404,5 +433,11 @@ PrintVar
     : Expression
     << $0, nil >>
     | cte_string
-    << string($0.(*token.Token).Lit), nil >>
+    <<
+        &ast.VarNode{
+            Type: "string",
+            Value: string($0.(*token.Token).Lit),
+        },
+        nil
+    >>
     ;

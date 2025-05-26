@@ -1,214 +1,389 @@
 package ast
 
-import (
-	"fmt"
-)
+import "fmt"
 
-var globalScope string  // Nombre del programa
-var currentScope string // Ámbito actual
+var scope string
+var global string
 
-// Inicializa el ámbito global y establece el ámbito actual
-func SetGlobalScope(name string) {
-	globalScope = name
-	currentScope = name
+// Inicializa el ámbito global, la memoria y el asignador
+func InitProgram(id string) string {
+	scope = id
+	global = scope
+	NewMemory()
+	NewAllocator()
+	return id
 }
 
-// Declara una variable en el ámbito actual
-func NewVariable(id, typ string) error {
-	// Verificar si la variable ya existe en el ámbito actual
-	if _, found := LookupVariable(id); found {
-		return fmt.Errorf("variable '%s' ya declarada en función '%s'", id, currentScope)
-	}
+func ValidateVars(vars []*VarNode) error {
+	tempVars := make(map[string]bool)
 
-	// Agregar la variable a la tabla de símbolos del ámbito actual
-	functionDirectory[currentScope].SymbolTable[id] = VarNode{
-		Id:    id,
-		Type:  typ,
-		Value: "",
+	for _, v := range vars {
+		// Verificar si la variable ya existe en el ámbito actual
+		if _, exists := tempVars[v.Id]; exists {
+			return fmt.Errorf("variable '%s' ya declarada en el ámbito actual", v.Id)
+		}
+		// Agregar la variable al mapa temporal para validación
+		tempVars[v.Id] = true
 	}
 
 	return nil
 }
 
-// Buscar una variable en el ámbito actual
-func LookupVariable(id string) (VarNode, bool) {
-	// Buscar en la tabla de símbolos del ámbito actual
-	if info, exists := functionDirectory[currentScope].SymbolTable[id]; exists {
-		return info, true
-	}
-
-	if currentScope != globalScope {
-		// Buscar en el ámbito global
-		if info, exists := functionDirectory[globalScope].SymbolTable[id]; exists {
-			return info, true
-		}
-	}
-
-	// No se encontró
-	return VarNode{}, false
-}
-
-// Función constructora para FuncNode
-func NewFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, error) {
+func DeclareFunction(id string, vars []*VarNode, body []Attrib) (*FuncNode, error) {
 	// Verificar si la función ya existe
-	if _, exists := functionDirectory[id]; exists {
+	if _, exists := funcDir[id]; exists {
 		return nil, fmt.Errorf("función '%s' ya declarada", id)
 	}
 
 	// Crear el nodo de función
 	funcNode := &FuncNode{
-		Id:          id,
-		Body:        body,
-		SymbolTable: make(map[string]VarNode),
+		Id:   id,
+		Vars: vars,
+		Body: body,
 	}
 
 	// Agregar la función al directorio de funciones
-	functionDirectory[id] = *funcNode
+	funcDir[id] = funcNode
 
-	// Establecer el ámbito actual a la nueva función
-	currentScope = id
-
-	// Registrar los parámetros como variables locales
-	for _, param := range vars {
-		if err := NewVariable(param.Id, param.Type); err != nil {
-			return nil, err
-		}
+	// Verificar si hay variables duplicadas
+	if err := ValidateVars(vars); err != nil {
+		return nil, err
 	}
-
-	// Limpiar el contexto de función actual
-	currentScope = globalScope
 
 	return funcNode, nil
 }
 
-func ExecuteFunction(funcNode *FuncNode) error {
-	// Limpiar variables locales anteriores
-	for name, varNode := range funcNode.SymbolTable {
-		varNode.Value = ""
-		funcNode.SymbolTable[name] = varNode
+func DeclareVariable(id, typ string) error {
+	// Obtener la dirección de memoria para la variable
+	var addr int
+	var err error
+
+	if scope == global {
+		addr, err = alloc.NextGlobal(typ)
+	} else {
+		addr, err = alloc.NextLocal(typ)
 	}
-
-	// Establecer el ámbito actual a la función
-	currentScope = funcNode.Id
-
-	// Ejecutar las instrucciones del cuerpo
-	for _, stmt := range funcNode.Body {
-		if err := ExecuteStatement(stmt); err != nil {
-			return fmt.Errorf("error al ejecutar en función '%s': %v", funcNode.Id, err)
-		}
-	}
-
-	// Restablecer el ámbito global
-	currentScope = globalScope
-
-	return nil
-}
-
-func ExecuteStatement(stmt Attrib) error {
-	switch node := stmt.(type) {
-	case *AssignNode:
-		return ExecuteAssign(node)
-	case *PrintNode:
-		return ExecutePrint(node)
-	//case *IfNode:
-	//	return executeCondition(node)
-	//case *WhileNode:
-	//	return executeWhile(node)
-	//case *FuncCallNode:
-	//	return executeFunctionCall(node)
-	default:
-		return fmt.Errorf("tipo de instrucción no soportado: %T", node)
-	}
-}
-
-// Función para ejecutar la asignación
-func ExecuteAssign(assignNode *AssignNode) error {
-	// Verificar si la variable está declarada
-	info, exists := LookupVariable(assignNode.Id)
-	if !exists {
-		return fmt.Errorf("variable no declarada: %s", assignNode.Id)
-	}
-
-	// Genera el código intermedio para la expresión
-	ctx := &Context{}
-
-	if err := assignNode.Generate(ctx); err != nil {
+	if err != nil {
 		return err
 	}
 
-	// Si hay cuádruplos generados, se evalúan
-	var result VarNode
-	if len(ctx.Quads) > 0 {
-		PrintQuads(ctx.Quads)
-		result = ctx.Evaluate()
+	// Crear el nodo de variable
+	node := &VarNode{
+		Address: addr,
+		Id:      id,
+		Type:    typ,
+	}
+
+	// Insertar en el árbol correspondiente
+	if scope == global {
+		memory.Global.Insert(node)
 	} else {
-		// No hay cuádruplos: la pila semántica solo tiene la constante o id
-		result = ctx.Pop()
+		memory.Local.Insert(node)
 	}
-
-	// Verificar compatibilidad de tipos
-	if info.Type != result.Type {
-		return fmt.Errorf("tipo incompatible: se esperaba %s, se obtuvo %s", info.Type, result.Type)
-	}
-
-	// Actualizar la tabla de símbolos con el valor calculado
-	info.Value = result.Value
-	functionDirectory[currentScope].SymbolTable[assignNode.Id] = info
 
 	return nil
 }
 
-// Evalúa e imprime cada elemento de una lista
-func ExecutePrint(printNode *PrintNode) error {
-	for _, item := range printNode.Items {
-		switch v := item.(type) {
+func ExecuteFunction(funcNode *FuncNode) error {
+	// Establecer el ámbito actual a la función
+	scope = funcNode.Id
 
-		// Caso 1: es una expresión/constante numérica
-		case Quad:
-			// Genera el código intermedio para la expresión
-			ctx := &Context{}
+	// Crear variables dentro del ámbito actual
+	for _, v := range funcNode.Vars {
+		if err := DeclareVariable(v.Id, v.Type); err != nil {
+			return fmt.Errorf("error al declarar variable '%s' en función '%s': %v", v.Id, funcNode.Id, err)
+		}
+	}
 
-			if _, err := v.Generate(ctx); err != nil {
+	// Generar cuádruplos para el cuerpo de la función
+	ctx := &Context{}
+	for _, stmt := range funcNode.Body {
+		if err := stmt.Generate(ctx); err != nil {
+			return fmt.Errorf("error al generar cuádruplos para '%s': %v", funcNode.Id, err)
+		}
+	}
+
+	// Imprimir cuádruplos y temporales
+	ctx.PrintQuads()
+
+	// Ejecutar el cuerpo de la función
+	if err := ctx.Evaluate(); err != nil {
+		return fmt.Errorf("error al ejecutar cuádruplos de '%s': %v", funcNode.Id, err)
+	}
+
+	// Limpiar la memoria
+	if scope != global {
+		memory.Local.Clear()
+	}
+	//memory.Temp.Clear()
+
+	// Restablecer el ámbito global
+	scope = global
+
+	return nil
+}
+
+func (n *VarNode) Generate(ctx *Context) error {
+	if n.Id != "" {
+		// Buscar en la memoria local o global
+		var varNode *VarNode
+		var found bool
+
+		if scope != global {
+			varNode, found = memory.Local.FindByName(n.Id)
+		}
+		if !found {
+			varNode, found = memory.Global.FindByName(n.Id)
+		}
+		if !found {
+			return fmt.Errorf("variable '%s' no declarada", n.Id)
+		}
+
+		// Agregar la direción a la pila
+		ctx.Push(varNode.Address)
+
+		return nil
+	} else {
+		// Buscar la constante en la memoria
+		varNode, found := memory.Const.FindConst(n.Type, n.Value)
+
+		if !found {
+			// Obtener la dirección de memoria para la constante
+			addr, err := alloc.NextConst(n.Type)
+			if err != nil {
 				return err
 			}
 
-			// Si hay cuádruplos generados, se evalúan
-			var result VarNode
-			if len(ctx.Quads) > 0 {
-				result = ctx.Evaluate()
-			} else {
-				// No hay cuádruplos: la pila semántica solo tiene la constante o id
-				result = ctx.Pop()
+			// Agregar la constante a la memoria
+			constNode := &VarNode{
+				Address: addr,
+				Type:    n.Type,
+				Value:   n.Value,
 			}
-			fmt.Print(result.Value)
 
-		// Caso 2: es un literal de cadena
-		case string:
-			// Imprimir la cadena sin comillas
-			fmt.Print(v[1 : len(v)-1])
+			// Agregar la constante a la memoria
+			memory.Const.Insert(constNode)
 
-		default:
-			return fmt.Errorf("elemento de print no soportado: %T", item)
+			// Agregar la dirección a la pila
+			ctx.Push(addr)
+
+			return nil
 		}
 
-		// Agregar espacio entre elementos
-		fmt.Print(" ")
+		// Agregar la dirección a la pila
+		ctx.Push(varNode.Address)
+
+		return nil
+	}
+}
+
+func (n *AssignNode) Generate(ctx *Context) error {
+	// Buscar variable destino y memoria correcta
+	var dest *VarNode
+	var found bool
+
+	if scope != global {
+		if dest, found = memory.Local.FindByName(n.Id); !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
+		}
+	} else {
+		if dest, found = memory.Global.FindByName(n.Id); !found {
+			return fmt.Errorf("variable '%s' no declarada en el ámbito actual", n.Id)
+		}
 	}
 
-	// Salto de línea final
-	fmt.Println()
+	// Generar el código intermedio para la expresión
+	if err := n.Exp.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
+
+	// Agregar el cuádruplo de asignación
+	ctx.AddQuad(ASSIGN, result, -1, dest.Address)
+
 	return nil
 }
 
-// Imprime todas las variables
+func (n *PrintNode) Generate(ctx *Context) error {
+	// Generar el código intermedio para los elementos a imprimir
+	for _, item := range n.Items {
+		if err := item.Generate(ctx); err != nil {
+			return err
+		}
+		result := ctx.Pop()
+
+		// Agregar el cuádruplo de impresión
+		ctx.AddQuad(PRINT, result, -1, -1)
+	}
+
+	// Agregar el cuádruplo de nueva línea
+	ctx.AddQuad(PRINTLN, -1, -1, -1)
+
+	return nil
+}
+
+func (n *ExpressionNode) Generate(ctx *Context) error {
+	// Generar el código intermedio para los operandos izquierdo y derecho
+	if err := n.Left.Generate(ctx); err != nil {
+		return err
+	}
+	if err := n.Right.Generate(ctx); err != nil {
+		return err
+	}
+
+	// Obtener los operandos izquierdo y derecho
+	right := ctx.Pop()
+	left := ctx.Pop()
+
+	// Obtener los nodos de memoria correspondientes
+	leftNode, err := lookupVarByAddress(left)
+	if err != nil {
+		return err
+	}
+	rightNode, err := lookupVarByAddress(right)
+	if err != nil {
+		return err
+	}
+
+	// Verificar la compatibilidad de tipos
+	resultType, err := CheckSemantic(n.Op, leftNode.Type, rightNode.Type)
+	if err != nil {
+		return err
+	}
+
+	// Obtener la dirección de memoria para el temporal
+	addr, err := alloc.NextTemp(resultType)
+	if err != nil {
+		return err
+	}
+
+	// Crear un nuevo nodo temporal
+	tempId := ctx.NewTemp()
+
+	tempNode := &VarNode{
+		Address: addr,
+		Id:      tempId,
+		Type:    resultType,
+		Value:   tempId,
+	}
+
+	// Insertar el temporal en la memoria
+	memory.Temp.Insert(tempNode)
+
+	// Agregar el cuádruplo de la operación
+	ctx.AddQuad(n.Op, left, right, addr)
+
+	// Agregar el temporal a la pila
+	ctx.Push(addr)
+
+	return nil
+}
+
+func (n *IfNode) Generate(ctx *Context) error {
+	// Generar el código intermedio para la condición
+	if err := n.Condition.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
+
+	// Buscar el tipo del resultado de la condición
+	resultNode, _ := memory.Temp.FindByAddress(result)
+	if resultNode.Type != "bool" {
+		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
+	}
+
+	// Agregar el cuádruplo GOTOF
+	indexGOTOF := len(ctx.Quads)
+	ctx.AddQuad(GOTOF, result, -1, -1)
+
+	// Generar los cuádruplos para el bloque Then
+	for _, stmt := range n.ThenBlock {
+		if err := stmt.Generate(ctx); err != nil {
+			return err
+		}
+	}
+
+	// Agregar el cuádruplo GOTO
+	indexGOTO := len(ctx.Quads)
+	ctx.AddQuad(GOTO, -1, -1, -1)
+
+	// Marcar la etiqueta para el cuádruplo GOTOF
+	ctx.Quads[indexGOTOF].Result = len(ctx.Quads)
+
+	// Generar los cuádruplos para el bloque Else
+	for _, stmt := range n.ElseBlock {
+		if err := stmt.Generate(ctx); err != nil {
+			return err
+		}
+	}
+
+	// Marcar la etiqueta para el cuádruplo GOTO
+	ctx.Quads[indexGOTO].Result = len(ctx.Quads)
+
+	return nil
+}
+
+func (n *WhileNode) Generate(ctx *Context) error {
+	// Marcar el inicio del ciclo
+	start := len(ctx.Quads)
+
+	// Generar el código intermedio para el ciclo
+	if err := n.Condition.Generate(ctx); err != nil {
+		return err
+	}
+	result := ctx.Pop()
+
+	// Buscar el tipo del resultado de la condición
+	resultNode, _ := memory.Temp.FindByAddress(result)
+	if resultNode.Type != "bool" {
+		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
+	}
+
+	// Agregar el cuádruplo GOTOF
+	indexGOTOF := len(ctx.Quads)
+	ctx.AddQuad(GOTOF, result, -1, -1)
+
+	// Generar los cuádruplos para el cuerpo del ciclo
+	for _, stmt := range n.Body {
+		if err := stmt.Generate(ctx); err != nil {
+			return err
+		}
+	}
+
+	// Agregar el cuádruplo GOTO
+	ctx.AddQuad(GOTO, -1, -1, start)
+
+	// Marcar la etiqueta para el cuádruplo GOTOF
+	ctx.Quads[indexGOTOF].Result = len(ctx.Quads)
+
+	return nil
+}
+
 func PrintVariables() {
+	fmt.Println()
+	fmt.Println("Funciones registradas:")
+	fmt.Println("===================================")
+	for id := range funcDir {
+		fmt.Println(id)
+	}
+
 	fmt.Println()
 	fmt.Println("Variables registradas:")
 	fmt.Println("===================================")
 
-	for name, funcNode := range functionDirectory {
-		for varName, varNode := range funcNode.SymbolTable {
-			fmt.Printf("Función: %s, Variable: %s, Tipo: %s, Valor: %v\n", name, varName, varNode.Type, varNode.Value)
-		}
-	}
+	fmt.Println("Global:")
+	memory.Global.Print()
+	fmt.Println("===================================")
+
+	fmt.Println("Local:")
+	memory.Local.Print()
+	fmt.Println("===================================")
+
+	fmt.Println("Constantes:")
+	memory.Const.Print()
+	fmt.Println("===================================")
+
+	fmt.Println("Temporales:")
+	memory.Temp.Print()
+	fmt.Println("===================================")
 }
