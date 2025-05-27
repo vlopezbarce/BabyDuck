@@ -17,19 +17,19 @@ type TI struct {
 var testData = []*TI{
 	{
 		src: `program patito;
-			
-			void fib(n: int) [{
-				if (n < 2) {
-					print(n);
+			void countdown(i: int) [{
+				if (i > -1) {
+					print(i);
+					countdown(i - 1);
 				}
 				else {
-					fib(n - 1);
-					fib(n - 2);
+					print("Fin del conteo");	
 				};
 			}];
 
 			main {
-				fib(5);
+				print(8 / 1, 8 / 0);
+				countdown(10);
 			}
 			end`,
 		expect: true,
@@ -44,8 +44,6 @@ func TestParser(t *testing.T) {
 			s := lexer.NewLexer([]byte(ts.src))
 			p := parser.NewParser()
 
-			pass := true
-
 			// Parsear y compilar el código fuente
 			ct, err := p.Parse(s)
 
@@ -53,11 +51,11 @@ func TestParser(t *testing.T) {
 			if err != nil {
 				// Si no se esperaba un error y se obtuvo uno, el caso falla
 				if ts.expect {
-					pass = false
-					t.Errorf("Error inesperado: %s", err.Error())
+					t.Error(err)
+					t.FailNow()
 				} else {
 					// Si se esperaba un error y se obtuvo uno, el caso pasa
-					t.Log(err.Error())
+					t.Log(err)
 				}
 			} else {
 				if ts.expect {
@@ -65,8 +63,8 @@ func TestParser(t *testing.T) {
 					t.Log("Análisis exitoso")
 				} else {
 					// Si se esperaba un error y no hubo ninguno, el caso falla
-					pass = false
 					t.Errorf("Se esperaba un error, pero no se produjo")
+					t.FailNow()
 				}
 			}
 
@@ -79,10 +77,6 @@ func TestParser(t *testing.T) {
 
 			// Imprimir la salida del programa
 			rt.PrintOutput()
-
-			if !pass {
-				t.Fail()
-			}
 		})
 	}
 }

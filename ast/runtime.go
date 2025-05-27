@@ -16,16 +16,10 @@ type Runtime struct {
 // Contexto de ejecución que almacena el estado actual
 type StackFrame struct {
 	Id       string
-	Params   []Param
+	Params   []string
 	Local    *MemorySegment
 	Temp     *MemorySegment
 	ReturnIP int
-}
-
-// Define un parámetro de función
-type Param struct {
-	Address int
-	Value   string
 }
 
 func NewRuntime(ct *Compilation) *Runtime {
@@ -147,7 +141,7 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		// Crear un nuevo contexto de llamada
 		newFrame := &StackFrame{
 			Id:     funcNode.Id,
-			Params: make([]Param, len(funcNode.Params)),
+			Params: make([]string, len(funcNode.Params)),
 			Local: &MemorySegment{
 				Int:   []*VarNode{},
 				Float: []*VarNode{},
@@ -194,8 +188,7 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		frame := rt.ReservedFrame
 
 		// Pasar el parámetro al contexto de llamada
-		frame.Params[q.Result-1] = Param{Address: left.Address, Value: left.Value}
-		fmt.Printf("%s %d = %s %s %s\n", opsList[q.Operator], left.Address, left.Id, left.Value, left.Type) // DEBUG
+		frame.Params[q.Result-1] = left.Value
 		return ip, true, nil
 
 	case GOSUB:
@@ -205,20 +198,21 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		// Guardar la dirección de retorno
 		frame.ReturnIP = ip + 1
 
+		// Obtener la función desde el directorio
+		funcNode := rt.GetFunc(q.Left)
+
 		// Actualizar los valores locales con los parámetros pasados
-		for _, p := range frame.Params {
-			frameNode, err := GetByAddress(p.Address, frame)
+		for i, val := range frame.Params {
+			localNode, err := GetByAddress(funcNode.Params[i].Address, frame)
 			if err != nil {
 				return ip, true, err
 			}
-			frameNode.Value = p.Value
+			localNode.Value = val
+			fmt.Printf("PARAM %s = %s\n", localNode.Id, localNode.Value) // DEBUG
 		}
 
 		// Agregar el nuevo contexto de llamada a la pila
 		rt.PushFrame()
-
-		// Obtener la función desde el directorio
-		funcNode := rt.GetFunc(q.Left)
 
 		// Saltar al cuádruplo de inicio de la función
 		ip = funcNode.QuadStart - 1

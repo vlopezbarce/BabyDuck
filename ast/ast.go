@@ -99,14 +99,14 @@ func (n *ProgramNode) Generate(ct *Compilation) error {
 	// Crear variables dentro del ámbito global
 	for _, v := range n.Vars {
 		if _, err := DeclareVariable(v); err != nil {
-			return fmt.Errorf("error al declarar variable '%s': %v", v.Id, err)
+			return fmt.Errorf("error de compilación en '%s': %v", v.Id, err)
 		}
 	}
 
 	// Generar cuádruplos para las funciones
 	for _, funcNode := range n.Funcs {
 		if err := funcNode.Generate(ct); err != nil {
-			return fmt.Errorf("error al generar cuádruplos para '%s': %v", funcNode.Id, err)
+			return fmt.Errorf("error de compilación en '%s': %v", funcNode.Id, err)
 		}
 	}
 
@@ -116,7 +116,7 @@ func (n *ProgramNode) Generate(ct *Compilation) error {
 	// Generar cuádruplos para el cuerpo del programa
 	for _, stmt := range n.Body {
 		if err := stmt.Generate(ct); err != nil {
-			return fmt.Errorf("error al generar cuádruplos para '%s': %v", n.Id, err)
+			return fmt.Errorf("error de compilación en '%s': %v", n.Id, err)
 		}
 	}
 
@@ -324,6 +324,10 @@ func (n *ExpressionNode) Generate(ct *Compilation) error {
 	rightNode, err := GetByAddress(right, nil)
 	if err != nil {
 		return err
+	}
+
+	if n.Op == DIVIDE && rightNode.Value == "0" {
+		return fmt.Errorf("división por cero en la expresión")
 	}
 
 	// Verificar la compatibilidad de tipos
