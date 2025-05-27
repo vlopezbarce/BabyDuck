@@ -47,11 +47,11 @@ var productionsTable = ProdTab{
                 Body: body,
             }
 
-            // Crear contexto para todo el programa
-            ctx := &ast.Context{}
-            err := programNode.Generate(ctx)
+            // Crear contexto de compilación para todo el programa
+            ct := &ast.Compilation{}
+            err := programNode.Generate(ct)
 
-            return ctx, err
+            return ct, err
         }() >>`,
 		Id:         "Program",
 		NTType:     1,
@@ -72,11 +72,11 @@ var productionsTable = ProdTab{
                 Body: body,
             }
 
-            // Crear contexto para todo el programa
-            ctx := &ast.Context{}
-            err := programNode.Generate(ctx)
+            // Crear contexto de compilación para todo el programa
+            ct := &ast.Compilation{}
+            err := programNode.Generate(ct)
 
-            return ctx, err
+            return ct, err
         }()
 		},
 	},
@@ -228,7 +228,7 @@ var productionsTable = ProdTab{
             body := X[7].([]ast.Attrib)
 
             // Validar y registrar la función en el directorio
-            return ast.ValidateFunction(id, params, vars, body)
+            return ast.DeclareFunction(id, params, vars, body)
         }() >>`,
 		Id:         "FuncDeclaration",
 		NTType:     8,
@@ -242,7 +242,7 @@ var productionsTable = ProdTab{
             body := X[7].([]ast.Attrib)
 
             // Validar y registrar la función en el directorio
-            return ast.ValidateFunction(id, params, vars, body)
+            return ast.DeclareFunction(id, params, vars, body)
         }()
 		},
 	},

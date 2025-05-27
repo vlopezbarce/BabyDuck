@@ -2,11 +2,11 @@ package ast
 
 import "fmt"
 
-// Almacena el contexto de ejecución actual
-type Context struct {
-	SemStack  []int
-	Quads     []Quadruple
-	TempCount int
+// Almacena el contexto de compilación actual
+type Compilation struct {
+	OperandStack []int
+	Quads        []Quadruple
+	TempCount    int
 }
 
 // Representa una instrucción de código intermedio (cuádruplo)
@@ -17,30 +17,30 @@ type Quadruple struct {
 	Result   int
 }
 
-// Agrega un operando a la pila semántica
-func (ctx *Context) Push(addr int) {
-	ctx.SemStack = append(ctx.SemStack, addr)
+// Agrega un operando a la pila de operandos
+func (ct *Compilation) Push(addr int) {
+	ct.OperandStack = append(ct.OperandStack, addr)
 }
 
-// Saca el operando superior de la pila semántica
-func (ctx *Context) Pop() int {
-	if len(ctx.SemStack) == 0 {
+// Saca el operando superior de la pila de operandos
+func (ct *Compilation) Pop() int {
+	if len(ct.OperandStack) == 0 {
 		panic("pop en pila vacía")
 	}
-	addr := ctx.SemStack[len(ctx.SemStack)-1]
-	ctx.SemStack = ctx.SemStack[:len(ctx.SemStack)-1]
+	addr := ct.OperandStack[len(ct.OperandStack)-1]
+	ct.OperandStack = ct.OperandStack[:len(ct.OperandStack)-1]
 	return addr
 }
 
 // Genera un nombre de variable temporal nuevo
-func (ctx *Context) NewTemp() string {
-	ctx.TempCount++
-	return fmt.Sprintf("t%d", ctx.TempCount)
+func (ct *Compilation) NewTemp() string {
+	ct.TempCount++
+	return fmt.Sprintf("t%d", ct.TempCount)
 }
 
 // Agrega un nuevo cuádruplo a la lista
-func (ctx *Context) AddQuad(operator, left, right, result int) {
-	ctx.Quads = append(ctx.Quads, Quadruple{
+func (ct *Compilation) AddQuad(operator, left, right, result int) {
+	ct.Quads = append(ct.Quads, Quadruple{
 		Operator: operator,
 		Left:     left,
 		Right:    right,
@@ -49,9 +49,12 @@ func (ctx *Context) AddQuad(operator, left, right, result int) {
 }
 
 // Resetea el contexto para una nueva función
-func (ctx *Context) ClearLocalScope() {
+func (ct *Compilation) ClearLocalScope() {
+	// Restablecer el ámbito global
+	scope = global
+
 	// Restablecer el contador de cuádruplos
-	ctx.TempCount = 0
+	ct.TempCount = 0
 
 	// Limpiar la memoria local y temporal
 	memory.Local.Clear()
@@ -63,7 +66,7 @@ func (ctx *Context) ClearLocalScope() {
 }
 
 // Imprime todos los cuádruplos con sus índices
-func (ctx *Context) PrintQuads() {
+func (ct *Compilation) PrintQuads() {
 	fmt.Println()
 	fmt.Println("Cuádruplos generados:")
 	fmt.Println("===================================")
@@ -71,7 +74,7 @@ func (ctx *Context) PrintQuads() {
 	var left string
 	var right string
 	var result string
-	for i, q := range ctx.Quads {
+	for i, q := range ct.Quads {
 		// DEBUG
 		if q.Left == -1 {
 			left = "_"

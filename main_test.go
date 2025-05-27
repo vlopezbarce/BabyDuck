@@ -46,44 +46,39 @@ func TestParser(t *testing.T) {
 
 			pass := true
 
-			var errors []error
+			// Parsear y compilar el código fuente
+			ct, err := p.Parse(s)
 
-			// Parsear el código fuente (obtener el código intermedio generado)
-			ctx, err := p.Parse(s)
-			errors = append(errors, err)
-
-			// Ejecutar el programa con el código generado
-			runtime := ast.NewRuntime(ctx.(*ast.Context))
-			err = runtime.RunProgram()
-			errors = append(errors, err)
-
-			for _, err := range errors {
-				// Verificar si el análisis fue exitoso o falló según la expectativa
-				if err != nil {
-					// Si no se esperaba un error y se obtuvo uno, el caso falla
-					if ts.expect {
-						pass = false
-						t.Errorf("Error inesperado: %s", err.Error())
-						continue
-					} else {
-						// Si se esperaba un error y se obtuvo uno, el caso pasa
-						t.Log(err.Error())
-					}
+			// Verificar si el análisis fue exitoso o falló según la expectativa
+			if err != nil {
+				// Si no se esperaba un error y se obtuvo uno, el caso falla
+				if ts.expect {
+					pass = false
+					t.Errorf("Error inesperado: %s", err.Error())
 				} else {
-					if ts.expect {
-						// Si se esperaba éxito y no hubo error, el caso pasa
-						t.Log("Análisis exitoso")
-					} else {
-						// Si se esperaba un error y no hubo ninguno, el caso falla
-						pass = false
-						t.Errorf("Se esperaba un error, pero no se produjo")
-						continue
-					}
+					// Si se esperaba un error y se obtuvo uno, el caso pasa
+					t.Log(err.Error())
+				}
+			} else {
+				if ts.expect {
+					// Si se esperaba éxito y no hubo error, el caso pasa
+					t.Log("Análisis exitoso")
+				} else {
+					// Si se esperaba un error y no hubo ninguno, el caso falla
+					pass = false
+					t.Errorf("Se esperaba un error, pero no se produjo")
 				}
 			}
 
+			// Ejecutar el programa con el código generado
+			rt := ast.NewRuntime(ct.(*ast.Compilation))
+			err = rt.RunProgram()
+			if err != nil {
+				t.Fail()
+			}
+
 			// Imprimir la salida del programa
-			runtime.PrintOutput()
+			rt.PrintOutput()
 
 			if !pass {
 				t.Fail()

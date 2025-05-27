@@ -6,7 +6,7 @@ var funcDir = map[string]*FuncNode{} // Tabla de funciones registradas
 
 // Attrib es la interfaz general para todo tipo en el árbol AST
 type Attrib interface {
-	Generate(ctx *Context) error
+	Generate(ct *Compilation) error
 }
 
 // Nodo de programa

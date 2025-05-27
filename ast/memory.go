@@ -81,27 +81,6 @@ func NewMemory() {
 	}
 }
 
-// Actualiza un nuevo nodo en el segmento de memoria
-func Update(node *VarNode, frame *StackFrame) {
-	// Obtener el segmento de memoria al que pertenece la dirección
-	m, s := alloc.GetSegment(node.Address, frame)
-
-	switch node.Type {
-	case "int":
-		index := node.Address - s.Int.Start
-		m.Int[index] = node
-	case "float":
-		index := node.Address - s.Float.Start
-		m.Float[index] = node
-	case "bool":
-		index := node.Address - s.Bool.Start
-		m.Bool[index] = node
-	case "string":
-		index := node.Address - s.String.Start
-		m.String[index] = node
-	}
-}
-
 // Obtiene un nodo de memoria por dirección
 func GetByAddress(address int, frame *StackFrame) (*VarNode, error) {
 	// Obtener el segmento de memoria al que pertenece la dirección

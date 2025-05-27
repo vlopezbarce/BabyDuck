@@ -8,6 +8,7 @@ import (
 // Contexto de ejecución global
 type Runtime struct {
 	ExecutionStack []*StackFrame
+	ReservedFrame  *StackFrame
 	Quads          []Quadruple
 	Output         []string
 }
@@ -15,23 +16,31 @@ type Runtime struct {
 // Contexto de ejecución que almacena el estado actual
 type StackFrame struct {
 	Id       string
-	Params   []*VarNode
-	ReturnIP int
+	Params   []Param
 	Local    *MemorySegment
 	Temp     *MemorySegment
+	ReturnIP int
 }
 
-func NewRuntime(ctx *Context) *Runtime {
+// Define un parámetro de función
+type Param struct {
+	Address int
+	Value   string
+}
+
+func NewRuntime(ct *Compilation) *Runtime {
 	return &Runtime{
 		ExecutionStack: []*StackFrame{},
-		Quads:          ctx.Quads,
+		ReservedFrame:  nil,
+		Quads:          ct.Quads,
 		Output:         []string{},
 	}
 }
 
 // Agrega un nuevo contexto de llamada a la pila de ejecución
-func (rt *Runtime) PushFrame(frame *StackFrame) {
-	rt.ExecutionStack = append(rt.ExecutionStack, frame)
+func (rt *Runtime) PushFrame() {
+	rt.ExecutionStack = append(rt.ExecutionStack, rt.ReservedFrame)
+	rt.ReservedFrame = nil
 }
 
 // Saca el contexto de llamada superior de la pila de ejecución
@@ -82,8 +91,8 @@ func (rt *Runtime) handleControlFlow(q Quadruple, ip int) (int, bool, error) {
 		// Si la condición es falsa, saltar al cuádruplo indicado
 		if left.Value == "0" {
 			ip = q.Result - 1
+			fmt.Printf("%s %d\n", opsList[q.Operator], q.Result) // DEBUG
 		}
-		fmt.Printf("%s %d\n", opsList[q.Operator], q.Result) // DEBUG
 		return ip, true, nil
 	}
 
@@ -137,9 +146,8 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 
 		// Crear un nuevo contexto de llamada
 		newFrame := &StackFrame{
-			Id:       funcNode.Id,
-			Params:   make([]*VarNode, len(funcNode.Params)),
-			ReturnIP: -1,
+			Id:     funcNode.Id,
+			Params: make([]Param, len(funcNode.Params)),
 			Local: &MemorySegment{
 				Int:   []*VarNode{},
 				Float: []*VarNode{},
@@ -149,6 +157,7 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 				Float: []*VarNode{},
 				Bool:  []*VarNode{},
 			},
+			ReturnIP: -1,
 		}
 
 		// Recrear los parámetros y variables locales de la función
@@ -169,41 +178,47 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 			})
 		}
 
-		// Agregar el contexto de llamada a la pila
-		rt.PushFrame(newFrame)
+		// Reservar el espacio de memoria para el nuevo contexto
+		rt.ReservedFrame = newFrame
 		fmt.Printf("%s %s\n", opsList[q.Operator], funcNode.Id) // DEBUG
 		return ip, true, nil
 
 	case PARAM:
-		// Obtener el contexto de llamada actual
-		frame := rt.CurrentFrame()
-
-		// Obtener el operando izquierdo desde memoria
-		left, err := GetByAddress(q.Left, frame)
+		// Obtener el operando izquierdo desde la memoria actual
+		left, err := GetByAddress(q.Left, rt.CurrentFrame())
 		if err != nil {
 			return ip, true, err
 		}
 
-		// Asignar el valor del parámetro al frame actual
-		frame.Params[q.Result-1] = left
-		fmt.Printf("%s %s = %s\n", opsList[q.Operator], left.Id, left.Value) // DEBUG
+		// Obtener el espacio reservado para el nuevo contexto
+		frame := rt.ReservedFrame
+
+		// Pasar el parámetro al contexto de llamada
+		frame.Params[q.Result-1] = Param{Address: left.Address, Value: left.Value}
+		fmt.Printf("%s %d = %s %s %s\n", opsList[q.Operator], left.Address, left.Id, left.Value, left.Type) // DEBUG
 		return ip, true, nil
 
 	case GOSUB:
-		// Obtener el contexto de llamada actual
-		frame := rt.CurrentFrame()
+		// Obtener el espacio reservado para el nuevo contexto
+		frame := rt.ReservedFrame
 
 		// Guardar la dirección de retorno
 		frame.ReturnIP = ip + 1
 
+		// Actualizar los valores locales con los parámetros pasados
+		for _, p := range frame.Params {
+			frameNode, err := GetByAddress(p.Address, frame)
+			if err != nil {
+				return ip, true, err
+			}
+			frameNode.Value = p.Value
+		}
+
+		// Agregar el nuevo contexto de llamada a la pila
+		rt.PushFrame()
+
 		// Obtener la función desde el directorio
 		funcNode := rt.GetFunc(q.Left)
-
-		// Actualizar los valores de los parámetros
-		for i, p := range frame.Params {
-			funcNode.Params[i].Value = p.Value
-			Update(funcNode.Params[i], frame)
-		}
 
 		// Saltar al cuádruplo de inicio de la función
 		ip = funcNode.QuadStart - 1
@@ -249,7 +264,6 @@ func (rt *Runtime) handleAssign(q Quadruple) (bool, error) {
 
 		// Guardar el resultado en memoria
 		result.Value = left.Value
-		Update(result, frame)
 		fmt.Printf("%s %s %s (%s)\n", result.Id, opsList[q.Operator], result.Value, result.Type) // DEBUG
 		return true, nil
 	}
@@ -317,8 +331,9 @@ func (rt *Runtime) handleArithmetic(q Quadruple) error {
 	}
 
 	// Guardar el resultado en memoria
+	// fmt.Printf("result antes: %s %s %s\n", result.Id, result.Value, result.Type) // DEBUG
 	result.Value = stringValue
-	Update(result, frame)
+	// fmt.Printf("result despues: %s %s %s\n", result.Id, result.Value, result.Type) // DEBUG
 	fmt.Printf("%s %s %s -> %s (%s)\n", left.Value, opsList[q.Operator], right.Value, result.Value, result.Type) // DEBUG
 	return nil
 }
@@ -371,11 +386,11 @@ func (rt *Runtime) RunProgram() error {
 	return nil
 }
 
-func (runtime *Runtime) PrintOutput() {
+func (Runtime *Runtime) PrintOutput() {
 	fmt.Println()
 	fmt.Println("Salida del programa:")
 	fmt.Println("===================================")
-	for _, out := range runtime.Output {
+	for _, out := range Runtime.Output {
 		fmt.Print(out)
 	}
 }
