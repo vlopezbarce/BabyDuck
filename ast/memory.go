@@ -81,22 +81,11 @@ func NewMemory() {
 	}
 }
 
-// Inserta o actualiza un nuevo nodo en el segmento de memoria
-func (m *MemorySegment) Insert(node *VarNode) {
-	switch node.Type {
-	case "int":
-		m.Int = append(m.Int, node)
-	case "float":
-		m.Float = append(m.Float, node)
-	case "bool":
-		m.Bool = append(m.Bool, node)
-	case "string":
-		m.String = append(m.String, node)
-	}
-}
-
 // Actualiza un nuevo nodo en el segmento de memoria
-func (m *MemorySegment) Update(s Segment, node *VarNode) {
+func Update(node *VarNode, frame *StackFrame) {
+	// Obtener el segmento de memoria al que pertenece la dirección
+	m, s := alloc.GetSegment(node.Address, frame)
+
 	switch node.Type {
 	case "int":
 		index := node.Address - s.Int.Start
@@ -110,6 +99,45 @@ func (m *MemorySegment) Update(s Segment, node *VarNode) {
 	case "string":
 		index := node.Address - s.String.Start
 		m.String[index] = node
+	}
+}
+
+// Obtiene un nodo de memoria por dirección
+func GetByAddress(address int, frame *StackFrame) (*VarNode, error) {
+	// Obtener el segmento de memoria al que pertenece la dirección
+	m, s := alloc.GetSegment(address, frame)
+
+	// Buscar el nodo en el segmento de memoria
+	if address >= s.Int.Start && address <= s.Int.End {
+		index := address - s.Int.Start
+		return m.Int[index], nil
+	}
+	if address >= s.Float.Start && address <= s.Float.End {
+		index := address - s.Float.Start
+		return m.Float[index], nil
+	}
+	if s.Bool != nil && address >= s.Bool.Start && address <= s.Bool.End {
+		index := address - s.Bool.Start
+		return m.Bool[index], nil
+	}
+	if s.String != nil && address >= s.String.Start && address <= s.String.End {
+		index := address - s.String.Start
+		return m.String[index], nil
+	}
+	return nil, fmt.Errorf("variable con dirección %d no encontrada", address)
+}
+
+// Inserta un nuevo nodo en el segmento de memoria
+func (m *MemorySegment) Insert(node *VarNode) {
+	switch node.Type {
+	case "int":
+		m.Int = append(m.Int, node)
+	case "float":
+		m.Float = append(m.Float, node)
+	case "bool":
+		m.Bool = append(m.Bool, node)
+	case "string":
+		m.String = append(m.String, node)
 	}
 }
 
@@ -167,27 +195,6 @@ func (m *MemorySegment) FindConst(typ string, val string) (*VarNode, bool) {
 		}
 	}
 	return nil, false
-}
-
-// Busca una variable por su dirección en el segmento de memoria
-func (m *MemorySegment) FindByAddress(s Segment, address int) (*VarNode, error) {
-	if address >= s.Int.Start && address <= s.Int.End {
-		index := address - s.Int.Start
-		return m.Int[index], nil
-	}
-	if address >= s.Float.Start && address <= s.Float.End {
-		index := address - s.Float.Start
-		return m.Float[index], nil
-	}
-	if s.Bool != nil && address >= s.Bool.Start && address <= s.Bool.End {
-		index := address - s.Bool.Start
-		return m.Bool[index], nil
-	}
-	if s.String != nil && address >= s.String.Start && address <= s.String.End {
-		index := address - s.String.Start
-		return m.String[index], nil
-	}
-	return nil, fmt.Errorf("variable con dirección %d no encontrada", address)
 }
 
 // Obtiene todos los nodos de un segmento de memoria

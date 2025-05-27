@@ -18,22 +18,20 @@ var testData = []*TI{
 	{
 		src: `program patito;
 			
-			var i, impar: int;
-
-			void imprimir(n: int) [{
-				print(n);
+			void fib(n: int) [{
+				if (n < 2) {
+					print(n);
+				}
+				else {
+					fib(n - 1);
+					fib(n - 2);
+				};
 			}];
 
 			main {
-				i = 0;
-				impar = 1;
-
-				while (i < 5) do {
-					imprimir(impar);
-					impar = impar + 2;
-					i = i + 1;
-				};
-			} end`,
+				fib(5);
+			}
+			end`,
 		expect: true,
 	},
 }

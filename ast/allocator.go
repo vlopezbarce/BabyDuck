@@ -4,14 +4,14 @@ import "fmt"
 
 // Asignador de direcciones de memoria
 type Allocator struct {
-	Global Segment
-	Local  Segment
-	Const  Segment
-	Temp   Segment
+	Global AllocSegment
+	Local  AllocSegment
+	Const  AllocSegment
+	Temp   AllocSegment
 }
 
 // Segmentos de memoria para diferentes tipos de datos
-type Segment struct {
+type AllocSegment struct {
 	Int    *Range
 	Float  *Range
 	Bool   *Range
@@ -28,20 +28,20 @@ type Range struct {
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
-		Global: Segment{
+		Global: AllocSegment{
 			Int:   &Range{Start: 1000, End: 1999, Next: 1000},
 			Float: &Range{Start: 2000, End: 2999, Next: 2000},
 		},
-		Local: Segment{
+		Local: AllocSegment{
 			Int:   &Range{Start: 3000, End: 3999, Next: 3000},
 			Float: &Range{Start: 4000, End: 4999, Next: 4000},
 		},
-		Const: Segment{
+		Const: AllocSegment{
 			Int:    &Range{Start: 5000, End: 5999, Next: 5000},
 			Float:  &Range{Start: 6000, End: 6999, Next: 6000},
 			String: &Range{Start: 7000, End: 7999, Next: 7000},
 		},
-		Temp: Segment{
+		Temp: AllocSegment{
 			Int:   &Range{Start: 8000, End: 8499, Next: 8000},
 			Float: &Range{Start: 8500, End: 8999, Next: 8500},
 			Bool:  &Range{Start: 9000, End: 9499, Next: 9000},
@@ -50,7 +50,7 @@ func NewAllocator() {
 }
 
 // Reinicia contadores para un segmento
-func (s *Segment) Reset() {
+func (s *AllocSegment) Reset() {
 	s.Int.Next = s.Int.Start
 	s.Float.Next = s.Float.Start
 	if s.Bool != nil {
@@ -58,55 +58,39 @@ func (s *Segment) Reset() {
 	}
 }
 
-func (a *Allocator) GetByAddress(address int, runtime *Runtime) (*VarNode, error) {
-	// Obtener el segmento de memoria al que pertenece la dirección
-	memSegment, allocSegment := a.GetSegment(address, runtime)
-
-	// Buscar el nodo en el segmento de memoria
-	node, err := memSegment.FindByAddress(allocSegment, address)
-	if err != nil {
-		return nil, err
-	}
-	return node, err
-}
-
 // Obtiene el segmento de memoria al que pertenece una dirección
-func (a *Allocator) GetSegment(address int, runtime *Runtime) (*MemorySegment, Segment) {
-	var memSegment *MemorySegment
-	var allocSegment Segment
-
-	// Obtener el contexto actual (nil si es durante la compilación)
-	var frame *StackFrame
-	if runtime != nil {
-		frame = runtime.GetFrame()
-	}
+func (a *Allocator) GetSegment(address int, frame *StackFrame) (*MemorySegment, AllocSegment) {
+	var m *MemorySegment
+	var s AllocSegment
 
 	if address >= a.Global.Int.Start && address <= a.Global.Float.End {
-		allocSegment = alloc.Global
-		memSegment = memory.Global
+		s = alloc.Global
+		m = memory.Global
 	}
 	if address >= a.Const.Int.Start && address <= a.Const.String.End {
-		allocSegment = alloc.Const
-		memSegment = memory.Const
+		s = alloc.Const
+		m = memory.Const
 	}
 	if address >= a.Local.Int.Start && address <= a.Local.Float.End {
-		allocSegment = alloc.Local
+		s = alloc.Local
+		// Verifica el contexto actual (nil si es durante la compilación)
 		if frame != nil {
-			memSegment = frame.Local
+			m = frame.Local
 		} else {
-			memSegment = memory.Local
+			m = memory.Local
 		}
 	}
 	if address >= a.Temp.Int.Start && address <= a.Temp.Bool.End {
-		allocSegment = alloc.Temp
+		s = alloc.Temp
+		// Verifica el contexto actual (nil si es durante la compilación)
 		if frame != nil {
-			memSegment = frame.Temp
+			m = frame.Temp
 		} else {
-			memSegment = memory.Temp
+			m = memory.Temp
 		}
 	}
 
-	return memSegment, allocSegment
+	return m, s
 }
 
 // Global

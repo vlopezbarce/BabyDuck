@@ -330,11 +330,11 @@ func (n *ExpressionNode) Generate(ctx *Context) error {
 	left := ctx.Pop()
 
 	// Obtener los nodos de memoria correspondientes
-	leftNode, err := alloc.GetByAddress(left, nil)
+	leftNode, err := GetByAddress(left, nil)
 	if err != nil {
 		return err
 	}
-	rightNode, err := alloc.GetByAddress(right, nil)
+	rightNode, err := GetByAddress(right, nil)
 	if err != nil {
 		return err
 	}
@@ -381,7 +381,7 @@ func (n *IfNode) Generate(ctx *Context) error {
 	result := ctx.Pop()
 
 	// Buscar el tipo del resultado de la condición
-	resultNode, _ := alloc.GetByAddress(result, nil)
+	resultNode, _ := GetByAddress(result, nil)
 	if resultNode.Type != "bool" {
 		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
 	}
@@ -428,7 +428,7 @@ func (n *WhileNode) Generate(ctx *Context) error {
 	result := ctx.Pop()
 
 	// Buscar el tipo del resultado de la condición
-	resultNode, _ := alloc.GetByAddress(result, nil)
+	resultNode, _ := GetByAddress(result, nil)
 	if resultNode.Type != "bool" {
 		return fmt.Errorf("tipo incompatible en condición if: se esperaba bool, se obtuvo %s", resultNode.Type)
 	}
@@ -476,7 +476,7 @@ func (n *FCallNode) Generate(ctx *Context) error {
 		result := ctx.Pop()
 
 		// Verificar el tipo del parámetro
-		resultNode, _ := alloc.GetByAddress(result, nil)
+		resultNode, _ := GetByAddress(result, nil)
 		if resultNode.Type != funcNode.Params[i].Type {
 			return fmt.Errorf("tipo de parámetro incorrecto en la función '%s': se esperaba %s, se recibió %s", n.Id, funcNode.Params[i].Type, resultNode.Type)
 		}
