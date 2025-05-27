@@ -44,185 +44,194 @@ var opsList = []string{
 
 // Memoria de direcciones virtuales
 type Memory struct {
-	Global *SymbolTree
-	Local  *SymbolTree
-	Const  *SymbolTree
-	Temp   *SymbolTree
+	Global *MemorySegment
+	Local  *MemorySegment
+	Const  *MemorySegment
+	Temp   *MemorySegment
 }
 
-// Estructura del árbol de símbolos
-type SymbolTree struct {
-	Root *VarNode
+// Segmentos de memoria apartados
+type MemorySegment struct {
+	Int    []*VarNode
+	Float  []*VarNode
+	Bool   []*VarNode
+	String []*VarNode
 }
 
 func NewMemory() {
 	memory = &Memory{
-		Global: &SymbolTree{Root: nil},
-		Local:  &SymbolTree{Root: nil},
-		Const:  &SymbolTree{Root: nil},
-		Temp:   &SymbolTree{Root: nil},
+		Global: &MemorySegment{
+			Int:   []*VarNode{},
+			Float: []*VarNode{},
+		},
+		Local: &MemorySegment{
+			Int:   []*VarNode{},
+			Float: []*VarNode{},
+		},
+		Const: &MemorySegment{
+			Int:    []*VarNode{},
+			Float:  []*VarNode{},
+			String: []*VarNode{},
+		},
+		Temp: &MemorySegment{
+			Int:   []*VarNode{},
+			Float: []*VarNode{},
+			Bool:  []*VarNode{},
+		},
 	}
 }
 
-// Inserta un nuevo nodo en el árbol de símbolos
-func (tree *SymbolTree) Insert(newNode *VarNode) {
-	tree.Root = insertNode(tree.Root, newNode)
-}
-
-// Función auxiliar para insertar un nuevo nodo
-func insertNode(currNode, newNode *VarNode) *VarNode {
-	if currNode == nil {
-		return newNode
-	}
-	if newNode.Address < currNode.Address {
-		currNode.Left = insertNode(currNode.Left, newNode)
-	} else {
-		currNode.Right = insertNode(currNode.Right, newNode)
-	}
-	return currNode
-}
-
-// Actualiza un nodo existente en el árbol de símbolos
-func (tree *SymbolTree) Update(newNode *VarNode) {
-	updateNode(tree.Root, newNode)
-}
-
-// Función auxiliar para actualizar un nodo
-func updateNode(currNode, newNode *VarNode) error {
-	if currNode == nil {
-		return nil
-	}
-	if currNode.Address == newNode.Address {
-		currNode.Value = newNode.Value
-		return nil
-	}
-	if newNode.Address < currNode.Address {
-		return updateNode(currNode.Left, newNode)
-	}
-	return updateNode(currNode.Right, newNode)
-}
-
-// Busca una variable por su ID en el árbol de símbolos
-func (tree *SymbolTree) FindByName(id string) (*VarNode, bool) {
-	return findByName(tree.Root, id)
-}
-
-// Función auxiliar para buscar una variable por su ID
-func findByName(node *VarNode, id string) (*VarNode, bool) {
-	if node == nil {
-		return nil, false
-	}
-	if node.Id == id {
-		return node, true
-	}
-
-	// Revisar subárbol izquierdo
-	if leftNode, found := findByName(node.Left, id); found {
-		return leftNode, true
-	}
-
-	// Revisar subárbol derecho
-	return findByName(node.Right, id)
-}
-
-// Busca una constante por tipo y valor en el árbol de constantes
-func (tree *SymbolTree) FindConst(typ string, val string) (*VarNode, bool) {
-	return findConst(tree.Root, typ, val)
-}
-
-// Función auxiliar para buscar una constante
-func findConst(node *VarNode, typ string, val string) (*VarNode, bool) {
-	if node == nil {
-		return nil, false
-	}
-
-	// Compara tipo y valor
-	if node.Type == typ && node.Value == val {
-		return node, true
-	}
-
-	// Revisar subárbol izquierdo
-	if leftNode, found := findConst(node.Left, typ, val); found {
-		return leftNode, true
-	}
-
-	return findConst(node.Right, typ, val)
-}
-
-// Busca una variable por su dirección en el árbol de símbolos
-func (tree *SymbolTree) FindByAddress(address int) (*VarNode, bool) {
-	return findByAddress(tree.Root, address)
-}
-
-// Función auxiliar para buscar una variable por su dirección
-func findByAddress(node *VarNode, address int) (*VarNode, bool) {
-	if node == nil {
-		return nil, false
-	}
-	if node.Address == address {
-		return node, true
-	}
-	if address < node.Address {
-		return findByAddress(node.Left, address)
-	} else {
-		return findByAddress(node.Right, address)
+// Inserta o actualiza un nuevo nodo en el segmento de memoria
+func (m *MemorySegment) Insert(node *VarNode) {
+	switch node.Type {
+	case "int":
+		m.Int = append(m.Int, node)
+	case "float":
+		m.Float = append(m.Float, node)
+	case "bool":
+		m.Bool = append(m.Bool, node)
+	case "string":
+		m.String = append(m.String, node)
 	}
 }
 
-// Obtiene todos los nodos del árbol de símbolos
-func (tree *SymbolTree) GetAll() []*VarNode {
-	return getAll(tree.Root)
+// Actualiza un nuevo nodo en el segmento de memoria
+func (m *MemorySegment) Update(s Segment, node *VarNode) {
+	switch node.Type {
+	case "int":
+		index := node.Address - s.Int.Start
+		m.Int[index] = node
+	case "float":
+		index := node.Address - s.Float.Start
+		m.Float[index] = node
+	case "bool":
+		index := node.Address - s.Bool.Start
+		m.Bool[index] = node
+	case "string":
+		index := node.Address - s.String.Start
+		m.String[index] = node
+	}
 }
 
-// Función auxiliar para obtener todos los nodos
-func getAll(node *VarNode) []*VarNode {
-	if node == nil {
-		return nil
+// Busca una variable por su ID en el segmento de memoria
+func (m *MemorySegment) FindByName(id string) (*VarNode, bool) {
+	for _, node := range m.Int {
+		if node.Id == id {
+			return node, true
+		}
 	}
-	result := []*VarNode{node}
-	result = append(result, getAll(node.Left)...)
-	result = append(result, getAll(node.Right)...)
+	for _, node := range m.Float {
+		if node.Id == id {
+			return node, true
+		}
+	}
+	for _, node := range m.Bool {
+		if node.Id == id {
+			return node, true
+		}
+	}
+	for _, node := range m.String {
+		if node.Id == id {
+			return node, true
+		}
+	}
+	return nil, false
+}
+
+// Busca una constante por tipo y valor en el segmento de memoria
+func (m *MemorySegment) FindConst(typ string, val string) (*VarNode, bool) {
+	switch typ {
+	case "int":
+		for _, node := range m.Int {
+			if node.Value == val {
+				return node, true
+			}
+		}
+	case "float":
+		for _, node := range m.Float {
+			if node.Value == val {
+				return node, true
+			}
+		}
+	case "bool":
+		for _, node := range m.Bool {
+			if node.Value == val {
+				return node, true
+			}
+		}
+	case "string":
+		for _, node := range m.String {
+			if node.Value == val {
+				return node, true
+			}
+		}
+	}
+	return nil, false
+}
+
+// Busca una variable por su dirección en el segmento de memoria
+func (m *MemorySegment) FindByAddress(s Segment, address int) (*VarNode, error) {
+	if address >= s.Int.Start && address <= s.Int.End {
+		index := address - s.Int.Start
+		return m.Int[index], nil
+	}
+	if address >= s.Float.Start && address <= s.Float.End {
+		index := address - s.Float.Start
+		return m.Float[index], nil
+	}
+	if s.Bool != nil && address >= s.Bool.Start && address <= s.Bool.End {
+		index := address - s.Bool.Start
+		return m.Bool[index], nil
+	}
+	if s.String != nil && address >= s.String.Start && address <= s.String.End {
+		index := address - s.String.Start
+		return m.String[index], nil
+	}
+	return nil, fmt.Errorf("variable con dirección %d no encontrada", address)
+}
+
+// Obtiene todos los nodos de un segmento de memoria
+func (m *MemorySegment) GetAll() []*VarNode {
+	var result []*VarNode
+	result = append(result, m.Int...)
+	result = append(result, m.Float...)
+	result = append(result, m.Bool...)
+	result = append(result, m.String...)
 	return result
 }
 
-// Limpia los valores en un árbol de símbolos dentro de un rango
-func (tree *SymbolTree) Clear() {
-	tree.Root = nil
+// Limpia un segmento de memoria
+func (m *MemorySegment) Clear() {
+	m.Int = []*VarNode{}
+	m.Float = []*VarNode{}
+	m.Bool = []*VarNode{}
+	m.String = []*VarNode{}
 }
 
-// Imprime el árbol de símbolos
-func (tree *SymbolTree) Print() {
-	printNode(tree.Root)
-}
+// Imprime el segmento de memoria
+func (m *MemorySegment) Print() {
+	for _, node := range append(m.Int, append(m.Float, append(m.Bool, m.String...)...)...) {
+		var nodeId string
+		if node.Id != "" {
+			nodeId = fmt.Sprintf("  ID: %s", node.Id)
+		} else {
+			nodeId = ""
+		}
 
-// Función auxiliar para imprimir el árbol de símbolos
-func printNode(node *VarNode) {
-	if node == nil {
-		return
+		var nodeType string
+		if node.Type != "" {
+			nodeType = fmt.Sprintf("  TYPE: %s", node.Type)
+		} else {
+			nodeType = ""
+		}
+
+		var nodeValue string
+		if node.Value != "" {
+			nodeValue = fmt.Sprintf("  VALUE: %s", node.Value)
+		} else {
+			nodeValue = ""
+		}
+
+		fmt.Printf("ADDR: %d%s%s%s\n", node.Address, nodeId, nodeType, nodeValue)
 	}
-	printNode(node.Left)
-
-	var nodeId string
-	if node.Id != "" {
-		nodeId = fmt.Sprintf("  ID: %s", node.Id)
-	} else {
-		nodeId = ""
-	}
-
-	var nodeType string
-	if node.Type != "" {
-		nodeType = fmt.Sprintf("  TYPE: %s", node.Type)
-	} else {
-		nodeType = ""
-	}
-
-	var nodeValue string
-	if node.Value != "" {
-		nodeValue = fmt.Sprintf("  VALUE: %s", node.Value)
-	} else {
-		nodeValue = ""
-	}
-
-	fmt.Printf("ADDR: %d%s%s%s\n", node.Address, nodeId, nodeType, nodeValue)
-	printNode(node.Right)
 }

@@ -76,69 +76,18 @@ func (ctx *Context) PrintQuads() {
 		if q.Left == -1 {
 			left = "_"
 		} else {
-			lNode, err := GetCompileTimeVar(q.Left)
-			if err != nil {
-				left = fmt.Sprintf("%d", q.Left)
-			} else if lNode.Id == "" {
-				left = lNode.Value
-			} else {
-				left = lNode.Id
-			}
+			left = fmt.Sprintf("%d", q.Left)
 		}
 		if q.Right == -1 {
 			right = "_"
 		} else {
-			rNode, err := GetCompileTimeVar(q.Right)
-			if err != nil {
-				right = fmt.Sprintf("%d", q.Right)
-			} else if rNode.Id == "" {
-				right = rNode.Value
-			} else {
-				right = rNode.Id
-			}
+			right = fmt.Sprintf("%d", q.Right)
 		}
 		if q.Result == -1 {
 			result = "_"
 		} else {
-			resNode, err := GetCompileTimeVar(q.Result)
-			if err != nil {
-				result = fmt.Sprintf("%d", q.Result)
-			} else if resNode.Id == "" {
-				result = resNode.Value
-			} else {
-				result = resNode.Id
-			}
+			result = fmt.Sprintf("%d", q.Result)
 		}
 		fmt.Printf("%d: (%s, %s, %s, %s)\n", i, opsList[q.Operator], left, right, result)
 	}
-}
-
-// Obtiene una variable de tiempo de compilación por su dirección
-func GetCompileTimeVar(a int) (*VarNode, error) {
-	// Globales
-	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
-		if node, found := memory.Global.FindByAddress(a); found {
-			return node, nil
-		}
-	}
-	// Locales
-	if a >= alloc.Local.Int.Start && a <= alloc.Local.Float.End {
-		if node, found := memory.Local.FindByAddress(a); found {
-			return node, nil
-		}
-	}
-	// Constantes
-	if a >= alloc.Const.Int.Start && a <= alloc.Const.String.End {
-		if node, found := memory.Const.FindByAddress(a); found {
-			return node, nil
-		}
-	}
-	// Temporales
-	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
-		if node, found := memory.Temp.FindByAddress(a); found {
-			return node, nil
-		}
-	}
-
-	return nil, fmt.Errorf("dirección '%d' no encontrada", a)
 }

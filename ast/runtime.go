@@ -17,8 +17,8 @@ type StackFrame struct {
 	Id       string
 	Params   []*VarNode
 	ReturnIP int
-	Local    *SymbolTree
-	Temp     *SymbolTree
+	Local    *MemorySegment
+	Temp     *MemorySegment
 }
 
 func NewRuntime(ctx *Context) *Runtime {
@@ -47,7 +47,7 @@ func (r *Runtime) Pop() *StackFrame {
 // Obtiene el contexto de llamada superior de la pila de ejecución
 func (r *Runtime) GetFrame() *StackFrame {
 	if len(r.ExecutionStack) == 0 {
-		panic("get en pila vacía")
+		return nil
 	}
 	frame := r.ExecutionStack[len(r.ExecutionStack)-1]
 	return frame
@@ -61,92 +61,6 @@ func (runtime *Runtime) GetFunc(quadStart int) *FuncNode {
 		}
 	}
 	return &FuncNode{}
-}
-
-// Obtiene una variable de tiempo de ejecución por su dirección
-func (runtime *Runtime) GetRuntimeVar(a int) (*VarNode, error) {
-	// Obtiene el contexto actual
-	var frame *StackFrame
-	if len(runtime.ExecutionStack) > 0 {
-		frame = runtime.GetFrame()
-	}
-
-	// Globales
-	if a >= alloc.Global.Int.Start && a <= alloc.Global.Float.End {
-		if node, found := memory.Global.FindByAddress(a); found {
-			return node, nil
-		}
-	}
-	// Constantes
-	if a >= alloc.Const.Int.Start && a <= alloc.Const.String.End {
-		if node, found := memory.Const.FindByAddress(a); found {
-			return node, nil
-		}
-	}
-	// Locales
-	if a >= alloc.Local.Int.Start && a <= alloc.Local.Float.End {
-		// Si existe un contexto actual, buscar en su espacio local
-		if frame != nil {
-			if node, found := frame.Local.FindByAddress(a); found {
-				return node, nil
-			}
-		} else {
-			if node, found := memory.Local.FindByAddress(a); found {
-				return node, nil
-			}
-		}
-	}
-	// Temporales
-	if a >= alloc.Temp.Int.Start && a <= alloc.Temp.Bool.End {
-		// Si existe un contexto actual, buscar en su espacio temporal
-		if frame != nil {
-			if node, found := frame.Temp.FindByAddress(a); found {
-				return node, nil
-			}
-		} else {
-			if node, found := memory.Temp.FindByAddress(a); found {
-				return node, nil
-			}
-		}
-	}
-
-	return nil, fmt.Errorf("dirección '%d' no encontrada", a)
-}
-
-// Actualiza una variable de tiempo de ejecución por su dirección
-func (runtime *Runtime) UpdateRuntimeVar(node *VarNode) (*VarNode, error) {
-	// Obtiene el contexto actual
-	var frame *StackFrame
-	if len(runtime.ExecutionStack) > 0 {
-		frame = runtime.GetFrame()
-	}
-
-	// Globales
-	if node.Address >= alloc.Global.Int.Start && node.Address <= alloc.Global.Float.End {
-		memory.Global.Update(node)
-	}
-	// Constantes
-	if node.Address >= alloc.Const.Int.Start && node.Address <= alloc.Const.String.End {
-		memory.Const.Update(node)
-	}
-	// Locales
-	if node.Address >= alloc.Local.Int.Start && node.Address <= alloc.Local.Float.End {
-		if frame != nil {
-			frame.Local.Update(node)
-		} else {
-			memory.Local.Update(node)
-		}
-	}
-	// Temporales
-	if node.Address >= alloc.Temp.Int.Start && node.Address <= alloc.Temp.Bool.End {
-		if frame != nil {
-			frame.Temp.Update(node)
-		} else {
-			memory.Temp.Update(node)
-		}
-	}
-
-	return nil, fmt.Errorf("dirección '%d' no encontrada", node.Address)
 }
 
 // Convierte el valor a tipo float64
@@ -187,7 +101,8 @@ func (runtime *Runtime) RunProgram() error {
 			continue
 		case GOTOF:
 			// Obtener el resultado de la condición desde la memoria de temporales
-			node, _ := runtime.GetRuntimeVar(q.Left)
+			memSegment, allocSegment := alloc.GetSegment(q.Left, runtime)
+			node, _ := memSegment.FindByAddress(allocSegment, q.Left)
 
 			// Si la condición es falsa, saltar al cuádruplo indicado
 			if node.Value == "0" {
@@ -210,8 +125,15 @@ func (runtime *Runtime) RunProgram() error {
 				Id:       funcNode.Id,
 				Params:   make([]*VarNode, len(funcNode.Params)),
 				ReturnIP: -1,
-				Local:    &SymbolTree{Root: nil},
-				Temp:     &SymbolTree{Root: nil},
+				Local: &MemorySegment{
+					Int:   []*VarNode{},
+					Float: []*VarNode{},
+				},
+				Temp: &MemorySegment{
+					Int:   []*VarNode{},
+					Float: []*VarNode{},
+					Bool:  []*VarNode{},
+				},
 			}
 
 			// Recrear los parámetros y variables locales de la función
@@ -250,7 +172,7 @@ func (runtime *Runtime) RunProgram() error {
 			// Actualizar los valores de los parámetros
 			for i, p := range frame.Params {
 				funcNode.Params[i].Value = p.Value
-				frame.Local.Update(funcNode.Params[i])
+				frame.Local.Update(alloc.Local, funcNode.Params[i])
 			}
 
 			// Saltar al cuádruplo de inicio de la función
@@ -268,7 +190,7 @@ func (runtime *Runtime) RunProgram() error {
 		}
 
 		// Obtener el operando izquierdo desde memoria
-		left, err := runtime.GetRuntimeVar(q.Left)
+		left, err := alloc.GetByAddress(q.Left, runtime)
 		if err != nil {
 			return err
 		}
@@ -302,7 +224,8 @@ func (runtime *Runtime) RunProgram() error {
 		}
 
 		// Obtener el nodo de resultado desde memoria
-		result, err := runtime.GetRuntimeVar(q.Result)
+		memSegment, allocSegment := alloc.GetSegment(q.Result, runtime)
+		result, err := memSegment.FindByAddress(allocSegment, q.Result)
 		if err != nil {
 			return err
 		}
@@ -317,7 +240,7 @@ func (runtime *Runtime) RunProgram() error {
 			result.Value = left.Value
 
 			// Guardar el resultado en memoria
-			runtime.UpdateRuntimeVar(result)
+			memSegment.Update(allocSegment, result)
 
 			fmt.Printf("%s %s %s (%s)\n", result.Id, opsList[q.Operator], result.Value, result.Type)
 
@@ -325,7 +248,7 @@ func (runtime *Runtime) RunProgram() error {
 		}
 
 		// Obtener el operando derecho desde memoria
-		right, err := runtime.GetRuntimeVar(q.Right)
+		right, err := alloc.GetByAddress(q.Right, runtime)
 		if err != nil {
 			return err
 		}
@@ -371,7 +294,7 @@ func (runtime *Runtime) RunProgram() error {
 		result.Value = stringValue
 
 		// Guardar el resultado en memoria
-		memory.Temp.Update(result)
+		memSegment.Update(allocSegment, result)
 
 		// Debug
 		fmt.Printf("%s %s %s -> %s (%s)\n", left.Value, opsList[q.Operator], right.Value, result.Value, result.Type)
