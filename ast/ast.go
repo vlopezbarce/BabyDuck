@@ -83,9 +83,7 @@ func (n *ProgramNode) Generate(ct *Compilation) error {
 
 	// Registrar el programa en el directorio de funciones
 	funcDir[n.Id] = &FuncNode{
-		Id:   n.Id,
-		Vars: n.Vars,
-		Body: n.Body,
+		Id: n.Id,
 	}
 
 	// Verificar si hay variables duplicadas

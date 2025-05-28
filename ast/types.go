@@ -33,8 +33,6 @@ type VarNode struct {
 	Id      string
 	Type    string
 	Value   string
-	Left    *VarNode
-	Right   *VarNode
 }
 
 // Nodo de asignación
