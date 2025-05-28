@@ -1,0 +1,24 @@
+program condFail;
+
+var x: int;
+
+main {
+    x = 1;
+
+    if ("hello") {
+        print("Esto no debe compilar");
+    };
+
+    while (5) do {
+        print("Tampoco debe ejecutarse");
+    };
+
+    else {
+        print("Error de sintaxis");
+    };
+
+    if (x = 5) {
+        print("Esto es un error semántico");
+    };
+}
+end

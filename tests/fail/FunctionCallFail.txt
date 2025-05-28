@@ -1,0 +1,21 @@
+program funcFail;
+
+var x: int;
+
+void recurse(a: int) [{
+    var a: int;
+    recurse();
+}];
+
+void changeValue(y: int) [{
+    z = y + 1;
+}];
+
+main {
+    x = 3;
+    recurse(x);
+    changeValue();
+    result = 10;
+}
+
+end

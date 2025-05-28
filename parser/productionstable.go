@@ -47,11 +47,7 @@ var productionsTable = ProdTab{
                 Body: body,
             }
 
-            // Crear contexto de compilación para todo el programa
-            ct := &ast.Compilation{}
-            err := programNode.Generate(ct)
-
-            return ct, err
+            return programNode, nil
         }() >>`,
 		Id:         "Program",
 		NTType:     1,
@@ -72,11 +68,7 @@ var productionsTable = ProdTab{
                 Body: body,
             }
 
-            // Crear contexto de compilación para todo el programa
-            ct := &ast.Compilation{}
-            err := programNode.Generate(ct)
-
-            return ct, err
+            return programNode, nil
         }()
 		},
 	},

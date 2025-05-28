@@ -1,0 +1,21 @@
+program exprPass;
+
+var
+    a, b: int;
+    c, result: float;
+
+main {
+    a = 10;
+    b = 5;
+    c = 2.5;
+
+    result = a + (b - 2) * c / a * (b + 5);
+    print(result);
+
+    print(((a * b) / (c + 3)) + 5 * -b < a);
+
+    print("Resultado completo");
+    print(a > b, (a != 10) != (a != 5), a < b);
+}
+
+end

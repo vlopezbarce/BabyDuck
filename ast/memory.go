@@ -186,6 +186,11 @@ func (m *MemorySegment) GetAll() []*VarNode {
 	return result
 }
 
+// Obtiene el tamaño del segmento de memoria
+func (m *MemorySegment) Size() int {
+	return len(m.Int) + len(m.Float) + len(m.Bool) + len(m.String)
+}
+
 // Limpia un segmento de memoria
 func (m *MemorySegment) Clear() {
 	m.Int = []*VarNode{}

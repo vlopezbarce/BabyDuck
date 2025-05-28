@@ -1,0 +1,27 @@
+program semanticPass;
+
+var
+    globalA, globalB: int;
+    result: int;
+
+void addAndPrint(x: int, y: int) [
+    var sum: int;
+    {
+        sum = x + y;
+        print("La suma es:", sum);
+    }
+];
+
+main {
+    globalA = 2;
+    globalB = 3;
+
+    addAndPrint(globalA, globalB);
+    
+    result = globalA * globalB;
+    print("La multiplicacion es:", result);
+
+    print("Todo bien semanticamente");
+}
+
+end

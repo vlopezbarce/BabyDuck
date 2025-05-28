@@ -84,11 +84,7 @@ Program
                 Body: body,
             }
 
-            // Crear contexto de compilación para todo el programa
-            ct := &ast.Compilation{}
-            err := programNode.Generate(ct)
-
-            return ct, err
+            return programNode, nil
         }()
     >>
     ;

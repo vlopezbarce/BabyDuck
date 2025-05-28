@@ -1,0 +1,11 @@
+program lexicalFail;
+
+var
+    9x: int;
+    str@ : string;
+
+main {
+    print("Esto no debería compilarse.");
+}
+
+end

@@ -1,0 +1,19 @@
+program syntaxFail;
+
+var
+    num: int;
+    message: string;
+
+void sayHi(count: int) [{
+    print("Hi!")
+}];
+
+main {
+    var isTrue: bool;
+    
+    message = "Hi";
+    isTrue = 1;
+    sayHi(3);
+}
+
+end

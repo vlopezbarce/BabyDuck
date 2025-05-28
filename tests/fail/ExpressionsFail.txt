@@ -1,0 +1,14 @@
+program exprFail;
+
+var a, b: int;
+
+main {
+    a = 10;
+    b = 5;
+
+    print(5 < a < 20)
+    print(10 / 0);
+    print(a + "string");
+}
+
+end

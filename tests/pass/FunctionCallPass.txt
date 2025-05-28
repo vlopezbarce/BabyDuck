@@ -1,0 +1,31 @@
+program funcPass;
+
+var n, result: int;
+
+void factorial(x: int) [
+    var temp: int;
+    {
+        if (x < 1) {
+            if (x > -1) {
+                result = 1;
+            };
+        } else {
+            n = x - 1;
+            factorial(n);
+            result = result * x;
+        };
+    }
+];
+
+void printFactorial() [{
+    print("El factorial es:", result);
+}];
+
+main {
+    n = 5;
+    result = 1;
+    factorial(n);
+    printFactorial();
+}
+
+end

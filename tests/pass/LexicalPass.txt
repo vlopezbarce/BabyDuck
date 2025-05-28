@@ -1,0 +1,11 @@
+program lexicalPass;
+
+var a, b: int;
+
+main {
+    a = 10;
+    b = a + 5;
+    print("Lexico correcto");
+}
+
+end

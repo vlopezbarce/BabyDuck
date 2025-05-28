@@ -1,0 +1,21 @@
+program semanticFail;
+
+var
+    x: int;
+    x: float;
+
+void process(n: int) [{
+    print(n);
+}];
+
+void process(x: int) [{
+    print(x);
+}];
+
+main {
+    y = 5;
+    process();
+    nonExistentFunc();
+}
+
+end

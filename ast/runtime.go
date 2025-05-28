@@ -124,7 +124,8 @@ func (rt *Runtime) handleIO(q Quadruple) (bool, error) {
 			rt.Output = append(rt.Output, left.Value[1:len(left.Value)-1])
 		}
 
-		fmt.Printf("%s\n", opsList[q.Operator]) // DEBUG
+		fmt.Printf("%s %s\n", opsList[q.Operator], rt.Output[len(rt.Output)-1]) // DEBUG
+		rt.Output = append(rt.Output, " ")
 		return true, nil
 	}
 
@@ -311,7 +312,7 @@ func (rt *Runtime) handleArithmetic(q Quadruple) error {
 		boolResult := valToFloat(lVal, lTyp) < valToFloat(rVal, rTyp)
 		floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
 	case NEQ:
-		boolResult := valToFloat(lVal, lTyp) < valToFloat(rVal, rTyp)
+		boolResult := valToFloat(lVal, lTyp) != valToFloat(rVal, rTyp)
 		floatResult = valToFloat(fmt.Sprintf("%t", boolResult), "bool")
 	}
 
@@ -325,9 +326,7 @@ func (rt *Runtime) handleArithmetic(q Quadruple) error {
 	}
 
 	// Guardar el resultado en memoria
-	// fmt.Printf("result antes: %s %s %s\n", result.Id, result.Value, result.Type) // DEBUG
 	result.Value = stringValue
-	// fmt.Printf("result despues: %s %s %s\n", result.Id, result.Value, result.Type) // DEBUG
 	fmt.Printf("%s %s %s -> %s (%s)\n", left.Value, opsList[q.Operator], right.Value, result.Value, result.Type) // DEBUG
 	return nil
 }
@@ -377,7 +376,19 @@ func (rt *Runtime) RunProgram() error {
 			return err
 		}
 	}
+	rt.Clear()
 	return nil
+}
+
+// Limpia el contexto de ejecución y la memoria
+func (rt *Runtime) Clear() {
+	NewMemory()
+	alloc = &Allocator{}
+	rt.ExecutionStack = nil
+	rt.ReservedFrame = nil
+	for k := range funcDir {
+		delete(funcDir, k)
+	}
 }
 
 func (Runtime *Runtime) PrintOutput() {
@@ -387,6 +398,7 @@ func (Runtime *Runtime) PrintOutput() {
 	for _, out := range Runtime.Output {
 		fmt.Print(out)
 	}
+	fmt.Println()
 }
 
 // Convierte el valor a tipo float64

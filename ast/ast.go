@@ -125,23 +125,26 @@ func (n *ProgramNode) Generate(ct *Compilation) error {
 	fmt.Printf("Programa: %s\n", n.Id)
 	fmt.Println("===================================")
 
-	fmt.Println("Globales:")
-	memory.Global.Print()
-	fmt.Println("===================================")
-
-	fmt.Println("Temporales:")
-	memory.Temp.Print()
-	fmt.Println("===================================")
-
-	fmt.Println("Constantes:")
-	memory.Const.Print()
-	fmt.Println("===================================")
-
-	fmt.Println("Operadores:")
-	for op, name := range opsList {
-		fmt.Printf("ADDR: %d, ID: %s\n", op, name)
+	if memory.Global.Size() > 0 {
+		fmt.Println()
+		fmt.Println("Globales:")
+		fmt.Println("===================================")
+		memory.Global.Print()
 	}
-	fmt.Println("===================================")
+
+	if memory.Const.Size() > 0 {
+		fmt.Println()
+		fmt.Println("Constantes:")
+		fmt.Println("===================================")
+		memory.Const.Print()
+	}
+
+	if memory.Temp.Size() > 0 {
+		fmt.Println()
+		fmt.Println("Temporales:")
+		fmt.Println("===================================")
+		memory.Temp.Print()
+	}
 
 	// Imprimir cuádruplos generados
 	ct.PrintQuads()
@@ -196,13 +199,19 @@ func (n *FuncNode) Generate(ct *Compilation) error {
 	fmt.Printf("Función: %s\n", n.Id)
 	fmt.Println("===================================")
 
-	fmt.Println("Locales:")
-	memory.Local.Print()
-	fmt.Println("===================================")
+	if memory.Local.Size() > 0 {
+		fmt.Println()
+		fmt.Println("Locales:")
+		fmt.Println("===================================")
+		memory.Local.Print()
+	}
 
-	fmt.Println("Temporales:")
-	memory.Temp.Print()
-	fmt.Println("===================================")
+	if memory.Temp.Size() > 0 {
+		fmt.Println()
+		fmt.Println("Temporales:")
+		fmt.Println("===================================")
+		memory.Temp.Print()
+	}
 
 	// Limpiar el ámbito local
 	ct.ClearLocalScope()
