@@ -2,128 +2,165 @@ package ast
 
 import "fmt"
 
-var alloc *Allocator
+// Asignador de direcciones de memoria
+type Allocator struct {
+	Global AllocSegment
+	Local  AllocSegment
+	Const  AllocSegment
+	Temp   AllocSegment
+}
+
+// Segmentos de memoria para diferentes tipos de datos
+type AllocSegment struct {
+	Int    *Range
+	Float  *Range
+	Bool   *Range
+	String *Range
+}
+
+// Rangos de direcciones para cada tipo de dato
+type Range struct {
+	Start int
+	End   int
+	Next  int
+}
 
 // Inicializa el asignador de direcciones
 func NewAllocator() {
 	alloc = &Allocator{
-		Global: Segment{
-			Int:   Range{Start: 1000, End: 1999, Counter: 1000},
-			Float: Range{Start: 2000, End: 2999, Counter: 2000},
+		Global: AllocSegment{
+			Int:   &Range{Start: 1000, End: 1999, Next: 1000},
+			Float: &Range{Start: 2000, End: 2999, Next: 2000},
 		},
-		Local: Segment{
-			Int:   Range{Start: 3000, End: 3999, Counter: 3000},
-			Float: Range{Start: 4000, End: 4999, Counter: 4000},
+		Local: AllocSegment{
+			Int:   &Range{Start: 3000, End: 3999, Next: 3000},
+			Float: &Range{Start: 4000, End: 4999, Next: 4000},
 		},
-		Const: Segment{
-			Int:    Range{Start: 5000, End: 5999, Counter: 5000},
-			Float:  Range{Start: 6000, End: 6999, Counter: 6000},
-			String: Range{Start: 7000, End: 7999, Counter: 7000},
+		Const: AllocSegment{
+			Int:    &Range{Start: 5000, End: 5999, Next: 5000},
+			Float:  &Range{Start: 6000, End: 6999, Next: 6000},
+			String: &Range{Start: 7000, End: 7999, Next: 7000},
 		},
-		Temp: Segment{
-			Int:   Range{Start: 8000, End: 8499, Counter: 8000},
-			Float: Range{Start: 8500, End: 8999, Counter: 8500},
-			Bool:  Range{Start: 9000, End: 9499, Counter: 9000},
+		Temp: AllocSegment{
+			Int:   &Range{Start: 8000, End: 8499, Next: 8000},
+			Float: &Range{Start: 8500, End: 8999, Next: 8500},
+			Bool:  &Range{Start: 9000, End: 9499, Next: 9000},
 		},
 	}
 }
 
+// Reinicia contadores para un segmento
+func (s *AllocSegment) Reset() {
+	s.Int.Next = s.Int.Start
+	s.Float.Next = s.Float.Start
+	if s.Bool != nil {
+		s.Bool.Next = s.Bool.Start
+	}
+}
+
+// Obtiene el segmento de memoria al que pertenece una dirección
+func (a *Allocator) GetSegment(address int, frame *StackFrame) (*MemorySegment, AllocSegment) {
+	var m *MemorySegment
+	var s AllocSegment
+
+	if address >= a.Global.Int.Start && address <= a.Global.Float.End {
+		s = alloc.Global
+		m = memory.Global
+	}
+	if address >= a.Const.Int.Start && address <= a.Const.String.End {
+		s = alloc.Const
+		m = memory.Const
+	}
+	if address >= a.Local.Int.Start && address <= a.Local.Float.End {
+		s = alloc.Local
+		// Verifica el contexto actual (nil si es durante la compilación)
+		if frame != nil {
+			m = frame.Local
+		} else {
+			m = memory.Local
+		}
+	}
+	if address >= a.Temp.Int.Start && address <= a.Temp.Bool.End {
+		s = alloc.Temp
+		// Verifica el contexto actual (nil si es durante la compilación)
+		if frame != nil {
+			m = frame.Temp
+		} else {
+			m = memory.Temp
+		}
+	}
+
+	return m, s
+}
+
 // Global
 func (a *Allocator) NextGlobal(typ string) (int, error) {
-	var addr int
-	var end int
-
+	var r *Range
 	switch typ {
 	case "int":
-		addr = a.Global.Int.Counter
-		end = a.Global.Int.End
-		a.Global.Int.Counter++
+		r = a.Global.Int
 	case "float":
-		addr = a.Global.Float.Counter
-		end = a.Global.Float.End
-		a.Global.Float.Counter++
+		r = a.Global.Float
 	}
-
-	if addr > end {
+	if r.Next > r.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables globales de tipo %s", typ)
 	}
-
+	addr := r.Next
+	r.Next++
 	return addr, nil
 }
 
 // Local
 func (a *Allocator) NextLocal(typ string) (int, error) {
-	var addr int
-	var end int
-
+	var r *Range
 	switch typ {
 	case "int":
-		addr = a.Local.Int.Counter
-		end = a.Local.Int.End
-		a.Local.Int.Counter++
+		r = a.Local.Int
 	case "float":
-		addr = a.Local.Float.Counter
-		end = a.Local.Float.End
-		a.Local.Float.Counter++
+		r = a.Local.Float
 	}
-
-	if addr > end {
+	if r.Next > r.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables locales de tipo %s", typ)
 	}
-
+	addr := r.Next
+	r.Next++
 	return addr, nil
 }
 
 // Const
 func (a *Allocator) NextConst(typ string) (int, error) {
-	var addr int
-	var end int
-
+	var r *Range
 	switch typ {
 	case "int":
-		addr = a.Const.Int.Counter
-		end = a.Const.Int.End
-		a.Const.Int.Counter++
+		r = a.Const.Int
 	case "float":
-		addr = a.Const.Float.Counter
-		end = a.Const.Float.End
-		a.Const.Float.Counter++
+		r = a.Const.Float
 	case "string":
-		addr = a.Const.String.Counter
-		end = a.Const.String.End
-		a.Const.String.Counter++
+		r = a.Const.String
 	}
-
-	if addr > end {
+	if r.Next > r.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables constantes de tipo %s", typ)
 	}
-
+	addr := r.Next
+	r.Next++
 	return addr, nil
 }
 
 // Temp
 func (a *Allocator) NextTemp(typ string) (int, error) {
-	var addr int
-	var end int
-
+	var r *Range
 	switch typ {
 	case "int":
-		addr = a.Temp.Int.Counter
-		end = a.Temp.Int.End
-		a.Temp.Int.Counter++
+		r = a.Temp.Int
 	case "float":
-		addr = a.Temp.Float.Counter
-		end = a.Temp.Float.End
-		a.Temp.Float.Counter++
+		r = a.Temp.Float
 	case "bool":
-		addr = a.Temp.Bool.Counter
-		end = a.Temp.Bool.End
-		a.Temp.Bool.Counter++
+		r = a.Temp.Bool
 	}
-
-	if addr > end {
+	if r.Next > r.End {
 		return -1, fmt.Errorf("espacio insuficiente para variables temporales de tipo %s", typ)
 	}
-
+	addr := r.Next
+	r.Next++
 	return addr, nil
 }

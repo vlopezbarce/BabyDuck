@@ -1,0 +1,17 @@
+program syntaxPass;
+
+var a: int;
+
+void greet(times: int) [{
+    while (times > 0) do {
+        print("Hello!");
+        times = times - 1;
+    };
+}];
+
+main {
+    a = 3;
+    greet(a);
+}
+
+end

@@ -68,29 +68,25 @@ import(
 >>
 
 Program
-    : ProgramHeader VarSection FuncSection main Body end
+    : program id semicolon VarSection FuncSection main Body end
     <<
         func() (Attrib, error) {
-            id := $0.(string)
-            vars := $1.([]*ast.VarNode)
-            body := $4.([]ast.Attrib)
+            id := string($1.(*token.Token).Lit)
+            vars := $3.([]*ast.VarNode)
+            funcs := $4.([]*ast.FuncNode)
+            body := $6.([]ast.Attrib)
 
-            // Inicializar programa como una función
-            programNode, err := ast.DeclareFunction(id, vars, body)
-            if err != nil {
-                return nil, err
+            // Crear nodo del programa
+            programNode := &ast.ProgramNode{
+                Id: id,
+                Vars: vars,
+                Funcs: funcs,
+                Body: body,
             }
 
-            // Ejecutar programa
-            return nil, ast.ExecuteFunction(programNode)
+            return programNode, nil
         }()
     >>
-    ;
-
-// Inicializa el programa y la memoria
-ProgramHeader
-    : program id semicolon
-    << ast.InitProgram(string($1.(*token.Token).Lit)), nil >>
     ;
 
 // Declaración opcional de variables
@@ -151,7 +147,9 @@ Type
 // Sección de funciones (0 o más)
 FuncSection
     : FuncDeclaration FuncSection
+    << append([]*ast.FuncNode{$0.(*ast.FuncNode)}, $1.([]*ast.FuncNode)...), nil >>
     | "empty"
+    << []*ast.FuncNode{}, nil >>
     ;
 
 // Declaración de función
@@ -160,11 +158,12 @@ FuncDeclaration
     <<
         func() (Attrib, error) {
             id := string($1.(*token.Token).Lit)
-            vars := append($3.([]*ast.VarNode), $6.([]*ast.VarNode)...)
+            params := $3.([]*ast.VarNode)
+            vars := $6.([]*ast.VarNode)
             body := $7.([]ast.Attrib)
 
-            // Crear y registrar la función
-            return ast.DeclareFunction(id, vars, body)
+            // Validar y registrar la función en el directorio
+            return ast.DeclareFunction(id, params, vars, body)
         }()
     >>
     ;
@@ -219,6 +218,7 @@ Statement
     | Cycle
     << $0, nil >>
     | F_Call
+    << $0, nil >>
     | Print
     << $0, nil >>
     ;
@@ -396,18 +396,28 @@ Cycle
 // Llamada a función
 F_Call
     : id lparen F_Args rparen semicolon
+    <<
+        &ast.FCallNode{
+            Id: string($0.(*token.Token).Lit),
+            Params: $2.([]ast.Attrib),
+        }, nil
+    >>
     ;
 
 // Lista de argumentos (0 o más expresiones)
 F_Args
     : F_ArgsList
+    << $0, nil >>
     | "empty"
+    << []ast.Attrib{}, nil >>
     ;
 
 // Lista separada por comas (1 o más expresiones)
 F_ArgsList
     : Expression comma F_ArgsList
+    << append([]ast.Attrib{ $0.(ast.Attrib) }, $2.([]ast.Attrib)..., ), nil >>
     | Expression
+    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
     ;
 
 // Instrucción de impresión
@@ -422,10 +432,10 @@ Print
 
 // Lista de variables a imprimir (1 o más)
 PrintVarList
-    : PrintVar
-    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
-    | PrintVar comma PrintVarList
+    : PrintVar comma PrintVarList
     << append([]ast.Attrib{ $0.(ast.Attrib) }, $2.([]ast.Attrib)..., ), nil >>
+    | PrintVar
+    << []ast.Attrib{ $0.(ast.Attrib) }, nil >>
     ;
 
 // Variable a imprimir

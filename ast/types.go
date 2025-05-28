@@ -1,31 +1,30 @@
 package ast
 
+var memory *Memory                   // Memoria virtual para variables y constantes
+var alloc *Allocator                 // Asignador de memoria para variables
+var funcDir = map[string]*FuncNode{} // Tabla de funciones registradas
+
 // Attrib es la interfaz general para todo tipo en el árbol AST
 type Attrib interface {
-	Generate(ctx *Context) error
+	Generate(ct *Compilation) error
 }
 
-// Tabla de funciones registradas
-var funcDir = map[string]*FuncNode{}
+// Nodo de programa
+type ProgramNode struct {
+	Id    string
+	Vars  []*VarNode
+	Funcs []*FuncNode
+	Body  []Attrib
+}
 
 // Nodo de función
 type FuncNode struct {
-	Id   string
-	Vars []*VarNode
-	Body []Attrib
-}
-
-// Memoria de direcciones virtuales
-type Memory struct {
-	Global *SymbolTree
-	Const  *SymbolTree
-	Temp   *SymbolTree
-	Local  *SymbolTree
-}
-
-// Estructura del árbol de símbolos
-type SymbolTree struct {
-	Root *VarNode
+	Id        string
+	Params    []*VarNode
+	Vars      []*VarNode
+	Temps     []*VarNode
+	Body      []Attrib
+	QuadStart int
 }
 
 // Nodo de variable
@@ -36,44 +35,6 @@ type VarNode struct {
 	Value   string
 	Left    *VarNode
 	Right   *VarNode
-}
-
-// Gestiona la asignación de direcciones de memoria
-type Allocator struct {
-	Global Segment
-	Local  Segment
-	Const  Segment
-	Temp   Segment
-}
-
-// Segmento de memoria apartado
-type Segment struct {
-	Int    Range
-	Float  Range
-	Bool   Range
-	String Range
-}
-
-// Rango de memoria para tipos de datos
-type Range struct {
-	Start   int
-	End     int
-	Counter int
-}
-
-// Representa una instrucción de código intermedio (cuádruplo)
-type Quadruple struct {
-	Operator int
-	Left     int
-	Right    int
-	Result   int
-}
-
-// Almacena la pila semántica, cuádruplos y contador de temporales
-type Context struct {
-	SemStack  []int
-	Quads     []Quadruple
-	TempCount int
 }
 
 // Nodo de asignación
@@ -105,4 +66,10 @@ type IfNode struct {
 type WhileNode struct {
 	Condition Attrib
 	Body      []Attrib
+}
+
+// Nodo de llamada a función
+type FCallNode struct {
+	Id     string
+	Params []Attrib
 }
