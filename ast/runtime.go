@@ -252,11 +252,6 @@ func (rt *Runtime) handleAssign(q Quadruple) (bool, error) {
 			return true, err
 		}
 
-		// Verificar que el tipo de la variable izquierda y el resultado sean compatibles
-		if result.Type != left.Type {
-			return true, fmt.Errorf("tipo incompatible en asignación: se esperaba %s, se obtuvo %s", result.Type, left.Type)
-		}
-
 		// Guardar el resultado en memoria
 		result.Value = left.Value
 		fmt.Printf("%s %s %s (%s)\n", result.Id, opsList[q.Operator], result.Value, result.Type) // DEBUG

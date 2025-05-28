@@ -286,6 +286,18 @@ func (n *AssignNode) Generate(ct *Compilation) error {
 	}
 	result := ct.Pop()
 
+	// Obtener el nodo de resultado desde memoria
+	resultNode, err := GetByAddress(result, nil)
+	if err != nil {
+		return err
+	}
+
+	// Verificar que el tipo del resultado sea compatible con el tipo de la variable destino
+	_, err = CheckSemantic(ASSIGN, resultNode.Type, destNode.Type)
+	if err != nil {
+		return err
+	}
+
 	// Agregar el cuádruplo de asignación
 	ct.AddQuad(ASSIGN, result, -1, destNode.Address)
 
