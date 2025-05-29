@@ -157,13 +157,26 @@ func (n ProgramNode) Generate(ct *Compilation) error {
 }
 
 func (n *FuncNode) Generate(ct *Compilation) error {
-	// Asignar un valor de retorno si la función no es void
+	// Reservar una dirección de memoria para el retorno si la función no es void
 	if n.ReturnType != "void" {
+		// Obtener una dirección de memoria para el retorno
 		addr, err := alloc.NextGlobal(n.ReturnType)
 		if err != nil {
 			return err
 		}
+
+		// Actualizar el nodo de función con la dirección de retorno
 		n.ReturnAddress = addr
+
+		// Crear el nodo de retorno
+		returnNode := &VarNode{
+			Address: addr,
+			Id:      fmt.Sprintf("%s_return", n.Id),
+			Type:    n.ReturnType,
+		}
+
+		// Insertar en la memoria
+		memory.Global.Insert(returnNode)
 	}
 
 	// Marcar el inicio del cuádruplo de la función
@@ -506,23 +519,23 @@ func (n FCallNode) Generate(ct *Compilation) error {
 	ct.AddQuad(GOSUB, funcNode.QuadStart, -1, -1)
 
 	if funcNode.ReturnType != "void" {
-		// Obtener dirección temporal para este valor de retorno
+		// Reservar una dirección temporal para el retorno
 		tempAddr, err := alloc.NextTemp(funcNode.ReturnType)
 		if err != nil {
 			return err
 		}
 
-		// Crear el nodo del temporal manualmente
+		// Crear un nodo temporal para almacenar el retorno
 		tempNode := &VarNode{
-			Id:      fmt.Sprintf("ret_%s_tmp", n.Id), // opcional, nombre para debug
+			Id:      ct.NewTemp(),
 			Type:    funcNode.ReturnType,
 			Address: tempAddr,
 		}
 
-		// Insertarlo en la memoria temporal para que esté disponible en tiempo de ejecución
+		// Insertar el nodo en la memoria temporal
 		memory.Temp.Insert(tempNode)
 
-		// Generar el cuádruplo de asignación del retorno global al temporal
+		// Agregar el cuádruplo de asignación del temporal
 		ct.AddQuad(ASSIGN, funcNode.ReturnAddress, -1, tempAddr)
 
 		// Empujar el temporal a la pila semántica
@@ -556,16 +569,6 @@ func (n ReturnNode) Generate(ct *Compilation) error {
 	if err != nil {
 		return err
 	}
-
-	// Copiar el valor de retorno al nodo correspondiente
-	returnNode := &VarNode{
-		Address: funcNode.ReturnAddress,
-		Id:      resultNode.Id,
-		Type:    resultNode.Type,
-	}
-
-	// Insertar en la memoria
-	memory.Global.Insert(returnNode)
 
 	// Agregar el cuádruplo de retorno
 	ct.AddQuad(RETURN, result, -1, -1)

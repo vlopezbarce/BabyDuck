@@ -3,23 +3,29 @@ program fibonacciTest;
 var n, i, result: int;
 
 int fib(n: int) [
-    var temp1, temp2: int;
     {
         if (n < 2) {
             return n;
         } else {
-            temp1 = fib(n - 1);
-            temp2 = fib(n - 2);
-            return temp1 + temp2;
+            // Prueba la recursión de manera avanzada:
+            // Realiza llamadas recursivas anidadas dentro de una expresión
+            return fib(n - 1) + fib(n - 2);
         };
     }
 ];
+
+void introFib() [{
+    // Función que no retorna un valor
+    print("Secuencia de Fibonacci");
+}];
 
 main {
     n = 6;
     i = 0;
 
+    introFib();
     while (i < n + 1) do {
+        // Llama la función directamente dentro del print
         print("fib:", i, "=", fib(i));
         i = i + 1;
     };
