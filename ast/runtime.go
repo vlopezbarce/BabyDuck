@@ -381,7 +381,7 @@ func (rt *Runtime) RunProgram() error {
 			return err
 		}
 	}
-	rt.Clear()
+
 	return nil
 }
 
