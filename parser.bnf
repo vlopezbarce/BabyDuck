@@ -339,7 +339,11 @@ Factor
 // Variable
 Id 
     : id
-    << ast.ExpressionVar{ Id: string($0.(*token.Token).Lit) }, nil >>
+    <<
+        ast.ExpressionVar{
+            Id: string($0.(*token.Token).Lit),
+        }, nil
+    >>
     ;
 
 // Constante

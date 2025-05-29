@@ -463,6 +463,9 @@ func (n FCallNode) Generate(ct *Compilation) error {
 	if !found {
 		return fmt.Errorf("función '%s' no declarada", n.Id)
 	}
+	if funcNode.Id == global {
+		return fmt.Errorf("no se puede llamar a la función '%s'", n.Id)
+	}
 
 	// Verificar el número de parámetros
 	if len(n.Params) != len(funcNode.Params) {
