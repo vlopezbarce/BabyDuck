@@ -19,9 +19,9 @@ main {
     addAndPrint(globalA, globalB);
     
     result = globalA * globalB;
-    print("La multiplicacion es:", result);
+    print("La multiplicación es:", result);
 
-    print("Todo bien semanticamente");
+    print("Todo bien semánticamente");
 }
 
 end

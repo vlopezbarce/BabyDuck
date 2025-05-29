@@ -4,8 +4,9 @@ var a, b: int;
 
 main {
     a = 10;
-    b = a + 5;
-    print("Lexico correcto");
+    b = a + 5; // El lexer debe ignorar comentarios     con tabs
+    // o saltos de linea
+    print("Léxico correcto");
 }
 
 end

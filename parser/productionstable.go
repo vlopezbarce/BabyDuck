@@ -40,7 +40,7 @@ var productionsTable = ProdTab{
             body := X[6].([]ast.Attrib)
 
             // Crear nodo del programa
-            programNode := &ast.ProgramNode{
+            programNode := ast.ProgramNode{
                 Id: id,
                 Vars: vars,
                 Funcs: funcs,
@@ -61,7 +61,7 @@ var productionsTable = ProdTab{
             body := X[6].([]ast.Attrib)
 
             // Crear nodo del programa
-            programNode := &ast.ProgramNode{
+            programNode := ast.ProgramNode{
                 Id: id,
                 Vars: vars,
                 Funcs: funcs,
@@ -375,7 +375,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Assign : id assign Expression semicolon	<< &ast.AssignNode{
+		String: `Assign : id assign Expression semicolon	<< ast.AssignNode{
             Id: string(X[0].(*token.Token).Lit),
             Exp: X[2].(ast.Attrib),
         }, nil >>`,
@@ -384,7 +384,7 @@ var productionsTable = ProdTab{
 		Index:      27,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.AssignNode{
+			return ast.AssignNode{
             Id: string(X[0].(*token.Token).Lit),
             Exp: X[2].(ast.Attrib),
         }, nil
@@ -401,7 +401,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expression : Exp RelOp Exp	<< &ast.ExpressionNode{
+		String: `Expression : Exp RelOp Exp	<< ast.ExpressionNode{
             Left:  X[0].(ast.Attrib),
             Op:    X[1].(int),
             Right: X[2].(ast.Attrib),
@@ -411,7 +411,7 @@ var productionsTable = ProdTab{
 		Index:      29,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.ExpressionNode{
+			return ast.ExpressionNode{
             Left:  X[0].(ast.Attrib),
             Op:    X[1].(int),
             Right: X[2].(ast.Attrib),
@@ -449,7 +449,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Exp : Exp plus Term	<< &ast.ExpressionNode{
+		String: `Exp : Exp plus Term	<< ast.ExpressionNode{
             Op:    ast.PLUS,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -459,7 +459,7 @@ var productionsTable = ProdTab{
 		Index:      33,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.ExpressionNode{
+			return ast.ExpressionNode{
             Op:    ast.PLUS,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -467,7 +467,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Exp : Exp minus Term	<< &ast.ExpressionNode{
+		String: `Exp : Exp minus Term	<< ast.ExpressionNode{
             Op:    ast.MINUS,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -477,7 +477,7 @@ var productionsTable = ProdTab{
 		Index:      34,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.ExpressionNode{
+			return ast.ExpressionNode{
             Op:    ast.MINUS,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -495,7 +495,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Term times Factor	<< &ast.ExpressionNode{
+		String: `Term : Term times Factor	<< ast.ExpressionNode{
             Op:    ast.TIMES,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -505,7 +505,7 @@ var productionsTable = ProdTab{
 		Index:      36,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.ExpressionNode{
+			return ast.ExpressionNode{
             Op:    ast.TIMES,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -513,7 +513,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Term divide Factor	<< &ast.ExpressionNode{
+		String: `Term : Term divide Factor	<< ast.ExpressionNode{
             Op:    ast.DIVIDE,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -523,7 +523,7 @@ var productionsTable = ProdTab{
 		Index:      37,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.ExpressionNode{
+			return ast.ExpressionNode{
             Op:    ast.DIVIDE,
             Left:  X[0].(ast.Attrib),
             Right: X[2].(ast.Attrib),
@@ -551,24 +551,11 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : minus Atom	<< func() (Attrib, error) {
+		String: `Factor : minus Cte	<< func() (Attrib, error) {
+            // Convertir la constante a negativo
             atom := X[1].(*ast.VarNode)
-
-            // Si es una constante, convertir al negativo
-            if atom.Value != "" {
-                atom.Value = "-" + atom.Value
-                return atom, nil
-            }
-
-            // Si es una variable, genera un nuevo nodo de expresión
-            return &ast.ExpressionNode{
-                Op: ast.MINUS,
-                Left: &ast.VarNode{
-                    Type:  "int",
-                    Value: "0",
-                },
-                Right: X[1].(ast.Attrib),
-            }, nil
+            atom.Value = "-" + atom.Value
+            return atom, nil
         }() >>`,
 		Id:         "Factor",
 		NTType:     20,
@@ -576,40 +563,41 @@ var productionsTable = ProdTab{
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
+            // Convertir la constante a negativo
             atom := X[1].(*ast.VarNode)
-
-            // Si es una constante, convertir al negativo
-            if atom.Value != "" {
-                atom.Value = "-" + atom.Value
-                return atom, nil
-            }
-
-            // Si es una variable, genera un nuevo nodo de expresión
-            return &ast.ExpressionNode{
-                Op: ast.MINUS,
-                Left: &ast.VarNode{
-                    Type:  "int",
-                    Value: "0",
-                },
-                Right: X[1].(ast.Attrib),
-            }, nil
+            atom.Value = "-" + atom.Value
+            return atom, nil
         }()
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : Atom	<< X[0], nil >>`,
+		String: `Factor : minus Id	<< ast.ExpressionNode{
+            Op: ast.MINUS,
+            Left: &ast.VarNode{
+                Type:  "int",
+                Value: "0",
+            },
+            Right: X[1].(ast.Attrib),
+        }, nil >>`,
 		Id:         "Factor",
 		NTType:     20,
 		Index:      41,
-		NumSymbols: 1,
+		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ast.ExpressionNode{
+            Op: ast.MINUS,
+            Left: &ast.VarNode{
+                Type:  "int",
+                Value: "0",
+            },
+            Right: X[1].(ast.Attrib),
+        }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Atom : Cte	<< X[0], nil >>`,
-		Id:         "Atom",
-		NTType:     21,
+		String: `Factor : Cte	<< X[0], nil >>`,
+		Id:         "Factor",
+		NTType:     20,
 		Index:      42,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
@@ -617,17 +605,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Atom : id	<< &ast.VarNode{
-            Id: string(X[0].(*token.Token).Lit),
-        }, nil >>`,
-		Id:         "Atom",
-		NTType:     21,
+		String: `Factor : Id	<< X[0], nil >>`,
+		Id:         "Factor",
+		NTType:     20,
 		Index:      43,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.VarNode{
-            Id: string(X[0].(*token.Token).Lit),
-        }, nil
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `Id : id	<< ast.ExpressionVar{ Id: string(X[0].(*token.Token).Lit) }, nil >>`,
+		Id:         "Id",
+		NTType:     21,
+		Index:      44,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ast.ExpressionVar{ Id: string(X[0].(*token.Token).Lit) }, nil
 		},
 	},
 	ProdTabEntry{
@@ -637,7 +631,7 @@ var productionsTable = ProdTab{
         }, nil >>`,
 		Id:         "Cte",
 		NTType:     22,
-		Index:      44,
+		Index:      45,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return &ast.VarNode{
@@ -653,7 +647,7 @@ var productionsTable = ProdTab{
         }, nil >>`,
 		Id:         "Cte",
 		NTType:     22,
-		Index:      45,
+		Index:      46,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return &ast.VarNode{
@@ -663,17 +657,17 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Condition : if lparen Expression rparen Body ElseOptional semicolon	<< &ast.IfNode{
+		String: `Condition : if lparen Expression rparen Body ElseOptional semicolon	<< ast.IfNode{
             Condition: X[2].(ast.Attrib),
             ThenBlock: X[4].([]ast.Attrib),
             ElseBlock: X[5].([]ast.Attrib),
         }, nil >>`,
 		Id:         "Condition",
 		NTType:     23,
-		Index:      46,
+		Index:      47,
 		NumSymbols: 7,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.IfNode{
+			return ast.IfNode{
             Condition: X[2].(ast.Attrib),
             ThenBlock: X[4].([]ast.Attrib),
             ElseBlock: X[5].([]ast.Attrib),
@@ -684,7 +678,7 @@ var productionsTable = ProdTab{
 		String: `ElseOptional : else Body	<< X[1], nil >>`,
 		Id:         "ElseOptional",
 		NTType:     24,
-		Index:      47,
+		Index:      48,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[1], nil
@@ -694,39 +688,39 @@ var productionsTable = ProdTab{
 		String: `ElseOptional : "empty"	<< []ast.Attrib{}, nil >>`,
 		Id:         "ElseOptional",
 		NTType:     24,
-		Index:      48,
+		Index:      49,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return []ast.Attrib{}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Cycle : while lparen Expression rparen do Body semicolon	<< &ast.WhileNode{
+		String: `Cycle : while lparen Expression rparen do Body semicolon	<< ast.WhileNode{
             Condition: X[2].(ast.Attrib),
             Body: X[5].([]ast.Attrib),
         }, nil >>`,
 		Id:         "Cycle",
 		NTType:     25,
-		Index:      49,
+		Index:      50,
 		NumSymbols: 7,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.WhileNode{
+			return ast.WhileNode{
             Condition: X[2].(ast.Attrib),
             Body: X[5].([]ast.Attrib),
         }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `F_Call : id lparen F_Args rparen semicolon	<< &ast.FCallNode{
+		String: `F_Call : id lparen F_Args rparen semicolon	<< ast.FCallNode{
             Id: string(X[0].(*token.Token).Lit),
             Params: X[2].([]ast.Attrib),
         }, nil >>`,
 		Id:         "F_Call",
 		NTType:     26,
-		Index:      50,
+		Index:      51,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.FCallNode{
+			return ast.FCallNode{
             Id: string(X[0].(*token.Token).Lit),
             Params: X[2].([]ast.Attrib),
         }, nil
@@ -736,7 +730,7 @@ var productionsTable = ProdTab{
 		String: `F_Args : F_ArgsList	<< X[0], nil >>`,
 		Id:         "F_Args",
 		NTType:     27,
-		Index:      51,
+		Index:      52,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -746,7 +740,7 @@ var productionsTable = ProdTab{
 		String: `F_Args : "empty"	<< []ast.Attrib{}, nil >>`,
 		Id:         "F_Args",
 		NTType:     27,
-		Index:      52,
+		Index:      53,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return []ast.Attrib{}, nil
@@ -756,7 +750,7 @@ var productionsTable = ProdTab{
 		String: `F_ArgsList : Expression comma F_ArgsList	<< append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil >>`,
 		Id:         "F_ArgsList",
 		NTType:     28,
-		Index:      53,
+		Index:      54,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil
@@ -766,22 +760,22 @@ var productionsTable = ProdTab{
 		String: `F_ArgsList : Expression	<< []ast.Attrib{ X[0].(ast.Attrib) }, nil >>`,
 		Id:         "F_ArgsList",
 		NTType:     28,
-		Index:      54,
+		Index:      55,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return []ast.Attrib{ X[0].(ast.Attrib) }, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Print : print lparen PrintVarList rparen semicolon	<< &ast.PrintNode{
+		String: `Print : print lparen PrintVarList rparen semicolon	<< ast.PrintNode{
             Items: X[2].([]ast.Attrib),
         }, nil >>`,
 		Id:         "Print",
 		NTType:     29,
-		Index:      55,
+		Index:      56,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return &ast.PrintNode{
+			return ast.PrintNode{
             Items: X[2].([]ast.Attrib),
         }, nil
 		},
@@ -790,7 +784,7 @@ var productionsTable = ProdTab{
 		String: `PrintVarList : PrintVar comma PrintVarList	<< append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil >>`,
 		Id:         "PrintVarList",
 		NTType:     30,
-		Index:      56,
+		Index:      57,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return append([]ast.Attrib{ X[0].(ast.Attrib) }, X[2].([]ast.Attrib)..., ), nil
@@ -800,7 +794,7 @@ var productionsTable = ProdTab{
 		String: `PrintVarList : PrintVar	<< []ast.Attrib{ X[0].(ast.Attrib) }, nil >>`,
 		Id:         "PrintVarList",
 		NTType:     30,
-		Index:      57,
+		Index:      58,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return []ast.Attrib{ X[0].(ast.Attrib) }, nil
@@ -810,7 +804,7 @@ var productionsTable = ProdTab{
 		String: `PrintVar : Expression	<< X[0], nil >>`,
 		Id:         "PrintVar",
 		NTType:     31,
-		Index:      58,
+		Index:      59,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -824,7 +818,7 @@ var productionsTable = ProdTab{
         nil >>`,
 		Id:         "PrintVar",
 		NTType:     31,
-		Index:      59,
+		Index:      60,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return &ast.VarNode{

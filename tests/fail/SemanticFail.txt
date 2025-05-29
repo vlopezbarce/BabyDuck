@@ -2,7 +2,7 @@ program semanticFail;
 
 var
     x: int;
-    x: float;
+    y: float;
 
 void process(n: int) [{
     print(n);

@@ -1,0 +1,19 @@
+program shadFail;
+
+var temp: int;
+
+void shadowTemp() [
+    var temp: int;
+    {
+        print("El valor de temp es:", temp);
+    }
+];
+
+main {
+    temp = 5;
+    print("El valor de temp es:", temp);
+    shadowTemp();
+    print("El valor de temp es:", temp);
+}
+
+end

@@ -1,0 +1,20 @@
+program shadPass;
+
+var temp: int;
+
+void shadowTemp() [
+    var temp: int;
+    {
+        temp = 10;
+        print("El valor de temp es:", temp); // Resultado esperado: 10
+    }
+];
+
+main {
+    temp = 5;
+    print("El valor de temp es:", temp); // Resultado esperado: 5
+    shadowTemp();
+    print("El valor de temp es:", temp); // Resultado esperado: 5
+}
+
+end

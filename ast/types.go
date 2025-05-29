@@ -33,8 +33,6 @@ type VarNode struct {
 	Id      string
 	Type    string
 	Value   string
-	Left    *VarNode
-	Right   *VarNode
 }
 
 // Nodo de asignación
@@ -53,6 +51,11 @@ type ExpressionNode struct {
 	Op    int
 	Left  Attrib
 	Right Attrib
+}
+
+// Nodo auxiliar para variables en expresiones
+type ExpressionVar struct {
+	Id string
 }
 
 // Nodo de condición

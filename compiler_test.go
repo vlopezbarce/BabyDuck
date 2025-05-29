@@ -43,17 +43,18 @@ func NewTestCases() []TestCase {
 	return testCases
 }
 
-func VerifyOutcome(t *testing.T, err error, expect bool) {
+func VerifyOutcome(t *testing.T, err error, expect bool) bool {
 	// Si no se esperaba un error y se obtuvo uno, el caso falla
 	if err != nil && expect {
 		t.Error(err)
 		t.FailNow()
 	}
-	// Si se esperaba un error y no hubo ninguno, el caso falla
-	if err == nil && !expect {
-		t.Errorf("Se esperaba un error, pero no se produjo")
-		t.FailNow()
+	// Si se esperaba un error y se obtuvo uno, imprimirlo
+	if err != nil && !expect {
+		t.Log(err)
+		return true
 	}
+	return false
 }
 
 func TestCompiler(t *testing.T) {
@@ -69,19 +70,13 @@ func TestCompiler(t *testing.T) {
 			program, err := p.Parse(s)
 
 			// Verificar el resultado del análisis
-			VerifyOutcome(t, err, tc.Expect)
-
-			if program == nil {
-				if tc.Expect {
-					t.Error(err)
-					t.FailNow()
-				}
+			if next := VerifyOutcome(t, err, tc.Expect); next {
 				return
 			}
 
 			// Si el análisis fue exitoso, generar el código intermedio
 			ct := &ast.Compilation{}
-			err = program.(*ast.ProgramNode).Generate(ct)
+			err = program.(ast.ProgramNode).Generate(ct)
 
 			// Verificar si hubo errores al generar el código intermedio
 			VerifyOutcome(t, err, tc.Expect)
@@ -93,8 +88,15 @@ func TestCompiler(t *testing.T) {
 			// Verificar si hubo errores al ejecutar el programa
 			VerifyOutcome(t, err, tc.Expect)
 
+			// Si se esperaba un error y no hubo ninguno, el caso falla
+			if err == nil && !tc.Expect {
+				t.Errorf("Se esperaba un error, pero no se produjo")
+				t.FailNow()
+			}
+
 			// Imprimir la salida del programa
 			rt.PrintOutput()
+			rt.Clear()
 		})
 	}
 }
