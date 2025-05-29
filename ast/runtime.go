@@ -238,7 +238,7 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		}
 
 		// Obtener el nodo de retorno desde la memoria global
-		returnNode, err := GetByAddress(funcNode.ReturnAddr, frame)
+		returnNode, err := GetByAddress(funcNode.ReturnAddress, frame)
 		if err != nil {
 			return ip, true, err
 		}

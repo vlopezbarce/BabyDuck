@@ -163,7 +163,7 @@ func (n *FuncNode) Generate(ct *Compilation) error {
 		if err != nil {
 			return err
 		}
-		n.ReturnAddr = addr
+		n.ReturnAddress = addr
 	}
 
 	// Marcar el inicio del cuádruplo de la función
@@ -505,9 +505,28 @@ func (n FCallNode) Generate(ct *Compilation) error {
 	// Agregar el cuádruplo de llamada a función
 	ct.AddQuad(GOSUB, funcNode.QuadStart, -1, -1)
 
-	// Si la función tiene un valor de retorno, agregar a la pila
 	if funcNode.ReturnType != "void" {
-		ct.Push(funcNode.ReturnAddr)
+		// Obtener dirección temporal para este valor de retorno
+		tempAddr, err := alloc.NextTemp(funcNode.ReturnType)
+		if err != nil {
+			return err
+		}
+
+		// Crear el nodo del temporal manualmente
+		tempNode := &VarNode{
+			Id:      fmt.Sprintf("ret_%s_tmp", n.Id), // opcional, nombre para debug
+			Type:    funcNode.ReturnType,
+			Address: tempAddr,
+		}
+
+		// Insertarlo en la memoria temporal para que esté disponible en tiempo de ejecución
+		memory.Temp.Insert(tempNode)
+
+		// Generar el cuádruplo de asignación del retorno global al temporal
+		ct.AddQuad(ASSIGN, funcNode.ReturnAddress, -1, tempAddr)
+
+		// Empujar el temporal a la pila semántica
+		ct.Push(tempAddr)
 	}
 
 	return nil
@@ -540,7 +559,7 @@ func (n ReturnNode) Generate(ct *Compilation) error {
 
 	// Copiar el valor de retorno al nodo correspondiente
 	returnNode := &VarNode{
-		Address: funcNode.ReturnAddr,
+		Address: funcNode.ReturnAddress,
 		Id:      resultNode.Id,
 		Type:    resultNode.Type,
 	}

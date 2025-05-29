@@ -40,8 +40,11 @@ func NewTestCases() []TestCase {
 		testCases = append(testCases, TestCase{Name: file.Name(), Source: source, Expect: false})
 	}*/
 
-	source := ReadTestCase("tests/pass/fibonaccipass.txt")
-	testCases = append(testCases, TestCase{Name: "fibonaccipass.txt", Source: source, Expect: true})
+	source := ReadTestCase("tests/pass/fibonacci1.txt")
+	testCases = append(testCases, TestCase{Name: "fibonacci1.txt", Source: source, Expect: true})
+
+	source = ReadTestCase("tests/pass/fibonacci2.txt")
+	testCases = append(testCases, TestCase{Name: "fibonacci2.txt", Source: source, Expect: true})
 	return testCases
 }
 

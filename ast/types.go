@@ -19,14 +19,14 @@ type ProgramNode struct {
 
 // Nodo de función
 type FuncNode struct {
-	Id         string
-	Params     []*VarNode
-	Vars       []*VarNode
-	Temps      []*VarNode
-	Body       []Attrib
-	QuadStart  int
-	ReturnType string
-	ReturnAddr int
+	Id            string
+	Params        []*VarNode
+	Vars          []*VarNode
+	Temps         []*VarNode
+	Body          []Attrib
+	QuadStart     int
+	ReturnType    string
+	ReturnAddress int
 }
 
 // Nodo de variable
