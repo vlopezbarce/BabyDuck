@@ -359,11 +359,9 @@ func (n ExpressionNode) Generate(ct *Compilation) error {
 	}
 
 	// Crear un nuevo nodo temporal
-	tempId := ct.NewTemp()
-
 	tempNode := &VarNode{
 		Address: addr,
-		Id:      tempId,
+		Id:      ct.NewTemp(),
 		Type:    resultType,
 	}
 
@@ -520,26 +518,26 @@ func (n FCallNode) Generate(ct *Compilation) error {
 
 	if funcNode.ReturnType != "void" {
 		// Reservar una dirección temporal para el retorno
-		tempAddr, err := alloc.NextTemp(funcNode.ReturnType)
+		addr, err := alloc.NextTemp(funcNode.ReturnType)
 		if err != nil {
 			return err
 		}
 
 		// Crear un nodo temporal para almacenar el retorno
 		tempNode := &VarNode{
+			Address: addr,
 			Id:      ct.NewTemp(),
 			Type:    funcNode.ReturnType,
-			Address: tempAddr,
 		}
 
 		// Insertar el nodo en la memoria temporal
 		memory.Temp.Insert(tempNode)
 
 		// Agregar el cuádruplo de asignación del temporal
-		ct.AddQuad(ASSIGN, funcNode.ReturnAddress, -1, tempAddr)
+		ct.AddQuad(ASSIGN, funcNode.ReturnAddress, -1, addr)
 
 		// Empujar el temporal a la pila semántica
-		ct.Push(tempAddr)
+		ct.Push(addr)
 	}
 
 	return nil
