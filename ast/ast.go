@@ -45,34 +45,38 @@ func DeclareFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncNo
 	return funcNode, nil
 }
 
-func DeclareVariable(varNode *VarNode) (*VarNode, error) {
+func DeclareVariable(varNode *VarNode) error {
 	// Obtener la dirección de memoria para la variable
 	var addr int
 	var err error
 
-	if scope == global {
+	if varNode.Id == "" {
+		addr, err = alloc.NextConst(varNode.Type)
+	} else if scope == global {
 		addr, err = alloc.NextGlobal(varNode.Type)
 	} else {
 		addr, err = alloc.NextLocal(varNode.Type)
 	}
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	// Actualizar el nodo de variable con la dirección
 	varNode.Address = addr
 
 	// Insertar la variable en la memoria correspondiente
-	if scope == global {
+	if varNode.Id == "" {
+		memory.Const.Insert(varNode)
+	} else if scope == global {
 		memory.Global.Insert(varNode)
 	} else {
 		memory.Local.Insert(varNode)
 	}
 
-	return varNode, nil
+	return nil
 }
 
-func (n *ProgramNode) Generate(ct *Compilation) error {
+func (n ProgramNode) Generate(ct *Compilation) error {
 	// Inicializar la memoria y el asignador de direcciones
 	NewMemory()
 	NewAllocator()
@@ -96,7 +100,7 @@ func (n *ProgramNode) Generate(ct *Compilation) error {
 
 	// Crear variables dentro del ámbito global
 	for _, v := range n.Vars {
-		if _, err := DeclareVariable(v); err != nil {
+		if err := DeclareVariable(v); err != nil {
 			return fmt.Errorf("error de compilación en '%s': %v", v.Id, err)
 		}
 	}
@@ -160,21 +164,19 @@ func (n *FuncNode) Generate(ct *Compilation) error {
 	// Crear parámetros dentro del ámbito de la función
 	var paramNodes []*VarNode
 	for _, p := range n.Params {
-		paramNode, err := DeclareVariable(p)
-		if err != nil {
+		if err := DeclareVariable(p); err != nil {
 			return fmt.Errorf("error al declarar parámetro '%s' en función '%s': %v", p.Id, n.Id, err)
 		}
-		paramNodes = append(paramNodes, paramNode)
+		paramNodes = append(paramNodes, p)
 	}
 
 	// Crear variables dentro del ámbito de la función
 	var varNodes []*VarNode
 	for _, v := range n.Vars {
-		varNode, err := DeclareVariable(v)
-		if err != nil {
+		if err := DeclareVariable(v); err != nil {
 			return fmt.Errorf("error al declarar variable '%s' en función '%s': %v", v.Id, n.Id, err)
 		}
-		varNodes = append(varNodes, varNode)
+		varNodes = append(varNodes, v)
 	}
 
 	// Generar cuádruplos para el cuerpo de la función
@@ -218,54 +220,25 @@ func (n *FuncNode) Generate(ct *Compilation) error {
 }
 
 func (n *VarNode) Generate(ct *Compilation) error {
-	if n.Id != "" {
-		// Buscar en la memoria local o global
-		var varNode *VarNode
-		var found bool
+	// Buscar la constante en la memoria
+	varNode, found := memory.Const.FindConst(n.Type, n.Value)
 
-		if scope != global {
-			varNode, found = memory.Local.FindByName(n.Id)
+	if !found {
+		// Declarar la constante si no existe
+		if err := DeclareVariable(n); err != nil {
+			return err
 		}
-		if !found {
-			varNode, found = memory.Global.FindByName(n.Id)
-		}
-		if !found {
-			return fmt.Errorf("variable '%s' no declarada", n.Id)
-		}
-
-		// Agregar la direción a la pila
-		ct.Push(varNode.Address)
-
-		return nil
-	} else {
-		// Buscar la constante en la memoria
-		varNode, found := memory.Const.FindConst(n.Type, n.Value)
-
-		if !found {
-			// Obtener la dirección de memoria para la constante
-			addr, err := alloc.NextConst(n.Type)
-			if err != nil {
-				return err
-			}
-
-			// Agregar la constante a la memoria
-			n.Address = addr
-			memory.Const.Insert(n)
-
-			// Agregar la dirección a la pila
-			ct.Push(addr)
-
-			return nil
-		}
-
 		// Agregar la dirección a la pila
-		ct.Push(varNode.Address)
-
+		ct.Push(n.Address)
 		return nil
 	}
+	// Agregar la dirección a la pila
+	ct.Push(varNode.Address)
+
+	return nil
 }
 
-func (n *AssignNode) Generate(ct *Compilation) error {
+func (n AssignNode) Generate(ct *Compilation) error {
 	// Buscar variable destino y memoria correcta
 	var destNode *VarNode
 	var found bool
@@ -304,7 +277,7 @@ func (n *AssignNode) Generate(ct *Compilation) error {
 	return nil
 }
 
-func (n *PrintNode) Generate(ct *Compilation) error {
+func (n PrintNode) Generate(ct *Compilation) error {
 	// Generar el código intermedio para los elementos a imprimir
 	for _, item := range n.Items {
 		if err := item.Generate(ct); err != nil {
@@ -322,7 +295,7 @@ func (n *PrintNode) Generate(ct *Compilation) error {
 	return nil
 }
 
-func (n *ExpressionNode) Generate(ct *Compilation) error {
+func (n ExpressionNode) Generate(ct *Compilation) error {
 	// Generar el código intermedio para los operandos izquierdo y derecho
 	if err := n.Left.Generate(ct); err != nil {
 		return err
@@ -383,7 +356,28 @@ func (n *ExpressionNode) Generate(ct *Compilation) error {
 	return nil
 }
 
-func (n *IfNode) Generate(ct *Compilation) error {
+func (n ExpressionVar) Generate(ct *Compilation) error {
+	// Buscar en la memoria local o global
+	var varNode *VarNode
+	var found bool
+
+	if scope != global {
+		varNode, found = memory.Local.FindByName(n.Id)
+	}
+	if !found {
+		varNode, found = memory.Global.FindByName(n.Id)
+	}
+	if !found {
+		return fmt.Errorf("variable '%s' no declarada", n.Id)
+	}
+
+	// Agregar la direción a la pila
+	ct.Push(varNode.Address)
+
+	return nil
+}
+
+func (n IfNode) Generate(ct *Compilation) error {
 	// Generar el código intermedio para la condición
 	if err := n.Condition.Generate(ct); err != nil {
 		return err
@@ -427,7 +421,7 @@ func (n *IfNode) Generate(ct *Compilation) error {
 	return nil
 }
 
-func (n *WhileNode) Generate(ct *Compilation) error {
+func (n WhileNode) Generate(ct *Compilation) error {
 	// Marcar el inicio del ciclo
 	start := len(ct.Quads)
 
@@ -463,7 +457,7 @@ func (n *WhileNode) Generate(ct *Compilation) error {
 	return nil
 }
 
-func (n *FCallNode) Generate(ct *Compilation) error {
+func (n FCallNode) Generate(ct *Compilation) error {
 	// Buscar la función en el directorio de funciones
 	funcNode, found := funcDir[n.Id]
 	if !found {

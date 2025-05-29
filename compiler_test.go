@@ -81,7 +81,7 @@ func TestCompiler(t *testing.T) {
 
 			// Si el análisis fue exitoso, generar el código intermedio
 			ct := &ast.Compilation{}
-			err = program.(*ast.ProgramNode).Generate(ct)
+			err = program.(ast.ProgramNode).Generate(ct)
 
 			// Verificar si hubo errores al generar el código intermedio
 			VerifyOutcome(t, err, tc.Expect)

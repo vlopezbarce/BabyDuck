@@ -81,7 +81,7 @@ Program
             body := $6.([]ast.Attrib)
 
             // Crear nodo del programa
-            programNode := &ast.ProgramNode{
+            programNode := ast.ProgramNode{
                 Id: id,
                 Vars: vars,
                 Funcs: funcs,
@@ -231,7 +231,7 @@ Statement
 Assign
     : id assign Expression semicolon
     <<
-        &ast.AssignNode{
+        ast.AssignNode{
             Id: string($0.(*token.Token).Lit),
             Exp: $2.(ast.Attrib),
         }, nil
@@ -244,7 +244,7 @@ Expression
     << $0, nil >>
     | Exp RelOp Exp
     << 
-        &ast.ExpressionNode{
+        ast.ExpressionNode{
             Left:  $0.(ast.Attrib),
             Op:    $1.(int),
             Right: $2.(ast.Attrib),
@@ -266,7 +266,7 @@ RelOp
 Exp
     : Exp plus Term
     <<
-        &ast.ExpressionNode{
+        ast.ExpressionNode{
             Op:    ast.PLUS,
             Left:  $0.(ast.Attrib),
             Right: $2.(ast.Attrib),
@@ -274,7 +274,7 @@ Exp
     >>
     | Exp minus Term
     <<
-        &ast.ExpressionNode{
+        ast.ExpressionNode{
             Op:    ast.MINUS,
             Left:  $0.(ast.Attrib),
             Right: $2.(ast.Attrib),
@@ -288,7 +288,7 @@ Exp
 Term
     : Term times Factor
     <<
-        &ast.ExpressionNode{
+        ast.ExpressionNode{
             Op:    ast.TIMES,
             Left:  $0.(ast.Attrib),
             Right: $2.(ast.Attrib),
@@ -296,7 +296,7 @@ Term
     >>
     | Term divide Factor
     <<
-        &ast.ExpressionNode{
+        ast.ExpressionNode{
             Op:    ast.DIVIDE,
             Left:  $0.(ast.Attrib),
             Right: $2.(ast.Attrib),
@@ -310,42 +310,36 @@ Term
 Factor
     : lparen Expression rparen
     << $1, nil >>
-    | minus Atom
+    | minus Cte
     << 
         func() (Attrib, error) {
+            // Convertir la constante a negativo
             atom := $1.(*ast.VarNode)
-
-            // Si es una constante, convertir al negativo
-            if atom.Value != "" {
-                atom.Value = "-" + atom.Value
-                return atom, nil
-            }
-
-            // Si es una variable, genera un nuevo nodo de expresión
-            return &ast.ExpressionNode{
-                Op: ast.MINUS,
-                Left: &ast.VarNode{
-                    Type:  "int",
-                    Value: "0",
-                },
-                Right: $1.(ast.Attrib),
-            }, nil
+            atom.Value = "-" + atom.Value
+            return atom, nil
         }()
     >>
-    | Atom
+    | minus Id
+    << 
+        ast.ExpressionNode{
+            Op: ast.MINUS,
+            Left: &ast.VarNode{
+                Type:  "int",
+                Value: "0",
+            },
+            Right: $1.(ast.Attrib),
+        }, nil
+    >>
+    | Cte
+    << $0, nil >>
+    | Id
     << $0, nil >>
     ;
 
-// Átomo
-Atom
-    : Cte
-    << $0, nil >>
-    | id
-    <<
-        &ast.VarNode{
-            Id: string($0.(*token.Token).Lit),
-        }, nil
-    >>
+// Variable
+Id 
+    : id
+    << ast.ExpressionVar{ Id: string($0.(*token.Token).Lit) }, nil >>
     ;
 
 // Constante
@@ -370,7 +364,7 @@ Cte
 Condition
     : if lparen Expression rparen Body ElseOptional semicolon
     <<
-        &ast.IfNode{
+        ast.IfNode{
             Condition: $2.(ast.Attrib),
             ThenBlock: $4.([]ast.Attrib),
             ElseBlock: $5.([]ast.Attrib),
@@ -390,7 +384,7 @@ ElseOptional
 Cycle
     : while lparen Expression rparen do Body semicolon
     <<
-        &ast.WhileNode{
+        ast.WhileNode{
             Condition: $2.(ast.Attrib),
             Body: $5.([]ast.Attrib),
         }, nil
@@ -401,7 +395,7 @@ Cycle
 F_Call
     : id lparen F_Args rparen semicolon
     <<
-        &ast.FCallNode{
+        ast.FCallNode{
             Id: string($0.(*token.Token).Lit),
             Params: $2.([]ast.Attrib),
         }, nil
@@ -428,7 +422,7 @@ F_ArgsList
 Print
     : print lparen PrintVarList rparen semicolon
     <<
-        &ast.PrintNode{
+        ast.PrintNode{
             Items: $2.([]ast.Attrib),
         }, nil
     >>

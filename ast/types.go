@@ -53,6 +53,11 @@ type ExpressionNode struct {
 	Right Attrib
 }
 
+// Nodo auxiliar para variables en expresiones
+type ExpressionVar struct {
+	Id string
+}
+
 // Nodo de condición
 type IfNode struct {
 	Condition Attrib
