@@ -1,4 +1,4 @@
-program funcFail;
+program recursionFail;
 
 var x: int;
 

@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+var debug = true // Imprime la ejecución de cuádruplos
+
 // Contexto de ejecución global
 type Runtime struct {
 	ExecutionStack []*StackFrame
@@ -72,6 +74,9 @@ func (rt *Runtime) handleControlFlow(q Quadruple, ip int) (int, bool, error) {
 	case GOTO:
 		// Saltar al cuádruplo indicado
 		ip = q.Result - 1
+		if debug {
+			fmt.Printf("%s %d\n", opsList[q.Operator], q.Result)
+		}
 		return ip, true, nil
 
 	case GOTOF:
@@ -84,6 +89,9 @@ func (rt *Runtime) handleControlFlow(q Quadruple, ip int) (int, bool, error) {
 		// Si la condición es falsa, saltar al cuádruplo indicado
 		if left.Value == "0" {
 			ip = q.Result - 1
+			if debug {
+				fmt.Printf("%s %d\n", opsList[q.Operator], q.Result)
+			}
 		}
 		return ip, true, nil
 	}
@@ -97,6 +105,9 @@ func (rt *Runtime) handleIO(q Quadruple) (bool, error) {
 	case PRINTLN:
 		// Imprimir un salto de línea
 		rt.Output = append(rt.Output, "\n")
+		if debug {
+			fmt.Printf("%s\n", opsList[q.Operator])
+		}
 		return true, nil
 
 	case PRINT:
@@ -123,6 +134,9 @@ func (rt *Runtime) handleIO(q Quadruple) (bool, error) {
 			rt.Output = append(rt.Output, left.Value[1:len(left.Value)-1])
 		}
 
+		if debug {
+			fmt.Printf("%s %s\n", opsList[q.Operator], rt.Output[len(rt.Output)-1])
+		}
 		rt.Output = append(rt.Output, " ")
 		return true, nil
 	}
@@ -173,6 +187,9 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 
 		// Reservar el espacio de memoria para el nuevo contexto
 		rt.ReservedFrame = newFrame
+		if debug {
+			fmt.Printf("%s %s\n", opsList[q.Operator], funcNode.Id)
+		}
 		return ip, true, nil
 
 	case PARAM:
@@ -189,6 +206,10 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 
 		// Pasar el parámetro al contexto de llamada
 		frame.Params[q.Result-1] = left.Value
+		if debug {
+			funcNode := funcDir[frame.Id]
+			fmt.Printf("%s %s = %s\n", opsList[q.Operator], funcNode.Params[q.Result-1].Id, left.Value)
+		}
 		return ip, true, nil
 
 	case GOSUB:
@@ -215,6 +236,9 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 
 		// Saltar al cuádruplo de inicio de la función
 		ip = funcNode.QuadStart - 1
+		if debug {
+			fmt.Printf("%s %s\n", opsList[q.Operator], funcNode.Id)
+		}
 		return ip, true, nil
 
 	case ENDFUNC:
@@ -223,7 +247,11 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 
 		// Si hay un contexto de llamada anterior, volver a él
 		ip = frame.ReturnIP - 1
+		if debug {
+			fmt.Printf("%s %s\n", opsList[q.Operator], frame.Id)
+		}
 		return ip, true, nil
+
 	case RETURN:
 		// Obtener el contexto de llamada actual
 		frame := rt.CurrentFrame()
@@ -245,7 +273,9 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 
 		// Actualiza el valor de retorno
 		returnNode.Value = leftNode.Value
-
+		if debug {
+			fmt.Printf("%s %s = %s", opsList[q.Operator], returnNode.Id, returnNode.Value)
+		}
 		return ip, true, nil
 	}
 	return ip, false, nil
@@ -274,6 +304,9 @@ func (rt *Runtime) handleAssign(q Quadruple) (bool, error) {
 
 		// Guardar el resultado en memoria
 		result.Value = left.Value
+		if debug {
+			fmt.Printf("%s %s %s (%s)\n", result.Id, opsList[q.Operator], result.Value, result.Type)
+		}
 		return true, nil
 	}
 	return false, nil
@@ -345,14 +378,19 @@ func (rt *Runtime) handleArithmetic(q Quadruple) error {
 
 	// Guardar el resultado en memoria
 	result.Value = stringValue
+	if debug {
+		fmt.Printf("%s %s %s = %s (%s)\n", left.Value, opsList[q.Operator], right.Value, result.Value, result.Type)
+	}
 	return nil
 }
 
 // Ejecuta los cuádruplos generados
 func (rt *Runtime) RunProgram() error {
-	fmt.Println()
-	fmt.Println("Ejecución de cuádruplos")
-	fmt.Println("===================================")
+	if debug {
+		fmt.Println()
+		fmt.Println("Ejecución de cuádruplos")
+		fmt.Println("===================================")
+	}
 
 	// IP (Instruction Pointer) para iterar sobre los cuádruplos
 	for ip := 0; ip < len(rt.Quads); ip++ {

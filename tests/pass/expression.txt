@@ -1,4 +1,4 @@
-program exprPass;
+program expressionTest;
 
 var
     a, b: int;

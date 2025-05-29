@@ -1,4 +1,4 @@
-program syntaxPass;
+program syntaxTest;
 
 var a: int;
 
