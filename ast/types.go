@@ -19,12 +19,14 @@ type ProgramNode struct {
 
 // Nodo de función
 type FuncNode struct {
-	Id        string
-	Params    []*VarNode
-	Vars      []*VarNode
-	Temps     []*VarNode
-	Body      []Attrib
-	QuadStart int
+	Id            string
+	Params        []*VarNode
+	Vars          []*VarNode
+	Temps         []*VarNode
+	Body          []Attrib
+	QuadStart     int
+	ReturnType    string
+	ReturnAddress int
 }
 
 // Nodo de variable
@@ -75,4 +77,9 @@ type WhileNode struct {
 type FCallNode struct {
 	Id     string
 	Params []Attrib
+}
+
+// Nodo de retorno de función
+type ReturnNode struct {
+	Exp Attrib
 }

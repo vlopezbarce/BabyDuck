@@ -1,4 +1,4 @@
-program condPass;
+program conditionsTest;
 
 var x, y: int;
 

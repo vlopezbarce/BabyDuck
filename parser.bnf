@@ -14,6 +14,7 @@ print        : 'p''r''i''n''t' ;
 int          : 'i''n''t' ;
 float        : 'f''l''o''a''t' ;
 void         : 'v''o''i''d' ;
+return       : 'r''e''t''u''r''n' ;
 
 // Definiciones regulares
 _lowcase     : 'a'-'z' ;
@@ -158,18 +159,29 @@ FuncSection
 
 // Declaración de función
 FuncDeclaration
-    : void id lparen FuncParams rparen lbracket VarSection Body rbracket semicolon
+    : FuncType id lparen FuncParams rparen lbracket VarSection Body rbracket semicolon
     <<
         func() (Attrib, error) {
+            typ := string($0.(*token.Token).Lit)
             id := string($1.(*token.Token).Lit)
             params := $3.([]*ast.VarNode)
             vars := $6.([]*ast.VarNode)
             body := $7.([]ast.Attrib)
 
             // Validar y registrar la función en el directorio
-            return ast.DeclareFunction(id, params, vars, body)
+            return ast.DeclareFunction(typ, id, params, vars, body)
         }()
     >>
+    ;
+
+// Tipo de función
+FuncType
+    : void
+    << $0, nil >>
+    | int
+    << $0, nil >>
+    | float
+    << $0, nil >>
     ;
 
 // Parámetros de la función (0 o más)
@@ -224,6 +236,8 @@ Statement
     | F_Call
     << $0, nil >>
     | Print
+    << $0, nil >>
+    | Return
     << $0, nil >>
     ;
 
@@ -308,38 +322,49 @@ Term
 
 // Factor de la expresión
 Factor
-    : lparen Expression rparen
+    : Atom
+    << $0, nil >>
+    | plus Atom
     << $1, nil >>
-    | minus Cte
-    << 
-        func() (Attrib, error) {
-            // Convertir la constante a negativo
-            atom := $1.(*ast.VarNode)
-            atom.Value = "-" + atom.Value
-            return atom, nil
-        }()
-    >>
-    | minus Id
-    << 
+    | minus ExpVar
+    <<
         ast.ExpressionNode{
-            Op: ast.MINUS,
-            Left: &ast.VarNode{
-                Type:  "int",
-                Value: "0",
-            },
+            Op:    ast.MINUS,
+            Left:  &ast.VarNode{Type: "int", Value: "0"},
             Right: $1.(ast.Attrib),
         }, nil
     >>
-    | Cte
+    | minus Cte
+    <<
+        func() (Attrib, error) {
+            // Convierte la constante a negativo
+            n := $1.(*ast.VarNode)
+            n.Value = "-" + n.Value
+            return n, nil
+        }()
+    >>
+    ;
+
+// Átomo
+Atom
+    : ExpVar
     << $0, nil >>
-    | Id
+    | Cte
     << $0, nil >>
     ;
 
-// Variable
-Id 
-    : id
-    << ast.ExpressionVar{ Id: string($0.(*token.Token).Lit) }, nil >>
+// Variable en una expresión
+ExpVar
+    : lparen Expression rparen
+    << $1, nil >>
+    | F_Return
+    << $0, nil >>
+    | id
+    <<
+        ast.ExpressionVar{
+            Id: string($0.(*token.Token).Lit),
+        }, nil
+    >>
     ;
 
 // Constante
@@ -391,9 +416,20 @@ Cycle
     >>
     ;
 
-// Llamada a función
+// Llamada a función como un estatuto
 F_Call
     : id lparen F_Args rparen semicolon
+    <<
+        ast.FCallNode{
+            Id: string($0.(*token.Token).Lit),
+            Params: $2.([]ast.Attrib),
+        }, nil
+    >>
+    ;
+
+// Llamada a función como un valor
+F_Return
+    : id lparen F_Args rparen
     <<
         ast.FCallNode{
             Id: string($0.(*token.Token).Lit),
@@ -447,5 +483,15 @@ PrintVar
             Value: string($0.(*token.Token).Lit),
         },
         nil
+    >>
+    ;
+
+// Retorno de una función
+Return
+    : return Expression semicolon
+    <<
+        ast.ReturnNode{
+            Exp: $1.(ast.Attrib),
+        }, nil
     >>
     ;

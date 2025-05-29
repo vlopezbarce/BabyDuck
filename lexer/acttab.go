@@ -37,11 +37,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S4
-		Accept: 14,
+		Accept: 13,
 		Ignore: "",
 	},
 	ActionRow{ // S5
-		Accept: 15,
+		Accept: 14,
 		Ignore: "",
 	},
 	ActionRow{ // S6
@@ -89,11 +89,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S17
-		Accept: 16,
+		Accept: 15,
 		Ignore: "",
 	},
 	ActionRow{ // S18
-		Accept: 17,
+		Accept: 16,
 		Ignore: "",
 	},
 	ActionRow{ // S19
@@ -133,27 +133,27 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S28
-		Accept: 18,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S29
-		Accept: 19,
+		Accept: 18,
 		Ignore: "",
 	},
 	ActionRow{ // S30
-		Accept: 23,
+		Accept: 19,
 		Ignore: "",
 	},
 	ActionRow{ // S31
-		Accept: 0,
+		Accept: 23,
 		Ignore: "",
 	},
 	ActionRow{ // S32
-		Accept: 35,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S33
-		Accept: 0,
+		Accept: 35,
 		Ignore: "",
 	},
 	ActionRow{ // S34
@@ -177,7 +177,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S39
-		Accept: 3,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S40
@@ -185,11 +185,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S41
-		Accept: 33,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S42
-		Accept: 3,
+		Accept: 33,
 		Ignore: "",
 	},
 	ActionRow{ // S43
@@ -205,11 +205,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S46
-		Accept: 30,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S47
-		Accept: 3,
+		Accept: 30,
 		Ignore: "",
 	},
 	ActionRow{ // S48
@@ -233,16 +233,16 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S53
-		Accept: -1,
-		Ignore: "!comments",
+		Accept: 3,
+		Ignore: "",
 	},
 	ActionRow{ // S54
-		Accept: 0,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S55
-		Accept: 0,
-		Ignore: "",
+		Accept: -1,
+		Ignore: "!comments",
 	},
 	ActionRow{ // S56
 		Accept: 0,
@@ -257,19 +257,19 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S59
-		Accept: 29,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S60
-		Accept: 3,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S61
-		Accept: 3,
+		Accept: 29,
 		Ignore: "",
 	},
 	ActionRow{ // S62
-		Accept: 6,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S63
@@ -277,7 +277,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S64
-		Accept: 11,
+		Accept: 6,
 		Ignore: "",
 	},
 	ActionRow{ // S65
@@ -285,7 +285,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S66
-		Accept: 3,
+		Accept: 11,
 		Ignore: "",
 	},
 	ActionRow{ // S67
@@ -293,7 +293,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S68
-		Accept: 7,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S69
@@ -305,7 +305,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S71
-		Accept: 31,
+		Accept: 7,
 		Ignore: "",
 	},
 	ActionRow{ // S72
@@ -317,7 +317,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S74
-		Accept: 5,
+		Accept: 31,
 		Ignore: "",
 	},
 	ActionRow{ // S75
@@ -329,7 +329,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S77
-		Accept: 13,
+		Accept: 5,
 		Ignore: "",
 	},
 	ActionRow{ // S78
@@ -337,15 +337,15 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S79
-		Accept: 8,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S80
-		Accept: 12,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S81
-		Accept: 34,
+		Accept: 17,
 		Ignore: "",
 	},
 	ActionRow{ // S82
@@ -353,14 +353,38 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S83
-		Accept: 32,
+		Accept: 8,
 		Ignore: "",
 	},
 	ActionRow{ // S84
-		Accept: 3,
+		Accept: 12,
 		Ignore: "",
 	},
 	ActionRow{ // S85
+		Accept: 34,
+		Ignore: "",
+	},
+	ActionRow{ // S86
+		Accept: 3,
+		Ignore: "",
+	},
+	ActionRow{ // S87
+		Accept: 3,
+		Ignore: "",
+	},
+	ActionRow{ // S88
+		Accept: 32,
+		Ignore: "",
+	},
+	ActionRow{ // S89
+		Accept: 3,
+		Ignore: "",
+	},
+	ActionRow{ // S90
+		Accept: 36,
+		Ignore: "",
+	},
+	ActionRow{ // S91
 		Accept: 2,
 		Ignore: "",
 	},

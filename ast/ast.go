@@ -20,7 +20,7 @@ func ValidateVars(vars []*VarNode) error {
 	return nil
 }
 
-func DeclareFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncNode, error) {
+func DeclareFunction(typ, id string, params, vars []*VarNode, body []Attrib) (*FuncNode, error) {
 	// Verificar si la función ya existe
 	if _, exists := funcDir[id]; exists {
 		return nil, fmt.Errorf("función '%s' ya declarada", id)
@@ -28,10 +28,11 @@ func DeclareFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncNo
 
 	// Crear el nodo de función
 	funcNode := &FuncNode{
-		Id:     id,
-		Params: params,
-		Vars:   vars,
-		Body:   body,
+		Id:         id,
+		Params:     params,
+		Vars:       vars,
+		Body:       body,
+		ReturnType: typ,
 	}
 
 	// Agregar la función al directorio
@@ -87,7 +88,8 @@ func (n ProgramNode) Generate(ct *Compilation) error {
 
 	// Registrar el programa en el directorio de funciones
 	funcDir[n.Id] = &FuncNode{
-		Id: n.Id,
+		Id:         n.Id,
+		ReturnType: "void",
 	}
 
 	// Verificar si hay variables duplicadas
@@ -155,6 +157,28 @@ func (n ProgramNode) Generate(ct *Compilation) error {
 }
 
 func (n *FuncNode) Generate(ct *Compilation) error {
+	// Reservar una dirección de memoria para el retorno si la función no es void
+	if n.ReturnType != "void" {
+		// Obtener una dirección de memoria para el retorno
+		addr, err := alloc.NextGlobal(n.ReturnType)
+		if err != nil {
+			return err
+		}
+
+		// Actualizar el nodo de función con la dirección de retorno
+		n.ReturnAddress = addr
+
+		// Crear el nodo de retorno
+		returnNode := &VarNode{
+			Address: addr,
+			Id:      fmt.Sprintf("%s_return", n.Id),
+			Type:    n.ReturnType,
+		}
+
+		// Insertar en la memoria
+		memory.Global.Insert(returnNode)
+	}
+
 	// Marcar el inicio del cuádruplo de la función
 	funcDir[n.Id].QuadStart = len(ct.Quads)
 
@@ -335,13 +359,10 @@ func (n ExpressionNode) Generate(ct *Compilation) error {
 	}
 
 	// Crear un nuevo nodo temporal
-	tempId := ct.NewTemp()
-
 	tempNode := &VarNode{
 		Address: addr,
-		Id:      tempId,
+		Id:      ct.NewTemp(),
 		Type:    resultType,
-		Value:   tempId,
 	}
 
 	// Insertar el temporal en la memoria
@@ -463,6 +484,9 @@ func (n FCallNode) Generate(ct *Compilation) error {
 	if !found {
 		return fmt.Errorf("función '%s' no declarada", n.Id)
 	}
+	if funcNode.Id == global {
+		return fmt.Errorf("no se puede llamar a la función '%s'", n.Id)
+	}
 
 	// Verificar el número de parámetros
 	if len(n.Params) != len(funcNode.Params) {
@@ -491,6 +515,62 @@ func (n FCallNode) Generate(ct *Compilation) error {
 
 	// Agregar el cuádruplo de llamada a función
 	ct.AddQuad(GOSUB, funcNode.QuadStart, -1, -1)
+
+	if funcNode.ReturnType != "void" {
+		// Reservar una dirección temporal para el retorno
+		addr, err := alloc.NextTemp(funcNode.ReturnType)
+		if err != nil {
+			return err
+		}
+
+		// Crear un nodo temporal para almacenar el retorno
+		tempNode := &VarNode{
+			Address: addr,
+			Id:      ct.NewTemp(),
+			Type:    funcNode.ReturnType,
+		}
+
+		// Insertar el nodo en la memoria temporal
+		memory.Temp.Insert(tempNode)
+
+		// Agregar el cuádruplo de asignación del temporal
+		ct.AddQuad(ASSIGN, funcNode.ReturnAddress, -1, addr)
+
+		// Empujar el temporal a la pila semántica
+		ct.Push(addr)
+	}
+
+	return nil
+}
+
+func (n ReturnNode) Generate(ct *Compilation) error {
+	// Verificar si la función tiene un tipo de retorno
+	funcNode := funcDir[scope]
+	if funcNode.ReturnType == "void" {
+		return fmt.Errorf("la función '%s' es de tipo void", scope)
+	}
+
+	// Generar el código intermedio para el valor de retorno
+	if err := n.Exp.Generate(ct); err != nil {
+		return err
+	}
+	result := ct.Pop()
+
+	// Obtener el nodo de resultado desde memoria
+	resultNode, err := GetByAddress(result, nil)
+	if err != nil {
+		return err
+	}
+
+	// Verificar que el tipo del resultado sea compatible con el tipo de retorno de la función
+	_, err = CheckSemantic(RETURN, resultNode.Type, funcNode.ReturnType)
+	if err != nil {
+		return err
+	}
+
+	// Agregar los cuádruplo de retorno
+	ct.AddQuad(RETURN, result, -1, -1)
+	ct.AddQuad(ENDFUNC, -1, -1, -1)
 
 	return nil
 }
