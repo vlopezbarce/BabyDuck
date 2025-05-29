@@ -107,6 +107,8 @@ func (rt *Runtime) handleIO(q Quadruple) (bool, error) {
 		left, err := GetByAddress(q.Left, rt.CurrentFrame())
 		if err != nil {
 			return true, err
+		} else if left.Value == "" {
+			return true, fmt.Errorf("variable %s no inicializada", left.Id)
 		}
 
 		switch left.Type {
@@ -183,6 +185,8 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		left, err := GetByAddress(q.Left, rt.CurrentFrame())
 		if err != nil {
 			return ip, true, err
+		} else if left.Value == "" {
+			return ip, true, fmt.Errorf("variable %s no inicializada", left.Id)
 		}
 
 		// Obtener el espacio reservado para el nuevo contexto
@@ -244,6 +248,8 @@ func (rt *Runtime) handleAssign(q Quadruple) (bool, error) {
 		left, err := GetByAddress(q.Left, frame)
 		if err != nil {
 			return true, err
+		} else if left.Value == "" {
+			return true, fmt.Errorf("variable %s no inicializada", left.Id)
 		}
 
 		// Obtener el nodo de resultado desde memoria
@@ -269,12 +275,16 @@ func (rt *Runtime) handleArithmetic(q Quadruple) error {
 	left, err := GetByAddress(q.Left, frame)
 	if err != nil {
 		return err
+	} else if left.Value == "" {
+		return fmt.Errorf("variable %s no inicializada", left.Id)
 	}
 
 	// Obtener el operando derecho desde memoria
 	right, err := GetByAddress(q.Right, frame)
 	if err != nil {
 		return err
+	} else if right.Value == "" {
+		return fmt.Errorf("variable %s no inicializada", right.Id)
 	}
 
 	// Obtener el nodo de resultado desde memoria
