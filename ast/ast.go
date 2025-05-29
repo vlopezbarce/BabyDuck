@@ -20,7 +20,7 @@ func ValidateVars(vars []*VarNode) error {
 	return nil
 }
 
-func DeclareFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncNode, error) {
+func DeclareFunction(typ, id string, params, vars []*VarNode, body []Attrib) (*FuncNode, error) {
 	// Verificar si la función ya existe
 	if _, exists := funcDir[id]; exists {
 		return nil, fmt.Errorf("función '%s' ya declarada", id)
@@ -28,10 +28,11 @@ func DeclareFunction(id string, params, vars []*VarNode, body []Attrib) (*FuncNo
 
 	// Crear el nodo de función
 	funcNode := &FuncNode{
-		Id:     id,
-		Params: params,
-		Vars:   vars,
-		Body:   body,
+		Id:         id,
+		Params:     params,
+		Vars:       vars,
+		Body:       body,
+		ReturnType: typ,
 	}
 
 	// Agregar la función al directorio
@@ -87,7 +88,8 @@ func (n ProgramNode) Generate(ct *Compilation) error {
 
 	// Registrar el programa en el directorio de funciones
 	funcDir[n.Id] = &FuncNode{
-		Id: n.Id,
+		Id:         n.Id,
+		ReturnType: "void",
 	}
 
 	// Verificar si hay variables duplicadas
@@ -155,6 +157,15 @@ func (n ProgramNode) Generate(ct *Compilation) error {
 }
 
 func (n *FuncNode) Generate(ct *Compilation) error {
+	// Asignar un valor de retorno si la función no es void
+	if n.ReturnType != "void" {
+		addr, err := alloc.NextGlobal(n.ReturnType)
+		if err != nil {
+			return err
+		}
+		n.ReturnAddr = addr
+	}
+
 	// Marcar el inicio del cuádruplo de la función
 	funcDir[n.Id].QuadStart = len(ct.Quads)
 
@@ -341,7 +352,6 @@ func (n ExpressionNode) Generate(ct *Compilation) error {
 		Address: addr,
 		Id:      tempId,
 		Type:    resultType,
-		Value:   tempId,
 	}
 
 	// Insertar el temporal en la memoria
@@ -494,6 +504,52 @@ func (n FCallNode) Generate(ct *Compilation) error {
 
 	// Agregar el cuádruplo de llamada a función
 	ct.AddQuad(GOSUB, funcNode.QuadStart, -1, -1)
+
+	// Si la función tiene un valor de retorno, agregar a la pila
+	if funcNode.ReturnType != "void" {
+		ct.Push(funcNode.ReturnAddr)
+	}
+
+	return nil
+}
+
+func (n ReturnNode) Generate(ct *Compilation) error {
+	// Verificar si la función tiene un tipo de retorno
+	funcNode := funcDir[scope]
+	if funcNode.ReturnType == "void" {
+		return fmt.Errorf("la función '%s' es de tipo void", scope)
+	}
+
+	// Generar el código intermedio para el valor de retorno
+	if err := n.Exp.Generate(ct); err != nil {
+		return err
+	}
+	result := ct.Pop()
+
+	// Obtener el nodo de resultado desde memoria
+	resultNode, err := GetByAddress(result, nil)
+	if err != nil {
+		return err
+	}
+
+	// Verificar que el tipo del resultado sea compatible con el tipo de retorno de la función
+	_, err = CheckSemantic(RETURN, resultNode.Type, funcNode.ReturnType)
+	if err != nil {
+		return err
+	}
+
+	// Copiar el valor de retorno al nodo correspondiente
+	returnNode := &VarNode{
+		Address: funcNode.ReturnAddr,
+		Id:      resultNode.Id,
+		Type:    resultNode.Type,
+	}
+
+	// Insertar en la memoria
+	memory.Global.Insert(returnNode)
+
+	// Agregar el cuádruplo de retorno
+	ct.AddQuad(RETURN, result, -1, -1)
 
 	return nil
 }

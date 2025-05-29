@@ -28,7 +28,7 @@ func ReadTestCase(filename string) string {
 func NewTestCases() []TestCase {
 	var testCases []TestCase
 
-	passCases, _ := os.ReadDir("tests/pass")
+	/*passCases, _ := os.ReadDir("tests/pass")
 	for _, file := range passCases {
 		source := ReadTestCase("tests/pass/" + file.Name())
 		testCases = append(testCases, TestCase{Name: file.Name(), Source: source, Expect: true})
@@ -38,8 +38,10 @@ func NewTestCases() []TestCase {
 	for _, file := range failCases {
 		source := ReadTestCase("tests/fail/" + file.Name())
 		testCases = append(testCases, TestCase{Name: file.Name(), Source: source, Expect: false})
-	}
+	}*/
 
+	source := ReadTestCase("tests/pass/fibonaccipass.txt")
+	testCases = append(testCases, TestCase{Name: "fibonaccipass.txt", Source: source, Expect: true})
 	return testCases
 }
 

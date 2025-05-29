@@ -84,6 +84,14 @@ var semanticCube = map[int]map[string]map[string]string{
 			"float": "float",
 		},
 	},
+	RETURN: {
+		"int": {
+			"int": "int",
+		},
+		"float": {
+			"float": "float",
+		},
+	},
 }
 
 func CheckSemantic(op int, left string, right string) (string, error) {

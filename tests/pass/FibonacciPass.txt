@@ -1,0 +1,28 @@
+program fibonacciTest;
+
+var n, i, result: int;
+
+int fib(n: int) [
+    var temp1, temp2: int;
+    {
+        if (n < 2) {
+            return n;
+        } else {
+            temp1 = fib(n - 1);
+            temp2 = fib(n - 2);
+            return temp1 + temp2;
+        };
+    }
+];
+
+main {
+    n = 6;
+    i = 0;
+
+    while (i < n + 1) do {
+        print("fib:", i, "=", fib(i));
+        i = i + 1;
+    };
+}
+
+end
