@@ -19,8 +19,8 @@ const (
 	ERA     = 12
 	PARAM   = 13
 	GOSUB   = 14
-	ENDFUNC = 15
-	RETURN  = 16
+	RETURN  = 15
+	ENDFUNC = 16
 )
 
 // DEBUG: Lista de operadores para imprimir operación
@@ -40,8 +40,8 @@ var opsList = []string{
 	"ERA",
 	"PARAM",
 	"GOSUB",
-	"ENDFUNC",
 	"RETURN",
+	"ENDFUNC",
 }
 
 // Memoria de direcciones virtuales

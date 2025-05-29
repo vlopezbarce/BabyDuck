@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-var debug = true // Imprime la ejecución de cuádruplos
+var debug = false // Imprime la ejecución de cuádruplos
 
 // Contexto de ejecución global
 type Runtime struct {
@@ -241,17 +241,6 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		}
 		return ip, true, nil
 
-	case ENDFUNC:
-		// Sacar el contexto de llamada actual
-		frame := rt.PopFrame()
-
-		// Si hay un contexto de llamada anterior, volver a él
-		ip = frame.ReturnIP - 1
-		if debug {
-			fmt.Printf("%s %s\n", opsList[q.Operator], frame.Id)
-		}
-		return ip, true, nil
-
 	case RETURN:
 		// Obtener el contexto de llamada actual
 		frame := rt.CurrentFrame()
@@ -274,7 +263,18 @@ func (rt *Runtime) handleFunctionCalls(q Quadruple, ip int) (int, bool, error) {
 		// Actualiza el valor de retorno
 		returnNode.Value = leftNode.Value
 		if debug {
-			fmt.Printf("%s %s = %s", opsList[q.Operator], returnNode.Id, returnNode.Value)
+			fmt.Printf("%s %s = %s\n", opsList[q.Operator], returnNode.Id, returnNode.Value)
+		}
+		return ip, true, nil
+
+	case ENDFUNC:
+		// Sacar el contexto de llamada actual
+		frame := rt.PopFrame()
+
+		// Si hay un contexto de llamada anterior, volver a él
+		ip = frame.ReturnIP - 1
+		if debug {
+			fmt.Printf("%s %s\n", opsList[q.Operator], frame.Id)
 		}
 		return ip, true, nil
 	}

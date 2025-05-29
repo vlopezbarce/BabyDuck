@@ -570,8 +570,9 @@ func (n ReturnNode) Generate(ct *Compilation) error {
 		return err
 	}
 
-	// Agregar el cuádruplo de retorno
+	// Agregar los cuádruplo de retorno
 	ct.AddQuad(RETURN, result, -1, -1)
+	ct.AddQuad(ENDFUNC, -1, -1, -1)
 
 	return nil
 }

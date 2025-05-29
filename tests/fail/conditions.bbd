@@ -1,4 +1,4 @@
-program conditionFail;
+program conditionsFail;
 
 var x: int;
 

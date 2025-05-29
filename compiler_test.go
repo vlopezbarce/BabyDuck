@@ -34,11 +34,11 @@ func NewTestCases() []TestCase {
 		testCases = append(testCases, TestCase{Name: file.Name(), Source: source, Expect: true})
 	}
 
-	/*failCases, _ := os.ReadDir("tests/fail")
+	failCases, _ := os.ReadDir("tests/fail")
 	for _, file := range failCases {
 		source := ReadTestCase("tests/fail/" + file.Name())
 		testCases = append(testCases, TestCase{Name: file.Name(), Source: source, Expect: false})
-	}*/
+	}
 
 	return testCases
 }
