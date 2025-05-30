@@ -12,68 +12,73 @@
 
 ## Descripción
 
-**BabyDuck** es un compilador en desarrollo como parte de un proyecto académico, implementado en el lenguaje Go. Utiliza [Gocc](https://github.com/goccmack/gocc), una herramienta generadora de analizadores léxicos y sintácticos para Go.
-El compilador está diseñado para interpretar un lenguaje estructurado de propósito educativo, y actualmente cubre análisis léxico, sintáctico, semántico y generación de código intermedio (cuádruplos).
+**BabyDuck** es un compilador educativo implementado en Go, desarrollado como parte de un proyecto académico. Usa [Gocc](https://github.com/goccmack/gocc) para realizar el análisis léxico y sintáctico. El compilador traduce programas escritos en un lenguaje estructurado tipo "Patito" y es capaz de evaluar el código intermedio generado para imprimir los resultados.
+
+El proyecto incluye análisis léxico, sintáctico, semántico, generación de código intermedio (cuádruplos), y una máquina virtual para su ejecución. Implementa casos de prueba para validar el funcionamiento correcto del compilador.
 
 ---
 
-## 🔹 Entrega 1: Léxico y Sintaxis
+## ➤ Entrega 1: Léxico y Sintaxis
 
-- Se investigaron herramientas de generación de compiladores y se seleccionó **Gocc** por su integración con Go y buena documentación.
-- Se definieron expresiones regulares y reglas gramaticales en formato `.bnf`.
-- Se implementaron el **scanner** y el **parser** utilizando Gocc.
-- Se diseñó un **plan de pruebas** para validar expresiones, declaraciones y estructuras básicas del lenguaje BabyDuck.
+- Implementación del analizador léxico y sintáctico usando Gocc.
+- Definición de reglas gramaticales y expresiones regulares.
+- Pruebas con programas simples que validan la estructura del lenguaje.
 
 ---
 
-## 🔹 Entrega 2: Semántica de Variables
+## ➤ Entrega 2: Semántica de Variables
   
-- Se diseñó un **Directorio de Funciones** (`map[string]FuncNode{}`) que almacena la información semántica de cada función declarada, incluyendo sus parámetros, cuerpo y variables locales.
-- Cada función mantiene su propia **Tabla de Variables Locales**, implementada con un (`map[string]VarNode`).
-- La primera función llamada (`program`) es tratada como la función principal y actúa como el contexto predeterminado del código.
-- Se utilizó una variable de control (`currentScope`) que se actualiza durante el recorrido del AST para reflejar el contexto actual de ejecución.
-- Se implementaron validaciones semánticas como:
-  - Declaración de variables duplicadas.
-  - Referencias a variables no definidas.
-  - Verificación de tipos para asignaciones y expresiones.
-- Se diseñó un **Cubo Semántico** para definir las reglas de compatibilidad entre tipos.
+- Directorio de funciones y tabla de variables por función.
+- Validación de tipos, duplicados y referencias a variables.
+- Implementación de un cubo semántico.
 
 ---
 
-## 🔹 Entrega 3: Código de Expresiones y Estatutos Lineales
+## ➤ Entrega 3: Expresiones y Estatutos Lineales
 
-- Se implementó un sistema de generación de **cuádruplos** (`Quadruple`) para representar instrucciones intermedias.
-- La generación de código (`Context`) utiliza:
-  - **Pila semántica:** (`SemStack []VarNode`) para almacenar operandos durante el análisis.
-  - **Fila de cuádruplos:** (`Quads []Quadruple`) que acumula el código intermedio generado.
-  - **Contador de temporales:** (`TempCount int`) para generar identificadores únicos de variables temporales.
-- Se imprimen los cuádruplos generados al final del análisis.
-- Evaluación de cúadruplos:
-  - Se soportan expresiones aritméticas y relacionales.
-  - Se construye una memoria temporal (`temps map[string]VarNode`) para almacenar resultados parciales.
-  - Las instrucciones **Assign** y **Print** evalúan expresiones y constantes.
+- Generación de cuádruplos para operaciones aritméticas y relacionales.
+- Estructuras para pila semántica y cola de cuádruplos.
+- Soporte para asignaciones y estatutos `print`.
+
+---
+
+### ➤ Entrega 4: Memoria y Control de Flujo
+- Implementación del sistema de memoria con direcciones virtuales.
+- Soporte para estatutos `if`, `else`, y `while`.
+- Traductor a direcciones virtuales dinámicas para variables, constantes y temporales.
+
+---
+
+### ➤ Entrega 5: Funciones y Máquina Virtual
+- Soporte para llamadas a funciones con parámetros.
+- Implementación de una máquina virtual que ejecuta los cuádruplos.
+- Gestión de contexto y memoria local por función.
+
+---
+
+### ➤ Entrega 6: Funciones que Retornan Valores
+- Soporte completo para funciones que devuelven resultados.
+- Evaluación de llamadas recursivas y expresiones anidadas.
+- Ejecución de programas con lógica compleja y flujo de datos entre funciones.
 
 ---
 
 ## Estructura del Proyecto
 
-📁 BabyDuck/
-
-├── 📁 ast/
-
-│    ├── 📜 ast.go                 # Métodos básicos para nodos del AST
-
-│    ├── 📜 quads.go               # Generación de código intermedio (cuádruplos)
-
-│    ├── 📜 semanticcube.go        # Implementación del cubo semántico
-
-│    ├── 📜 types.go               # Definición de nodos del AST
-
-├── 📜 parser.bnf                 # Definición léxica, gramatical y semántica del lenguaje
-
-├── 📜 main_test.go               # Programa principal de prueba
-
-└── 📜 README.md                  # Documentación general del proyecto
+<pre>
+  📁 BabyDuck/
+  ├── 📁 ast/ 
+  │ ├── 📜 allocator.go      # Traducción a direcciones virtuales
+  │ ├── 📜 ast.go            # Estructura del árbol sintáctico
+  │ ├── 📜 memory.go         # Estructura de memoria
+  │ ├── 📜 quads.go          # Generación de cuádruplos
+  │ ├── 📜 runtime.go        # Ejecución del código intermedio
+  │ ├── 📜 semanticcube.go   # Reglas de validación entre tipos
+  │ ├── 📜 types.go          # Definición de nodos del AST
+  ├── 📁 tests/              # Casos de prueba para el compilador
+  ├── 📜 parser.bnf          # Definición léxica, gramatical y semántica del lenguaje
+  └── 📜 compiler_test.go    # Programa principal de prueba
+</pre>
 
 ---
 
