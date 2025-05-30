@@ -18,7 +18,7 @@ El proyecto incluye análisis léxico, sintáctico, semántico, generación de c
 
 ---
 
-## ➤ Entrega 1: Léxico y Sintaxis
+### ➤ Entrega 1: Léxico y Sintaxis
 
 - Implementación del analizador léxico y sintáctico usando Gocc.
 - Definición de reglas gramaticales y expresiones regulares.
@@ -26,7 +26,7 @@ El proyecto incluye análisis léxico, sintáctico, semántico, generación de c
 
 ---
 
-## ➤ Entrega 2: Semántica de Variables
+### ➤ Entrega 2: Semántica de Variables
   
 - Directorio de funciones y tabla de variables por función.
 - Validación de tipos, duplicados y referencias a variables.
@@ -34,7 +34,7 @@ El proyecto incluye análisis léxico, sintáctico, semántico, generación de c
 
 ---
 
-## ➤ Entrega 3: Expresiones y Estatutos Lineales
+### ➤ Entrega 3: Expresiones y Estatutos Lineales
 
 - Generación de cuádruplos para operaciones aritméticas y relacionales.
 - Estructuras para pila semántica y cola de cuádruplos.
